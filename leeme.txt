@@ -1,0 +1,14 @@
+http://wiki.wxpython.org/wxGrid%20Manual  o mejor wx.lib.sheet.CSheet
+
+Ejecutar Modulo como programa:  runpy.run_module(modulename)
+
+Hacer Informes/Impresiones:
+    ReporLab, wx.PaintDC, wx.PrinterDC, wx.PostScriptDC, wx.ClientDC
+
+
+Instalar wxPython :
+    Debian/Ubuntu:  Hay paquetes en los repositorios (python-wxgtkX.Y). 
+            Mas actualizados en http://wiki.wxpython.org/InstallingOnUbuntuOrDebian
+    Windows:    Hay versiones autoinstalables, ejecutables
+
+
