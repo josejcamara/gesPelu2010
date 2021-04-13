@@ -1,0 +1,5 @@
+wxPython==4.1.1
+# bsddb3 -
+# sqlite==3.35.4
+sqlalchemy==1.4.7
+pyyaml==5.4.1
