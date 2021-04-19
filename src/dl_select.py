@@ -10,13 +10,13 @@ from global_var import DIR_DATA
 from global_var import DIR_APL
 
 #
-# DIALOGO DE SELECCIÓN PARA INFORMES. NO SE VE EL RESULTADO SE VE INFORME.
+# DIALOGO DE SELECCIï¿½N PARA INFORMES. NO SE VE EL RESULTADO SE VE INFORME.
 #
 class dl_select(OC.Dialogo):
-    """ Dialogo de selección de registros, pone en lista destino """
+    """ Dialogo de selecciï¿½n de registros, pone en lista destino """
     #def __init__(self,padre,inf):
     def __init__(self,padre,fichero,campos,preguntas):
-        OC.Dialogo.__init__(self, padre,'Selección de Registros',tam=(400,350),btn=False)
+        OC.Dialogo.__init__(self, padre,'Selecciï¿½n de Registros',tam=(580,520),btn=False)
         #
         preg=[]
         lsfmt=[]
@@ -30,6 +30,8 @@ class dl_select(OC.Dialogo):
         self._fichero = fichero
         self._preguntas = preg
         self._campos = campos
+        self._res = None
+        self._prg = []
 
         # P1 - Preguntas
         p1 = ['PANEL','P1',0,0,-1,-1,'','','',[]]
@@ -106,9 +108,9 @@ class dl_select(OC.Dialogo):
 
 
 class dl_sel_inf(OC.Dialogo):
-    """ Dialogo de selección de informes """
+    """ Dialogo de selecciï¿½n de informes """
     def __init__(self,padre,fichero):
-        OC.Dialogo.__init__(self, padre,'Selección de Informes',tam=(400,350))
+        OC.Dialogo.__init__(self, padre,'Selecciï¿½n de Informes',tam=(400,350))
         #
 
         # P1 -

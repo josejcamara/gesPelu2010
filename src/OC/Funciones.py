@@ -58,7 +58,7 @@ def Men(texto,tipo='ok',img='x',titu='Mensaje'):
     return respu
 
 #
-#-- Crea un dialogo para petición de datos
+#-- Crea un dialogo para peticiï¿½n de datos
 #
 def Entra_dlg(padre=None,titu='',text='Introduce Dato',value=''):
     import wx
@@ -135,11 +135,11 @@ def copia_rg(obj):
 #
 def Fecha(fmt=''):
     """ Devuelve la Fecha Actual en el formato indicado
-        fmt =''     --> Formato Número (Defecto)
+        fmt =''     --> Formato Nï¿½mero (Defecto)
         fmt ='str'  --> Formato Cadena dd/mm/aaaa
-        fmt = 'y'   --> Año Actual en Número
+        fmt = 'y'   --> Aï¿½o Actual en Nï¿½mero
         fmt = 'm'   --> Mes Actual en Numero (1 a 12)
-        fmt = 'd'   --> Día Actual en Numero
+        fmt = 'd'   --> Dï¿½a Actual en Numero
         fmt = 'hm'  --> Hora Actual
     """
     fini = datetime.date(2000,01,01)    # Fecha inicial = 01 - Enero - 2000
@@ -152,7 +152,7 @@ def Fecha(fmt=''):
         resul = dif.days
     elif fmt=='str':   # Fecha actual en cadena
         resul = hoy.strftime('%d/%m/%Y')
-    elif fmt=='y':      # Año en Numeor
+    elif fmt=='y':      # Aï¿½o en Numeor
         resul = hoy.year
     elif fmt=='m':      # Mes actual (1 a 12)
         resul = hoy.month
@@ -168,8 +168,8 @@ def Fecha(fmt=''):
 #-- Pasa una fecha con formato numero a una fecha con formato texto
 #
 def Num_aFecha(fecha,fmt=''):
-    """ Combierte una fecha en formato número a formato Texto (fmt='')
-    o devuelve como enteros dia, mes o año de la fecha indicada
+    """ Combierte una fecha en formato nï¿½mero a formato Texto (fmt='')
+    o devuelve como enteros dia, mes o aï¿½o de la fecha indicada
     (fmt='d','m' o 'y')"""
 
     if fecha==None or fecha=='':
@@ -184,7 +184,7 @@ def Num_aFecha(fecha,fmt=''):
 
     if fmt=='': # Fecha Actual
         resul = fecha.strftime('%d/%m/%Y')
-    elif fmt=='y':      # Año en Numero
+    elif fmt=='y':      # Aï¿½o en Numero
         resul = fecha.year
     elif fmt=='m':      # Mes actual (1 a 12)
         resul = fecha.month
@@ -197,7 +197,7 @@ def Num_aFecha(fecha,fmt=''):
 #-- Pasa una fecha con formato texto a una fecha con formato numero
 #
 def Fecha_aNum(strfecha):
-    """ Combierte una fecha con formato texto a formato número """
+    """ Combierte una fecha con formato texto a formato nï¿½mero """
     fini = datetime.date(2000,01,01)    # Fecha inicial = 01 - Enero - 2000
     sep='/'
     if strfecha.find('-')>0: sep='-'
@@ -247,10 +247,10 @@ def Df_Fechas(fmin,fmax):
     return dif.days
 
 #
-#-- Comprueba que la tecla sea válida para el formato indicado
+#-- Comprueba que la tecla sea vï¿½lida para el formato indicado
 #
 def IsValid(key,fmt,cadena=''):
-    """ Comprueba que la tecla pulsada sea válida para el formato
+    """ Comprueba que la tecla pulsada sea vï¿½lida para el formato
     indicado, llevando ya escrita la cadena 'cadena' """
 
     valido = True
@@ -261,7 +261,7 @@ def IsValid(key,fmt,cadena=''):
         elif key>57 and key<324: valido=False
         elif key>333: valido=False      # 324 a 333 = 1 a 0 teclas numpad
 
-        # Para números permitimos (-), pero solo en la primera posicion
+        # Para nï¿½meros permitimos (-), pero solo en la primera posicion
         if fmt in ('i','0','1','2','3','4','5','6','7','8','9'):
             if key==45 and cadena=='':
                 valido=True
@@ -272,7 +272,7 @@ def IsValid(key,fmt,cadena=''):
             pospunto = cadena.find('.')
             if pospunto>=0:
                 if key==46: #wx.WXK_DECIMAL or key==wx.WXK_NUMPAD_DECIMAL:
-                    valido=False    # Ya había un punto
+                    valido=False    # Ya habï¿½a un punto
                 else:
                     if len(cadena)-pospunto > int(fmt):
                         valido=False
@@ -342,7 +342,7 @@ def Foco(pb,nombre):
             #pb._ct[pb._ct.keys[0]].SetFocus()
 
 #
-#-- Devuelve un mensaje detallado con el error ocurrido en una excepción
+#-- Devuelve un mensaje detallado con el error ocurrido en una excepciï¿½n
 #
 def Busca_Error(maxTBlevel=5):
     import sys
@@ -460,14 +460,14 @@ def lee(file,key):
 
         f.close()
     else:
-        rg = pickle.loads(file[key])    # Se pasó el puntero al fichero
+        rg = pickle.loads(file[key])    # Se pasï¿½ el puntero al fichero
 
     # Falta darle el formato correcto a los campos !!!
 
     return rg
 
 #
-#- Hace una selección de datos
+#- Hace una selecciï¿½n de datos
 #
 def select(fichero,campos,preguntas=[],orden=[]):
 
@@ -514,7 +514,7 @@ def select(fichero,campos,preguntas=[],orden=[]):
     return resul
 
 #
-#- Hace una actualización de un registro
+#- Hace una actualizaciï¿½n de un registro
 #
 def p_actu(file,idx,rg):
     #

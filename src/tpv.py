@@ -2,7 +2,6 @@
 # -*- coding: iso-8859-1 -*-
 
 import wx
-import wx.calendar
 import OC
 import os
 from OC.Funciones import *
@@ -12,7 +11,7 @@ from global_var import DIR_DATA
 
 
 class tpv(OC.Ventana):
-    """ Ficha para manejar las ventas de la aplicación """
+    """ Ficha para manejar las ventas de la aplicaciï¿½n """
 
     def __init__(self,padre=None):
 
@@ -36,7 +35,7 @@ class tpv(OC.Ventana):
 
         ent = ['ENTRYS','ENG','25','50','','',[]]
         #enf[-1].append(['ID','Etiq','X','Y','Ancho','Fmt','lmax','edi','FCal','Sobre','ADE','Dlg','Tip','CPAN','Style'])
-        ent[-1].append(['IDX','NºVenta','10','245','9','%','6','','','','a_LEE_RG','','','',''])
+        ent[-1].append(['IDX','Nï¿½Venta','10','245','9','%','6','','','','a_LEE_RG','','','',''])
         ent[-1].append(['AV_TN','Tecn','20','25','4','%','3','','','','','','','',''])
         ent[-1].append(['AV_CL','Cliente','80','25','7','%','6','','','','a_pon_cliente','clientes,cl_ls','','',''])
         ent[-1].append(['CL_DENO','Nombre Cliente','-1','','30','l','100','n','','','','','','',''])
@@ -62,8 +61,8 @@ class tpv(OC.Ventana):
 
         # BOTONES SOBRE LISTA
         btn=[]
-        btn.append(['B1',150,225,50,'c_mas.png','','a_suma_arti','Añadir Artículo',''])
-        btn.append(['B2',210,225,50,'c_menos.png','','a_resta_arti','Eliminar Artículo',''])
+        btn.append(['B1',150,225,50,'c_mas.png','','a_suma_arti','Aï¿½adir Artï¿½culo',''])
+        btn.append(['B2',210,225,50,'c_menos.png','','a_resta_arti','Eliminar Artï¿½culo',''])
         p2[-1].append(['BUTTONS','BID',50,'','',btn])
         #
         btn=[]
@@ -79,11 +78,11 @@ class tpv(OC.Ventana):
 
         #- Ptes Pago
         pptes = ['PANEL','PPTES',600,205,350,290,'','1','',[]]
-        cols = [['Nº Venta','l'],['Fecha','d'],['Importe','2'],['Pte ','l']]
+        cols = [['Nï¿½ Venta','l'],['Fecha','d'],['Importe','2'],['Pte ','l']]
         ls = ['LIST','LP',5,25,300,100,cols,'','','','','','a_carga_rgp','']
         pptes[-1].append(ls)
         #
-        cols = [['Nº Cobro','l'],['Fecha','d'],['Importe','2']]
+        cols = [['Nï¿½ Cobro','l'],['Fecha','d'],['Importe','2']]
         ls = ['LIST','LC',5,175,300,100,cols,'','','','','','','']
         pptes[-1].append(ls)
         #
@@ -110,7 +109,7 @@ class tpv(OC.Ventana):
 
         ls_campos.append(p3)
         
-        #P4 - Lista de Selección
+        #P4 - Lista de Selecciï¿½n
         p4 = ['PANEL','P4',0,500,600,160,'','','',[]]
         cols = [['Codigo','l'],['Cliente','l'],['Nombre Cliente','l'],['Fecha','d'],['Importe','2'],['Pendiente','l']]
         ls = ['LIST','LS',0,0,-1,-1,cols,'','','','','','a_carga_rg','']
@@ -120,8 +119,8 @@ class tpv(OC.Ventana):
 
         self._idx = 'IDX'
         self._filedb = 'alb-venta'
-        self._accini='a_cambia_tipo'        # Acción al cargar la ventana
-        self._accleer = ''       # Acción despues de leer registro
+        self._accini='a_cambia_tipo'        # Acciï¿½n al cargar la ventana
+        self._accleer = ''       # Acciï¿½n despues de leer registro
         self._btfin = 'BTG'     # Nombre del boton a ejecutar cuando pulse boton FIN
         #
         self.init_ctrls(ls_campos)
@@ -143,7 +142,7 @@ class tpv(OC.Ventana):
         #-- LOGO
         img = wx.Image(DIR_IMG+'/logo.jpg',wx.BITMAP_TYPE_ANY)
         img = img.Scale(340,240)
-        sb = wx.StaticBitmap(self._ct['PLOGO'],-1,wx.BitmapFromImage(img))
+        sb = wx.StaticBitmap(self._ct['PLOGO'],-1,wx.Bitmap(img))
         
         #-- Al final, pq debe estar creado el panel
         label = wx.StaticText(self._ct['PPTES'],label='Ventas Ptes Pago del Cliente actual')
@@ -153,7 +152,7 @@ class tpv(OC.Ventana):
         label.SetPosition((100,150))
 
     #
-    #-- Acción al seleccionar el radiobutton
+    #-- Acciï¿½n al seleccionar el radiobutton
     #
     def OnRadio(self,event):
         self.Ejecuta_Accion('a_cambia_tipo',event.GetEventObject())
@@ -170,7 +169,7 @@ class tpv(OC.Ventana):
             ok,val = std
             
             # Comprobar el valor devuelto por si hay que hacer algo
-            # Ya se ejecutó la accion. No continuar con la accion normal
+            # Ya se ejecutï¿½ la accion. No continuar con la accion normal
             if ok<>0:
                 return std
 
@@ -254,8 +253,8 @@ class tpv(OC.Ventana):
             elif accion=='a_completa_linea':
                 venta = ct['AV_LNA'].GetData()
                 fila,col = ct['AV_LNA'].GetCursor()
-                #fila = fila-1   # -1 pq desp. editar está en la siguiente
-                #       ... esto era pq solo había una columna editable ...
+                #fila = fila-1   # -1 pq desp. editar estï¿½ en la siguiente
+                #       ... esto era pq solo habï¿½a una columna editable ...
                 cdar=''
                 if fila>=0 and venta<>[]: cdar = venta[fila][0]
                 if cdar<>'':
@@ -265,7 +264,7 @@ class tpv(OC.Ventana):
                         venta[fila][2]='1'
                         venta[fila][3]=ar['AR_PVP']
                     else:
-                        Men('No existe el artículo '+cdar)
+                        Men('No existe el artï¿½culo '+cdar)
                         ##venta = venta[:-1]
                         ##ct['AV_LNA'].SetCursor(0,0)
 
@@ -314,7 +313,7 @@ class tpv(OC.Ventana):
                 if fec==None: ct['AV_FEC'].SetValue(Fecha())
                 #-
                 if ct['AV_LNA'].GetValue() == []:
-                    Men('No ha indicado ningún artículo')
+                    Men('No ha indicado ningï¿½n artï¿½culo')
                     return -1
                 #
                 if ct['AV_CL'].GetValue() == '':
@@ -334,7 +333,7 @@ class tpv(OC.Ventana):
 
             elif accion=='a_graba_venta':
                 signo = self._signo
-                rg = self._rg       # Se quedarán las modificaciones en rg
+                rg = self._rg       # Se quedarï¿½n las modificaciones en rg
                 #
                 for ln in rg['AV_LNA']:
                     cdar,uds = ln[:2]
@@ -386,9 +385,9 @@ class tpv(OC.Ventana):
                 cdav = self._ct['IDX'].GetValue()
                 cdcb = ct['LC'].GetValue()
                 if cdcb==None:
-                    Men('No ha seleccionado ningún cobro para borrar')
+                    Men('No ha seleccionado ningï¿½n cobro para borrar')
                 else:
-                    dlg=Men('¿Está seguro de borrar el cobro '+cdcb+'?','sn','q')
+                    dlg=Men('ï¿½Estï¿½ seguro de borrar el cobro '+cdcb+'?','sn','q')
                     if dlg=='n': return 0  
                     
                     ok = self.Borra_Cobro(cdav,cdcb)
@@ -406,7 +405,7 @@ class tpv(OC.Ventana):
                 if cdav==None:
                     Men('No ha seleccionado ninguna venta pendiente para borrar')
                 else:
-                    dlg=Men('¿Está seguro de borrar la venta '+cdav+'?','sn','q')
+                    dlg=Men('ï¿½Estï¿½ seguro de borrar la venta '+cdav+'?','sn','q')
                     if dlg=='n': return 0  
                     
                     ok=borra_dicc('alb-venta.db',cdav,DIR_DATA)
@@ -419,7 +418,7 @@ class tpv(OC.Ventana):
             Men(accion+'\n'+Busca_Error())
 
 
-        return 0 # No se ejecutó ninguna accion o todo correcto
+        return 0 # No se ejecutï¿½ ninguna accion o todo correcto
 
     #
     #- Muestra el dialogo de cobro, devuelve el importe y si es con tarjeta
@@ -505,7 +504,7 @@ class tpv(OC.Ventana):
 #
 ##############################################################
 if __name__ == "__main__":
-    app = wx.PySimpleApp()
+    app = wx.App(False)
     ventana = tpv()
     ventana.Show()
     app.MainLoop()

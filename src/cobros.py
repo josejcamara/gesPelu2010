@@ -3,7 +3,6 @@
 
 import wx
 import OC
-import bsddb
 import pickle
 from OC.Funciones import *
 
@@ -18,18 +17,18 @@ class cobros(OC.Ventana):
         # TABBOX
         tb = ['TABBOX','TBG',0,0,600,300,'','','',[]]
 
-        # PN1 - Pestaña General
+        # PN1 - Pestaï¿½a General
         pn1 = ['PANEL','PN1',0,0,-1,-1,'','','General',[]]
-        #cols=[['Ventana','l'],['Descripción','l']]
+        #cols=[['Ventana','l'],['Descripciï¿½n','l']]
         #ls = ['LIST','L1',0,0,-1,-1,cols,'','','','','a_sele_win','','']
         #p0[-1].append(ls)
         eng = ['ENTRYS','ENG','25','50','','',[]]
         #eng[-1].append(['ID','Etiq','X','Y','Ancho','Fmt','lmax','edi','FCal','Sobre','ADE','Dlg','Tip','CPAN','Style'])
         eng[-1].append(['IDX','Codigo','5','20','6','%','6','','','','a_LEE_RG','','','',''])
-        eng[-1].append(['CB_DENO','Descripción','-1','','50','l','100','','','','','','','',''])
+        eng[-1].append(['CB_DENO','Descripciï¿½n','-1','','50','l','100','','','','','','','',''])
         eng[-1].append(['CB_FEC','Fecha','-1','','10','d','10','','','','','','','',''])
         eng[-1].append(['CB_IMPO','Importe','-1','','10','2','10','','','','','','','',''])
-        eng[-1].append(['CB_CDAV','Nº Venta','-1','','10','%','6','','','','','','','',''])
+        eng[-1].append(['CB_CDAV','Nï¿½ Venta','-1','','10','%','6','','','','','','','',''])
         pn1[-1].append(eng)
         pn1[-1].append(['CHECK','CB_TARJ','260','125','2','100','Tarjeta Credito','0','','',''])
         tb[-1].append(pn1)
@@ -54,7 +53,7 @@ class cobros(OC.Ventana):
         ls_campos.append(p3)
         #ls_campos.append(['CHECK','CB_TARJ','260','5','2','100','Tarjeta Credito','0','','',''])
 
-        #P4 - Lista de Selección
+        #P4 - Lista de Selecciï¿½n
         p4 = ['PANEL','P4',0,300,600,170,'','','',[]]
         cols = [['Codigo','l'],['Descripcion','l'],['Fecha','d'],['Importe','2']]
         ls = ['LIST','LS',0,0,-1,-1,cols,'','','','','','a_carga_rg','']
@@ -66,8 +65,8 @@ class cobros(OC.Ventana):
         #
         self._idx = 'IDX'
         self._filedb = 'cobros'
-        self._accini=''      # Acción al cargar la ventana
-        self._accleer = ''   # Acción despues de leer registro
+        self._accini=''      # Acciï¿½n al cargar la ventana
+        self._accleer = ''   # Acciï¿½n despues de leer registro
         self._btfin = ''     # Nombre del boton a ejecutar cuando pulse boton FIN
 
 
@@ -82,7 +81,7 @@ class cobros(OC.Ventana):
         ok,val = std
 
         # Comprobar el valor devuelto por si hay que hacer algo
-        # Ya se ejecutó la accion. No continuar con la accion normal
+        # Ya se ejecutï¿½ la accion. No continuar con la accion normal
         if ok>0:
             return val
 

@@ -1,15 +1,14 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 
 import wx
 import OC
-import bsddb
 import pickle
 from OC.Funciones import *
 
 
 class clientes(OC.Ventana):
-    """ Ficha para manejar las ventanas de la aplicación """
+    """ Ficha para manejar las ventanas de la aplicaciï¿½n """
 
     def __init__(self,padre=None):
         OC.Ventana.__init__(self, padre,'Clientes',tam=(800,600))
@@ -19,18 +18,18 @@ class clientes(OC.Ventana):
         # TABBOX
         tb = ['TABBOX','TBG',0,0,600,400,'','','a_cambia_tab',[]]
 
-        # PN1 - Pestaña General
+        # PN1 - Pestaï¿½a General
         pn1 = ['PANEL','PN1',0,0,-1,-1,'','','General',[]]
-        #cols=[['Ventana','l'],['Descripción','l']]
+        #cols=[['Ventana','l'],['Descripciï¿½n','l']]
         #ls = ['LIST','L1',0,0,-1,-1,cols,'','','','','a_sele_win','','']
         #p0[-1].append(ls)
         eng = ['ENTRYS','ENG','25','50','','',[]]
         #eng[-1].append(['ID','Etiq','X','Y','Ancho','Fmt','lmax','edi','FCal','Sobre','ADE','Dlg','Tip','CPAN','Style'])
         eng[-1].append(['IDX','Codigo','5','20','6','%','6','','','','a_LEE_RG|a_pon_histo','','','',''])
         eng[-1].append(['CL_DENO','Nombre Cliente','-1','','50','l','100','','','','','','','',''])
-        eng[-1].append(['CL_DOM','Dirección','-1','','57','l','100','','','','','','','',''])
+        eng[-1].append(['CL_DOM','DirecciÃ³n','-1','','57','l','100','','','','','','','',''])
         eng[-1].append(['CL_CP','CPostal','-1','','7','l','5','','','','','','','',''])
-        eng[-1].append(['CL_POB','Población','-1','','30','l','100','','','','','','','',''])
+        eng[-1].append(['CL_POB','PoblaciÃ³n','-1','','30','l','100','','','','','','','',''])
         eng[-1].append(['CL_PROV','Provincia','-1','','13','l','100','','','','','','','',''])
         eng[-1].append(['CL_TFN','Telefonos','-1','','20','l','30','','','','','','','',''])
         eng[-1].append(['CL_FALT','Fecha Alta','-1','','10','d','10','','','','','','','',''])
@@ -39,16 +38,16 @@ class clientes(OC.Ventana):
         tb[-1].append(pn1)
 
         # PN2 - Datos Tecnicos
-        pn2 = ['PANEL','PN2',200,0,600,500,'','','Técnico',[]]
+        pn2 = ['PANEL','PN2',200,0,600,500,'','','Tï¿½cnico',[]]
         ent = ['ENTRYS','ENT','25','50','','',[]]
-        ent[-1].append(['CL_DTEC','Datos Técnicos','5','20','57','m13','','','','','','','','',''])
+        ent[-1].append(['CL_DTEC','Datos TÃ©cnicos','5','20','57','m13','','','','','','','','',''])
         #
         pn2[-1].append(ent)
         tb[-1].append(pn2)
 
         # PN3 - Historia Citas
-        pn3 = ['PANEL','PN3',200,0,600,500,'','','Histórico',[]]
-        cols=[['Nº Venta','l'],['Fecha','d'],['Tecnico','l'],['Importe','2']]
+        pn3 = ['PANEL','PN3',200,0,600,500,'','','HistÃ³rico',[]]
+        cols=[['Nï¿½ Venta','l'],['Fecha','d'],['Tecnico','l'],['Importe','2']]
         ls = ['LIST','L1',10,10,580,210,cols,'','','','','a_pon_detalle','','']
         pn3[-1].append(ls)
         #
@@ -75,7 +74,7 @@ class clientes(OC.Ventana):
         ls_campos.append(tb)
         ls_campos.append(p3)
 
-        #P4 - Lista de Selección
+        #P4 - Lista de Selecciï¿½n
         p4 = ['PANEL','P4',0,400,600,170,'','','',[]]
         cols = [['Codigo','l'],['Nombre','l'],['Telefono','l'],['Poblacion','l']]
         ls = ['LIST','LS',0,0,-1,-1,cols,'','','','','','a_carga_rg','']
@@ -87,8 +86,8 @@ class clientes(OC.Ventana):
         #
         self._idx = 'IDX'
         self._filedb = 'clientes'
-        self._accini=''      # Acción al cargar la ventana
-        self._accleer = ''   # Acción despues de leer registro
+        self._accini=''      # Acciï¿½n al cargar la ventana
+        self._accleer = ''   # Acciï¿½n despues de leer registro
         self._btfin = ''     # Nombre del boton a ejecutar cuando pulse boton FIN
 
 
@@ -103,7 +102,7 @@ class clientes(OC.Ventana):
         ok,val = std
 
         # Comprobar el valor devuelto por si hay que hacer algo
-        # Ya se ejecutó la accion. No continuar con la accion normal
+        # Ya se ejecutï¿½ la accion. No continuar con la accion normal
         if ok>0:
             return val
 

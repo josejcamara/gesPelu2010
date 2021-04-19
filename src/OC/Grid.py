@@ -48,9 +48,9 @@ class Grid():
             #
             gancho += wcol*10.4
 
-        #- Ajustamos el tamaño del grid si es menor
+        #- Ajustamos el tamaï¿½o del grid si es menor
         gancho = int(gancho)
-        hclabel = grid.GetColLabelSize()    # Alto de la fila de títulos
+        hclabel = grid.GetColLabelSize()    # Alto de la fila de tï¿½tulos
         size = (ancho,nrows*(hrow) + hclabel+5)
         #if gancho<size[0]: size = (gancho,size[1])
         grid.SetDefaultRowSize(hrow)
@@ -193,10 +193,10 @@ class Grid():
 
 
     #
-    #-- Asigna los títulos por fila al grid
+    #-- Asigna los tï¿½tulos por fila al grid
     #
     def SetTituxRows(self,titulos,ancho):
-        """ Asigna los títulos por fila al grid"""
+        """ Asigna los tï¿½tulos por fila al grid"""
         pass
     #
     #
@@ -262,7 +262,7 @@ class Grid():
                         if formula[0]=='<' and formula[-1]=='>':  # Valor Columna Anterior
                             valor = lnv[int(xxx[1])]
                         else:
-                            if formula[:6]=='cache(':   # Valor de Caché
+                            if formula[:6]=='cache(':   # Valor de Cachï¿½
                                 xxx = formula.split(',')
                                 xxx[1] = lnv[int(xxx[1])]
                                 formula = ','.join(xxx)
@@ -303,7 +303,7 @@ class Grid():
                     else: value = float(value)
                 lnv.append(value)
 
-            #- Si no hay filas fijas, pasamos las filas con 1ºcolum vacia
+            #- Si no hay filas fijas, pasamos las filas con 1ï¿½colum vacia
             fmt1 = self.__fmts[0]
             if self.__rlabels in ([],''):
                 if lnv[0]=='' and fmt1 in ('l','%'): continue
@@ -390,7 +390,7 @@ class Grid():
 
     #
     #-- IMPORTANTE !!!
-    # Aquí solo entra si la celda no está editada, es decir, sólo
+    # Aquï¿½ solo entra si la celda no estï¿½ editada, es decir, sï¿½lo
     #  cuando no se ha pulsado una letra/numero para escribir
     #
     def onKeyDown(self,event):
@@ -433,7 +433,7 @@ class OC_CellEditor(wx_grid.PyGridCellEditor):
         self._ade = ade
         self._cpan = cpan
         #-
-        wx_grid.PyGridCellEditor.__init__(self)
+        wx_grid.GridCellEditor.__init__(self)
 
     def Create(self, parent, id, evtHandler):
         pb = self._pb
@@ -490,9 +490,9 @@ class OC_CellEditor(wx_grid.PyGridCellEditor):
 
             ancho = rect.width+2
             alto = rect.height+2
-            tc.SetDimensions(x,y,ancho,alto,wx.SIZE_ALLOW_MINUS_ONE)
+            tc.SetSize(x,y,ancho,alto,wx.SIZE_ALLOW_MINUS_ONE)
         else:
-            tc.SetDimensions(rect.x, rect.y, rect.width+2, rect.height+2,wx.SIZE_ALLOW_MINUS_ONE)
+            tc.SetSize(rect.x, rect.y, rect.width+2, rect.height+2,wx.SIZE_ALLOW_MINUS_ONE)
 
 
     def BeginEdit(self,row,col,grid):
@@ -543,7 +543,7 @@ class OC_CellEditor(wx_grid.PyGridCellEditor):
         return OC_CellEditor()
 
     def StartingKey(self,evt):
-        #self._tc.GetTextCtrl().SetInsertionPointEnd() -> Hace que añada al final
+        #self._tc.GetTextCtrl().SetInsertionPointEnd() -> Hace que aï¿½ada al final
         self.OnChar(evt)
         if evt.GetSkipped():
             self._tc.GetTextCtrl().EmulateKeyPress(evt)
@@ -586,13 +586,13 @@ if __name__ == "__main__":
 
     #- ENTRADAS ANTES
     antes=[]
-    antes.append(['E1','Código',10,15,6,'%',7,'','','','','ar_ls','codigo del cliente','clientes',''])
+    antes.append(['E1','Cï¿½digo',10,15,6,'%',7,'','','','','ar_ls','codigo del cliente','clientes',''])
     antes.append(['E2','Nombre',-1,15,16,'l',10,'','','','','','','',''])
     p1[-1].append(['ENTRYS','EX',22,50,'','',antes])
 
     #- GRID
     cols=[]
-    cols.append(['Artículo',6,'%',6,'','','','','','','','','',''])
+    cols.append(['Artï¿½culo',6,'%',6,'','','','','','','','','',''])
     cols.append(['Nombre',30,'l',20,'n','n','','','','','','','',''])
     cols.append(['Fecha',7,'d',10,'','','','','','','','','',''])
     g1=['GRID','G1','Titulo',10,80,640,22,6,cols,0,'','']

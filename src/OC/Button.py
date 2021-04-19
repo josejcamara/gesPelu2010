@@ -10,13 +10,13 @@ from global_var import DIR_IMG
 class Button():
 
     def __init__(self,pb,padre,nombre,posic,tamano,imagen,texto,accion,tip):
-        #- Tipo de botón segun el tipo
+        #- Tipo de botï¿½n segun el tipo
         boton = None
         img = None
         texto = texto.decode('latin-1')
         tip = tip.decode('latin-1')
 
-        #- Intentamos cargar la imagen para el botón
+        #- Intentamos cargar la imagen para el botï¿½n
         if imagen<>'':
             if imagen in os.listdir(DIR_IMG+'/32/'):
                 imagen = DIR_IMG+'/32/'+imagen
@@ -34,7 +34,7 @@ class Button():
             boton = buttons.GenButton(padre,-1,texto)
 
         #- Asignamos Propiedades
-        boton.SetToolTipString(tip)
+        boton.SetToolTip(tip)
         boton.SetSize(tamano)
         boton.SetPosition(posic)
         boton.SetBezelWidth(2)
@@ -66,10 +66,10 @@ class Button():
         self.__boton.Show(bool)
 
     #
-    #-- Asigna una nueva acción al boton
+    #-- Asigna una nueva acciï¿½n al boton
     #
     def SetAccion(self,accion):
-        """ Cambia la acción a ejecutar del boton """
+        """ Cambia la acciï¿½n a ejecutar del boton """
         self.__accion = accion
 
     #
@@ -87,7 +87,7 @@ class Button():
         pass
 
     def SetStyleButton(self,style):
-        """ Cambia el estilo del botón """
+        """ Cambia el estilo del botï¿½n """
         pass
 
     def GetButton(self):
@@ -112,14 +112,14 @@ class Button():
                     if ok[0]==-1: return
 
     #
-    #-- Pinta el botón al entrar el ratón en su cuadro
+    #-- Pinta el botï¿½n al entrar el ratï¿½n en su cuadro
     #
     def onMouseOn(self,event):
         self.__boton.SetBezelWidth(1)
         self.__boton.Refresh()
 
     #
-    #-- Pinta el boton al salir el ratón en su cuadro
+    #-- Pinta el boton al salir el ratï¿½n en su cuadro
     #
     def onMouseOut(self,event):
         self.__boton.SetBezelWidth(2)

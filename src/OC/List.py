@@ -7,16 +7,16 @@ from Funciones import *
 class List():
 
     def __init__(self,pb,padre,nombre,posic,size=(-1,-1),cols=[],anchos=[],onclick="",ondclick=""):
-        """ Creación de la lista:
+        """ Creaciï¿½n de la lista:
           pb -> Padre Base. Ventana que contiene el codigo de las acciones
           padre -> Ventana/Panel padre del objeto
           nombre -> Nombre del campo
-          posic -> Posición de la lista dentro del padre (posx,posy) o wx.Point
-          size -> (tamx,tamy). Pareja de enteros indicando tamaño
+          posic -> Posiciï¿½n de la lista dentro del padre (posx,posy) o wx.Point
+          size -> (tamx,tamy). Pareja de enteros indicando tamaï¿½o
           cols -> Lista de columnas de la lista ([[col1,fmt1],[col2,fmt2],...]
           anchos -> Anchos de las columnas, en caso de asignar fijos
-          onclick -> Acción a Ejecutar al seleccionar una fila
-          ondclick -> Acción a Ejecutar al doble-click sobre fila
+          onclick -> Acciï¿½n a Ejecutar al seleccionar una fila
+          ondclick -> Acciï¿½n a Ejecutar al doble-click sobre fila
         """
         lis = wx.ListCtrl(name=nombre, parent=padre, pos=posic, style=wx.LC_REPORT)
 
@@ -25,7 +25,7 @@ class List():
         i=0
         for col in cols:
             ncol,fmt = col
-            #- Añadimos la columna
+            #- Aï¿½adimos la columna
             ncol = ncol.decode('latin-1')
             lis.InsertColumn(i,ncol)
             fmtlis.append(str(fmt))
@@ -57,7 +57,7 @@ class List():
         self.__fmtlis = fmtlis       # Formato de cada una de las columnas
         self.__data = []            # Datos de la lista
         self._onclick = onclick     # Accion al hacer click sobre un elemento
-        self._ondclick = ondclick   # Acción al doble click sobre un elemento
+        self._ondclick = ondclick   # Acciï¿½n al doble click sobre un elemento
 
     def GetListCtrl(self):
         """ Devuelve el control wx.ListCtrl que forma el objeto """
@@ -98,7 +98,7 @@ class List():
 
         for lnd in data:
             if isinstance(lnd,str): lnd=[lnd]
-            nfila = lis.InsertStringItem(sys.maxint,lnd[0])
+            nfila = lis.InsertItem(sys.maxint,lnd[0])
             ncol=0
             for fmt in fmtlis:
                 try:
@@ -116,10 +116,10 @@ class List():
                     except:
                         valor = '0.0'
                 else:
-                    valor =str(valor)   # No debería llegar, pero por si...
+                    valor =str(valor)   # No deberï¿½a llegar, pero por si...
                 #
                 valor = valor.decode('latin-1')
-                lis.SetStringItem(nfila,ncol,valor)
+                lis.SetItem(nfila,ncol,valor)
                 #
                 ncol += 1
         #-
@@ -182,7 +182,7 @@ class List():
 
     #-------
     def onClick(self,event):
-        """ Acción al Seleccionar un elemento de la lista """
+        """ Acciï¿½n al Seleccionar un elemento de la lista """
         pb = self._pb
         if pb==None:
             value = self.GetValue()
@@ -191,7 +191,7 @@ class List():
         event.Skip()
 
     def onDclick(self,event):
-        """ Ejecutar la acción al hacer doble click sobre la lista """
+        """ Ejecutar la acciï¿½n al hacer doble click sobre la lista """
         pb = self._pb
         if pb==None:
             value = self.GetValue()
