@@ -25,12 +25,12 @@ class Inicio(OC.Ventana):
         btn.append(['B1',10,10,110,'people.png','Clientes','a_CPAN:clientes','Ficha de Clientes'])
         btn.append(['B2',130,10,110,'proveedor.png','Proveedor','a_CPAN:proveedores','Proveedores'])
         btn.append(['B3',250,10,110,'articulos.png','Articulos','a_CPAN:articulos','Artículos'])
-        btn.append(['B4',370,10,110,'persons.png','Tecnicos','a_CPAN:tecnicos','Tecnicos']) #iCCP incorrect
+        btn.append(['B4',370,10,110,'persons.png','Tecnicos','a_CPAN:tecnicos','Tecnicos'])
         btn.append(['B5',10,65,110,'calendar.png','Agenda','a_CPAN:agenda','Agenda'])
         #btn.append(['B6',130,120,110,'book.png','Diario','a_CPAN:diario','Diario de Ingresos y Gastos'])
         btn.append(['B7',250,65,110,'tpv.png','TPV','a_CPAN:tpv','TPV Ventas'])
         btn.append(['B8',370,65,110,'gastos.png','Gastos','a_CPAN:gastos','Gastos'])
-        btn.append(['B9',10,120,110,'caja.png','Cierre\nCaja','a_CPAN:caja_dia','Caja Diaria'])  #iCCP incorrect
+        btn.append(['B9',10,120,110,'caja.png','Cierre\nCaja','a_CPAN:caja_dia','Caja Diaria'])
         btn.append(['B10',130,65,110,'page.png','Resumen\nSituacion','a_CPAN:resumen_m',''])
         btn.append(['B12',250,120,110,'plus.png','Copia\nSeguridad','a_copia_seg','Hacer Copia Seguridad'])
         btn.append(['B8',370,120,110,'cobros.png','Cobros','a_CPAN:cobros','Cobros'])
