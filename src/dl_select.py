@@ -108,9 +108,9 @@ class dl_select(OC.Dialogo):
 
 
 class dl_sel_inf(OC.Dialogo):
-    """ Dialogo de selecci�n de informes """
+    """ Dialogo de selección de informes """
     def __init__(self,padre,fichero):
-        OC.Dialogo.__init__(self, padre,'Selecci�n de Informes',tam=(400,350))
+        OC.Dialogo.__init__(self, padre,'Seleccion de Informes',tam=(550,600))
         #
 
         # P1 -
