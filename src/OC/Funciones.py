@@ -678,11 +678,11 @@ def Crea_Info(padre,fichero,informe,destino=''):
         #prt.SetCellText(4, 2, wx.NamedColour('RED'))
 
         #prt.SetColTextColour(3, wx.NamedColour('RED'))
-        prt.label_font_colour = wx.NamedColour('WHITE')
-        prt.SetHeader(deno, colour = wx.NamedColour('RED'))
+        prt.label_font_colour = wx.Colour('WHITE')
+        prt.SetHeader(deno, colour = wx.Colour('RED'))
 
-        prt.SetHeader("Impreso: ", type = "Date & Time", align=wx.ALIGN_RIGHT, indent = -1, colour = wx.NamedColour('BLUE'))
-        prt.SetFooter("Page No", colour = wx.NamedColour('RED'), type ="Num")
+        prt.SetHeader("Impreso: ", type = "Date & Time", align=wx.ALIGN_RIGHT, indent = -1, colour = wx.Colour('BLUE'))
+        prt.SetFooter("Page No", colour = wx.Colour('RED'), type ="Num")
         prt.Preview()
 
     else:
