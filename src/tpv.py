@@ -436,7 +436,7 @@ class tpv(OC.Ventana):
         ls_campos.append(ent)
         ls_campos.append(['CHECK','AV_PTJ','60','145','2','100','Tarjeta Credito','0','','',''])
 
-        dl = OC.Dialogo(self,'Cobrar',ls_campos,(220,220))
+        dl = OC.Dialogo(self,'Cobrar',ls_campos,(620,620))
         ttt = self._ct['AV_TTT'].GetValue()
         pagado = self._ct['AV_COB'].GetValue()
         dl.SetValue('PAGAR',ttt-pagado)

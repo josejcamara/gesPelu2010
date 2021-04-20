@@ -10,12 +10,12 @@ from global_var import DIR_DATA
 from global_var import DIR_APL
 
 #
-# DIALOGO DE SELECCIÓN PARA CAMPOS. SE VE EL RESULTADO, SE DEVUELVE CODIGO
+# DIALOGO DE SELECCIï¿½N PARA CAMPOS. SE VE EL RESULTADO, SE DEVUELVE CODIGO
 #
 class dl_sele(OC.Dialogo):
 
     def __init__(self,padre,fichero,informe,entry):
-        OC.Dialogo.__init__(self, padre,'Busqueda de Registros',tam=(400,450),btn=False)
+        OC.Dialogo.__init__(self, padre,'Busqueda de Registros',tam=(550,650),btn=False)
         #
 
         # P1 - Preguntas
@@ -44,7 +44,7 @@ class dl_sele(OC.Dialogo):
         #
         self.init_ctrls(ls_campos)
 
-        #- Traemos información del informe ----------
+        #- Traemos informaciï¿½n del informe ----------
         ls_inf = lee_dicc('forms',fichero)
         if not informe in ls_inf.keys(): return -1
         #
