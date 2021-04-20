@@ -511,7 +511,11 @@ class OC_CellEditor(wx_grid.PyGridCellEditor):
         self._tc.GetTextCtrl().SetSelection(0, self._tc.GetTextCtrl().GetLastPosition())
         self._tc.SetFocus()
 
-    def EndEdit(self,row,col,grid):
+    def ApplyEdit(self,row,col,grid):
+        # This needs work/investigation as it's new in this version
+        pass
+
+    def EndEdit(self,row,col,grid,oldValue):
         changed = False
         self._tc.Formatea_Valor()
         val = self._tc.GetTextCtrl().GetValue()
