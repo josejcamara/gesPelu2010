@@ -2,7 +2,7 @@
 # -*- coding: iso-8859-1 -*-
 
 import wx
-import wx.calendar
+import wx.lib.calendar
 import OC
 import os
 
@@ -61,8 +61,8 @@ class resumen_m(OC.Ventana):
         #
         self._idx = ''
         self._filedb = ''
-        self._accini=''      # Acción al cargar la ventana
-        self._accleer = ''   # Acción despues de leer registro
+        self._accini=''      # Acciï¿½n al cargar la ventana
+        self._accleer = ''   # Acciï¿½n despues de leer registro
         self._btfin = ''     # Nombre del boton a ejecutar cuando pulse boton FIN
         #
         self.init_ctrls(ls_campos)
@@ -82,7 +82,7 @@ class resumen_m(OC.Ventana):
         ok,val = std
 
         # Comprobar el valor devuelto por si hay que hacer algo
-        # Ya se ejecutó la accion. No continuar con la accion normal
+        # Ya se ejecutï¿½ la accion. No continuar con la accion normal
         if ok>0:
             return val
 
@@ -231,7 +231,7 @@ class resumen_m(OC.Ventana):
             Men('Resumen creado correctamente.')
 
 
-        return 0 # No se ejecutó ninguna accion !!!!
+        return 0 # No se ejecutï¿½ ninguna accion !!!!
 
 
 
@@ -242,7 +242,7 @@ class resumen_m(OC.Ventana):
 #
 ##############################################################
 if __name__ == "__main__":
-    app = wx.PySimpleApp()
+    app = wx.App(False)
     ventana = resumen_m()
     ventana.Show()
     app.MainLoop()
