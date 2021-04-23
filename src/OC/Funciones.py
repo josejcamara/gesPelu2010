@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf8 -*-
 
 import bsddb
 import pickle
@@ -7,10 +7,12 @@ import sys
 import wx
 #import shelve
 
-
-from global_var import DIR_BASE
-from global_var import DIR_DATA
-from global_var import DIR_APL
+try:
+    from global_var import DIR_DATA
+    from global_var import DIR_APL
+except:
+    DIR_IMG = '../../img'
+    DIR_DATA = "."
 
 
 #

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf8 -*-
 
 import wx
 import wx.lib.buttons as buttons
@@ -7,8 +7,10 @@ from Funciones import *
 import string
 import os
 
-from global_var import DIR_BASE
-from global_var import DIR_IMG
+try:
+    from global_var import DIR_IMG
+except:
+    DIR_IMG = '../../img'
 
 
 
@@ -23,21 +25,21 @@ class Entry():
     _name = ""      # Nombre de la entrada
     _vant = ""      # Valor anterior del campo
     _fmt = "l"      # Formato de la entrada de texto (l,%,i,d,p,mX,0,1,2,3,...)
-    _lmax = 0       # Longitud máxima del campo
-    _pb = None      # Padre base. Será la ventana que contine el codigo de las acciones
-    _fcal = ""      # Nombre de la acción a ejecutar cuando se entre en el campo
+    _lmax = 0       # Longitud mï¿½xima del campo
+    _pb = None      # Padre base. Serï¿½ la ventana que contine el codigo de las acciones
+    _fcal = ""      # Nombre de la acciï¿½n a ejecutar cuando se entre en el campo
     _sobre= ""      # si "s", sobreescribir valor cuando de ejecuta la formula calculo
-    _ade = ""       # Acción a ejecutar despues de editar (salir foco) la entrada
-    _dlsel = ""     # Dialogo de selección para el campo
+    _ade = ""       # Acciï¿½n a ejecutar despues de editar (salir foco) la entrada
+    _dlsel = ""     # Dialogo de selecciï¿½n para el campo
     _cpan=""        # Nombre de la ventana a abrir al pulsar F4 sobre el campo
     __ctlabel=None   # Campo etiqueta de texto
     __cttext =None   # campos texto
-    __btnsel = None # Botón de seleccion, en caso de que haya
-    _adk = ""       # Acción al pulsar una tecla valida """
+    __btnsel = None # Botï¿½n de seleccion, en caso de que haya
+    _adk = ""       # Acciï¿½n al pulsar una tecla valida """
 
 
     #
-    #--- Inicialización
+    #--- Inicializaciï¿½n
     #
     def __init__(self,pb,padre,nombre,posic=(-100,-100),etiq='',fmt='l',lmax=0,ancho=10,alto=22,dlsel=''):
         """
@@ -53,9 +55,8 @@ class Entry():
         #    lmax = (int) Longitud maxima del texto introducido
         #    ancho = ancho del campo de texto
         #    alto = alto del campo de texto
-        #    dlsel = dialogo de selección
+        #    dlsel = dialogo de selecciÃ³n
         """
-        etiq = etiq.decode('latin-1')
         if len(posic)==2:
             posic = wx.Point(posic[0],posic[1])
         #-
@@ -74,17 +75,18 @@ class Entry():
         self._name = nombre         # Nombre de la entrada
         self._vant = ''             # Valor anterior del campo
         self._fmt = fmt             # Formato de la entrada de texto (l,%,i,d,p,mX,0,1,2,3,...)
-        self._lmax = lmax           # Longitud máxima del campo
-        self._pb = pb               # Padre base. Será la ventana que contine el codigo de las acciones
-        self._fcal=""               # Nombre de la acción a ejecutar cuando se entre en el campo
+        self._lmax = lmax           # Longitud mÃ¡xima del campo
+        self._pb = pb               # Padre base. SerÃ¡ la ventana que contine el codigo de las acciones
+        self._fcal=""               # Nombre de la acciÃ³n a ejecutar cuando se entre en el campo
         self._sobre=""              # si "s", sobreescribir valor cuando de ejecuta la formula calculo
         self._ade=""                # Accion despues de editar
         self._adk=""                # Accion al pulsar tecla
-        self._dlsel = dlsel         # Dialogo de selección para el campo
+        self._dlsel = dlsel         # Dialogo de selecciÃ³n para el campo
         self._cpan = ""             # Nombre de la ventana a abrir al pulsar F4 sobre el campo
 
         #
-        if lmax>0: text.SetMaxLength(lmax)
+        if lmax>0 and not text.IsMultiLine(): text.SetMaxLength(lmax)
+
 
         #- Posicionamiento de la etiqueta
         if etiq[:1]==':' or etiq[:1]=='[':   # Poner etiqueta a la izquierda del texto
@@ -93,11 +95,11 @@ class Entry():
             #label.SetPosition(posic)
             #text.SetPosition((posic.x + label.GetClientSizeTuple()[0],posic.y))
             text.SetPosition(posic)
-            label.SetPosition((posic.x - label.GetClientSizeTuple()[0],posic.y+2))
+            # label.SetPosition((posic.x - label.GetClientSizeTuple()[0],posic.y+2))
         elif etiq[:1]==']':     # Poner la etiqueta a la derecha del texto
             etiq=etiq[1:]
             label = wx.StaticText(padre,label=etiq)
-            label.SetPosition((posic.x + text.GetClientSizeTuple()[0]+10,posic.y+5))
+            # label.SetPosition((posic.x + text.GetClientSizeTuple()[0]+10,posic.y+5))
         else:   # Poner la etiqueta encima del texto
             label = wx.StaticText(padre,label=etiq)
             label.SetPosition((posic.x,posic.y-15))
@@ -111,7 +113,7 @@ class Entry():
         text.Bind(wx.EVT_KEY_UP, self.Al_Soltar_Tecla)
         text.Bind(wx.EVT_SET_FOCUS, self.Al_Entrar)
         text.Bind(wx.EVT_KILL_FOCUS, self.Al_Salir)
-        #self.Bind(wx.EVT_SET_CURSOR, self.Prueba)    ## Al pasar el ratón por encima!!
+        #self.Bind(wx.EVT_SET_CURSOR, self.Prueba)    ## Al pasar el ratÃ³n por encima!!
         #if button<>None: button.Bind(wx.EVT_BUTTON, self.Al_Pulsar_Boton)
         #text.Bind(wx.EVT_TEXT_ENTER,self.Prueba)
         #text.Bind(wx.EVT_TOOL_ENTER,self.Prueba)
@@ -166,11 +168,11 @@ class Entry():
     #
     #
     def GetSeleButton(self):
-        """ Devuelve el botón de selección """
+        """ Devuelve el botï¿½n de selecciï¿½n """
         return self.__btnsel
 
     #
-    #-- Poner en una posición concreta
+    #-- Poner en una posiciï¿½n concreta
     #
     def SetPosition(self,posic):
         """ Pone el elemento en la posicion indicada (Etiqueta y entrada texto)
@@ -195,11 +197,11 @@ class Entry():
     #-- Devuelve la Posicion actual de objeto
     #
     def GetPosition(self):
-        """ Devuelve la posición actual del campo de texto como wx.Point """
+        """ Devuelve la posiciï¿½n actual del campo de texto como wx.Point """
         return self.__cttext.GetPosition()
 
     #
-    #-- Cambia el tamaño del campo de texto
+    #-- Cambia el tamaï¿½o del campo de texto
     #
     def SetSize(self,width,height=-1):
         if height==-1:
@@ -207,10 +209,10 @@ class Entry():
         self.__cttext.SetSize(width,height)
 
     #
-    #-- Devuelve el tamaño actual del campo de texto
+    #-- Devuelve el tamaï¿½o actual del campo de texto
     #
     def GetSize(self):
-        """ Devuelve el tamaño actual del campo de texto como wx.Size """
+        """ Devuelve el tamaï¿½o actual del campo de texto como wx.Size """
         return self.__cttext.GetSize()
 
     #
@@ -218,8 +220,7 @@ class Entry():
     #
     def SetToolTipString(self,tip):
         """ Asigna un valor al Tip de Ayuda del campo de texto """
-        tip = tip.decode('latin-1')
-        self.__cttext.SetToolTipString(tip)
+        self.__cttext.SetToolTip(tip)
 
     #
     #-- Pone editable / no editable el campo de texto
@@ -254,7 +255,7 @@ class Entry():
         elif fmt =='d':
             value = Fecha_aNum(value)
         else:
-            value = value.encode('latin-1')
+            value = str(value)
 
         return value
 
@@ -279,20 +280,18 @@ class Entry():
         vant = self.GetValue()
         if vant<>value: self._pb.Modifica=1
         #
-        if type(value) <> unicode: value = value.decode('latin-1')
         self.__cttext.SetValue(value)
         #
         if acc<>'n' and self._ade<>'':
             ls_ade = self._ade.split('|')
             for ade in ls_ade:
                 ok = self._pb.Ejecuta_Accion(ade,self)
-                if ok<0: return # La ejecución falló
+                if ok<0: return # La ejecuciÃ³n fallÃ³
 
     #
     #--- Cambia el valor del texto de la etiqueta
     #
     def SetLabel(self,value):
-        value = value.decode('latin-1')
         self.__ctlabel.SetLabel(value)
 
     #
@@ -335,7 +334,7 @@ class Entry():
                     valor = '.'
                     punto = True
             except:
-                pass    # Si no tiene _idx daría fallo
+                pass    # Si no tiene _idx darï¿½a fallo
 
         if not punto:
             if fmt=='%':
@@ -455,7 +454,7 @@ class Entry():
                 event.Skip()
 
     #
-    #-- Ejecutar la Formula de Cálculo
+    #-- Ejecutar la Formula de Cï¿½lculo
     #
     def Al_Entrar(self,event):
         """ Formula de Calculo """
@@ -511,7 +510,7 @@ class Entry():
     #-- Ejecutar Accion Despues de Editar
     #
     def Al_Salir(self,event):
-        """ Acción Despues de Editar """
+        """ AcciÃ³n Despues de Editar """
         self.Formatea_Valor()
         pb = self._pb
         if pb<>None:
@@ -525,7 +524,7 @@ class Entry():
                 acciones = self._ade.split('|')
                 for accion in acciones:
                     ok = pb.Ejecuta_Accion(accion,self)
-                    if ok<0: # Ocurrió algún fallo
+                    if ok<0: # OcurriÃ³ algÃºn fallo
                         if self._name<>'GRIDENTRY':
                             self.SetValue(self._vant,'n')
                             cta.SetFocus()
@@ -545,7 +544,7 @@ class Entry():
 
 ##
 ##
-##  --DIALOGO DE SELECCIÓN
+##  --DIALOGO DE SELECCIï¿½N
 ##
 ##
 class dlg_sele(wx.MiniFrame):
@@ -567,7 +566,6 @@ class dlg_sele(wx.MiniFrame):
         lb.InsertColumn(ncol,'')
         for valor in valores:
             nfila = lb.InsertStringItem(2,'??')
-            valor = valor.decode('latin-1')
             lb.SetStringItem(nfila,ncol,valor)
         #
         lb.SetFocus()
@@ -610,10 +608,14 @@ class dlg_sele(wx.MiniFrame):
 ##
 
 if __name__ == "__main__":
-    app = wx.PySimpleApp()
+    app = wx.App(False)
     frame = wx.Frame(None,title="Prueba de la Clase Entry")
     frame.SetSize((800,600))
     frame.CentreOnScreen()
+    #
+    # ventana = Ventana(None)
+    # ventana.init_ctrls(ls_campos)
+    # ventana.Show()
     #
     p1 = wx.Panel(name='P1', parent=frame)
     p1.SetBackgroundColour(wx.Colour(100,200,210))
@@ -623,7 +625,7 @@ if __name__ == "__main__":
     #   ls_ent = [Nombre,etiq,xini,yini,formato,max,ancho,edi,fcal,sobre,
     #                   ade,dlsel,tip,cpan,style]
     lse=[]
-    lse.append(['E1','Código',10,20,'%',6,7,'','','','','sel-ar','Formato %','',''])
+    lse.append(['E1','CÃ³digo',10,20,'%',6,7,'','','','','sel-ar','Formato %','',''])
     lse.append(['E2','Nombre',100,20,'l',100,25,'','','','','fff','Formato l','',''])
     lse.append(['E3','Fecha',500,20,'d',10,10,'','','','','','Formato d','',''])
     lse.append(['E4','Entero',10,100,'i',100,10,'','','','','','Formato i','',''])
@@ -659,7 +661,6 @@ if __name__ == "__main__":
 
         #- Tip de Ayuda
         if tip<>'':
-            tip= tip.decode('latin-1')
             elem.SetToolTipString(tip)
 
 

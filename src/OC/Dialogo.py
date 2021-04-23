@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf8 -*-
 
 import wx
 import Entry
@@ -14,7 +14,7 @@ import pickle
 
 class Dialogo(wx.Dialog):
     """Clase Dialogo. Es un wx.Dialog modificado para que acepte una lista
-    con los campos a introducir en �l:
+    con los campos a introducir en él:
         #-    INSERTAR PANELES:
             ['PANEL',nombre, xini, yini, tamanox, tamanoy,color, CAMPOS_HIJOS]
         #- INSERTAR ENTRADAS:
@@ -25,8 +25,8 @@ class Dialogo(wx.Dialog):
 
 
     def __init__(self, parent, titulo='', campos=[] , tam=(400,300),btn=True):
-        """ Creaci�n de la ventana (Frame) """
-        #self._pb=None        # Ventana Padre, ser� siempre la actual
+        """ Creación de la ventana (Frame) """
+        #self._pb=None        # Ventana Padre, será siempre la actual
         self._ct = {}        # Lista de objetos incrustados en la ventana
         self._cta = None     # Objeto Actual que tiene el foco
         self._ctord =[]      # Nombres de los campos editables por orden de foco
@@ -34,8 +34,7 @@ class Dialogo(wx.Dialog):
         self._parent=parent      # Ventana padre
         self._res = None       # Campo que contiene el codigo del archivo
 
-        tam = (tam[0],tam[1]+23)    # A�adimos el alto de la barra Estado
-        titulo = titulo.decode('latin-1')
+        tam = (tam[0],tam[1]+23)    # Añadimos el alto de la barra Estado
         wx.Dialog.__init__(self, parent, title=titulo, size = tam)
 
         self.CenterOnScreen()
@@ -166,7 +165,7 @@ class Dialogo(wx.Dialog):
         """ Pinta en la Ventana el Panel indicado
         #- datos = datos_panel:
         ['PANEL',Id, xini, yini, tamanox, tamanoy, style, borde,
-        Titulo(Si Pesta�a)/AccionCambio(Si tabbox), CAMPOS_HIJOS]
+        Titulo(Si Pestaña)/AccionCambio(Si tabbox), CAMPOS_HIJOS]
         """
         tipo = datos[0]
         if tipo<>'PANEL' and tipo<>'TABBOX':
@@ -184,7 +183,7 @@ class Dialogo(wx.Dialog):
         if tamx==-1: tamx = padre.GetSize()[0]
         if tamy==-1:
             tamy = padre.GetSize()[1]
-            if padre==self: tamy = tamy - 30    # Quitamos el tama�o del titulo
+            if padre==self: tamy = tamy - 30    # Quitamos el tamaño del titulo
 
         tam = wx.Size(tamx, tamy)
         #-
@@ -210,7 +209,7 @@ class Dialogo(wx.Dialog):
             self.init_ctrls(hijos,elem)
 
     #
-    #-- A�adir una/varias entradas a la ventana/panel padre
+    #-- Añadir una/varias entradas a la ventana/panel padre
     #
     def __Pon_Entradas(self,padre,datos):
         """ Inserta una/varias entradas en la ventana o panel padre.
@@ -281,7 +280,6 @@ class Dialogo(wx.Dialog):
 
             #- Tip de Ayuda
             if tip<>'':
-                tip= tip.decode('latin-1')
                 elem.SetToolTipString(tip)
 
             #- CPAN
@@ -335,10 +333,10 @@ class Dialogo(wx.Dialog):
                 Men('El control '+nombre+' se encuentra repetido.')
 
     #
-    #-- A�adir una lista a la ventana/panel padre
+    #-- Añadir una lista a la ventana/panel padre
     #
     def __Pon_Lista(self,padre,datos):
-        """ A�ade una lista a la ventana/panel padre
+        """ Añade una lista a la ventana/panel padre
              ['LISTA',id, xini, yini, tamanox, tamanoy, cols,
                 anchos_fijos_cols, style, multisel?, borrar?
                 acc_click, acc_dclick, acc_borra]
@@ -367,7 +365,7 @@ class Dialogo(wx.Dialog):
     #-- Poner un Grid en la ventana/panel padre
     #
     def __Pon_Grid(self,padre,datos):
-        """ A�ade un grid en la ventana/panel padre
+        """ Añade un grid en la ventana/panel padre
             ['GRID',id,titulo,posx,posy,ancho,alto_fila,nfilas,columnas
               ancho_titulo_fila, lista_titus_fila,prop_generales ]
 
@@ -400,7 +398,7 @@ class Dialogo(wx.Dialog):
     #-- Poner uno/varios Botones en la ventana/panel padre
     #
     def __Pon_Botones(self,padre,datos):
-        """ A�ade uno/varios botones en la ventna/panel padre
+        """ Añade uno/varios botones en la ventna/panel padre
         pb,padre,nombre,posic,tamano,imagen,texto,accion,tip)
 
         """
@@ -421,7 +419,7 @@ class Dialogo(wx.Dialog):
     #-- Poner un CheckBox en la ventana/panel padre
     #
     def __Pon_Checks(self,padre,datos):
-        """ A�ade un check en la ventana/panel padre
+        """ Añade un check en la ventana/panel padre
         """
         tipo,id,posx,posy,alto,ancho,texto,valor,accion,tip,style = datos
         if tipo<>'CHECK':
@@ -478,7 +476,7 @@ if __name__ == "__main__":
     #
     p1 = ['PANEL','P1',0,0,-1,-1,'B-236:44:26/RF','','',[]]
     hijosp1=[]
-    hijosp1.append(['E1','C�digo',10,15,6,'%',7,'','','','','ar_ls','codigo del cliente','clientes',''])
+    hijosp1.append(['E1','Código',10,15,6,'%',7,'','','','','ar_ls','codigo del cliente','clientes',''])
     hijosp1.append(['E2','Nombre',-1,15,6,'l',10,'','','','','','','',''])
     p1[-1].append(['ENTRYS','EX',22,50,'F-255:255:0','B-0:0:0/F-255:255:255',hijosp1])
 
@@ -486,7 +484,7 @@ if __name__ == "__main__":
     # PANELES: ['PANEL',nombre, xini, yini, tamanox, tamanoy,color,lista_hijos]
     ls_campos.append(p1)
 
-    app = wx.PySimpleApp()
+    app = wx.App(False)
     ventana = Dialogo(None)
     ventana.init_ctrls(ls_campos)
 
