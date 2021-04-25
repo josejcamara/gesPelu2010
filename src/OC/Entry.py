@@ -4,6 +4,7 @@
 import wx
 import wx.lib.buttons as buttons
 from Funciones import *
+from Ventana import *
 import string
 import os
 
@@ -25,21 +26,21 @@ class Entry():
     _name = ""      # Nombre de la entrada
     _vant = ""      # Valor anterior del campo
     _fmt = "l"      # Formato de la entrada de texto (l,%,i,d,p,mX,0,1,2,3,...)
-    _lmax = 0       # Longitud m�xima del campo
-    _pb = None      # Padre base. Ser� la ventana que contine el codigo de las acciones
-    _fcal = ""      # Nombre de la acci�n a ejecutar cuando se entre en el campo
+    _lmax = 0       # Longitud máxima del campo
+    _pb = None      # Padre base. Será la ventana que contine el codigo de las acciones
+    _fcal = ""      # Nombre de la acción a ejecutar cuando se entre en el campo
     _sobre= ""      # si "s", sobreescribir valor cuando de ejecuta la formula calculo
-    _ade = ""       # Acci�n a ejecutar despues de editar (salir foco) la entrada
-    _dlsel = ""     # Dialogo de selecci�n para el campo
+    _ade = ""       # Acción a ejecutar despues de editar (salir foco) la entrada
+    _dlsel = ""     # Dialogo de selección para el campo
     _cpan=""        # Nombre de la ventana a abrir al pulsar F4 sobre el campo
     __ctlabel=None   # Campo etiqueta de texto
     __cttext =None   # campos texto
-    __btnsel = None # Bot�n de seleccion, en caso de que haya
-    _adk = ""       # Acci�n al pulsar una tecla valida """
+    __btnsel = None # Botón de seleccion, en caso de que haya
+    _adk = ""       # Acción al pulsar una tecla valida """
 
 
     #
-    #--- Inicializaci�n
+    #--- Inicialización
     #
     def __init__(self,pb,padre,nombre,posic=(-100,-100),etiq='',fmt='l',lmax=0,ancho=10,alto=22,dlsel=''):
         """
@@ -168,11 +169,11 @@ class Entry():
     #
     #
     def GetSeleButton(self):
-        """ Devuelve el bot�n de selecci�n """
+        """ Devuelve el botón de selección """
         return self.__btnsel
 
     #
-    #-- Poner en una posici�n concreta
+    #-- Poner en una posición concreta
     #
     def SetPosition(self,posic):
         """ Pone el elemento en la posicion indicada (Etiqueta y entrada texto)
@@ -197,7 +198,7 @@ class Entry():
     #-- Devuelve la Posicion actual de objeto
     #
     def GetPosition(self):
-        """ Devuelve la posici�n actual del campo de texto como wx.Point """
+        """ Devuelve la posición actual del campo de texto como wx.Point """
         return self.__cttext.GetPosition()
 
     #
@@ -212,7 +213,7 @@ class Entry():
     #-- Devuelve el tama�o actual del campo de texto
     #
     def GetSize(self):
-        """ Devuelve el tama�o actual del campo de texto como wx.Size """
+        """ Devuelve el tamaño actual del campo de texto como wx.Size """
         return self.__cttext.GetSize()
 
     #
@@ -334,7 +335,7 @@ class Entry():
                     valor = '.'
                     punto = True
             except:
-                pass    # Si no tiene _idx dar�a fallo
+                pass    # Si no tiene _idx daría fallo
 
         if not punto:
             if fmt=='%':
@@ -454,7 +455,7 @@ class Entry():
                 event.Skip()
 
     #
-    #-- Ejecutar la Formula de C�lculo
+    #-- Ejecutar la Formula de Cálculo
     #
     def Al_Entrar(self,event):
         """ Formula de Calculo """
@@ -544,7 +545,7 @@ class Entry():
 
 ##
 ##
-##  --DIALOGO DE SELECCI�N
+##  --DIALOGO DE SELECCIÓN
 ##
 ##
 class dlg_sele(wx.MiniFrame):
@@ -609,61 +610,22 @@ class dlg_sele(wx.MiniFrame):
 
 if __name__ == "__main__":
     app = wx.App(False)
-    frame = wx.Frame(None,title="Prueba de la Clase Entry")
-    frame.SetSize((800,600))
-    frame.CentreOnScreen()
-    #
-    # ventana = Ventana(None)
-    # ventana.init_ctrls(ls_campos)
-    # ventana.Show()
-    #
-    p1 = wx.Panel(name='P1', parent=frame)
-    p1.SetBackgroundColour(wx.Colour(100,200,210))
     #
     campos = []
     #
-    #   ls_ent = [Nombre,etiq,xini,yini,formato,max,ancho,edi,fcal,sobre,
-    #                   ade,dlsel,tip,cpan,style]
     lse=[]
-    lse.append(['E1','Código',10,20,'%',6,7,'','','','','sel-ar','Formato %','',''])
-    lse.append(['E2','Nombre',100,20,'l',100,25,'','','','','fff','Formato l','',''])
-    lse.append(['E3','Fecha',500,20,'d',10,10,'','','','','','Formato d','',''])
-    lse.append(['E4','Entero',10,100,'i',100,10,'','','','','','Formato i','',''])
-    lse.append(['E5','Decimal 2',150,100,'2',100,10,'','','','','','Formato 2','',''])
-    lse.append(['E6','Multilinea',300,100,'m4',500,15,'','','','','','Formato m4','',''])
+    lse.append(['E1','Código',10,20,6,'%',7,'','','','','sel-ar','Formato %','',''])
+    lse.append(['E2','Nombre',100,20,35,'l',25,'','','','','','Formato l','',''])
+    lse.append(['E3','Fecha',500,20,10,'d',10,'','','','','','Formato d','',''])
+    lse.append(['E4','Entero',10,100,10,'i',10,'','','','','','Formato i','',''])
+    lse.append(['E5','Decimal 2',150,100,10,'2',10,'','','','','','Formato 2','',''])
+    lse.append(['E6','Multilinea',300,100,30,'m4',15,'','','','','','Formato m4','',''])
     #
-    campos.append(['ENTRY',25,50,'','',lse])
+    campos.append(['ENTRYS','ENT',25,50,'','',lse])
 
-    lnc = campos[0]
-    #'ENTRY',alto_control,salto_a_-1,style_etiq,style_txt,ls_campos
-    alto,salto,stylabel,stytext,entradas = lnc[1:6]
+    ventana = Ventana(None)
+    ventana.init_ctrls(campos)
+    ventana.Show()
 
-    ultx,ulty = 0,0     # Ultimas posiciones X e Y de un campo
-    sumax,sumay = 0,0   # Distancia a sumar para poner la proxima entrada si -1
-
-    #   ls_ent = [Nombre,etiq,xini,yini,formato,max,ancho,edi,fcal,sobre,
-    #                   ade,dlsel,tip,cpan,style]
-    for lne in entradas:
-        nombre,etiq,xini,yini,fmt,max,ancho = lne[:7]
-        edi,fcal,sobre,ade,dlsel,tip,cpan,style = lne[7:15]
-        #
-
-        posic = wx.Point(xini,yini)
-
-        #- Creamos la Entrada
-        elem = Entry(frame,p1,nombre,posic,etiq,fmt,max,ancho,alto,dlsel)
-
-        #- Editable
-        if edi in ['n','i']:
-            elem.SetEditable(False)
-            elem.Disable()
-            if edi=='i': elem.Show(0)
-
-        #- Tip de Ayuda
-        if tip<>'':
-            elem.SetToolTipString(tip)
-
-
-    frame.Show()
     app.MainLoop()
 
