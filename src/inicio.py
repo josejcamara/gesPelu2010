@@ -26,16 +26,16 @@ class Inicio(OC.Ventana):
         btn.append(['B2',130,10,110,'proveedor.png','Proveedor','a_CPAN:proveedores','Proveedores'])
         btn.append(['B3',250,10,110,'articulos.png','Articulos','a_CPAN:articulos','Artículos'])
         btn.append(['B4',370,10,110,'persons.png','Tecnicos','a_CPAN:tecnicos','Tecnicos'])
-        btn.append(['B5',10,65,110,'calendar.png','Agenda','a_CPAN:agenda','Agenda'])
+        # btn.append(['B5',10,65,110,'calendar.png','Agenda','a_CPAN:agenda','Agenda'])
         #btn.append(['B6',130,120,110,'book.png','Diario','a_CPAN:diario','Diario de Ingresos y Gastos'])
         btn.append(['B7',250,65,110,'tpv.png','TPV','a_CPAN:tpv','TPV Ventas'])
         btn.append(['B8',370,65,110,'gastos.png','Gastos','a_CPAN:gastos','Gastos'])
-        btn.append(['B9',10,120,110,'caja.png','Cierre\nCaja','a_CPAN:caja_dia','Caja Diaria'])
+        btn.append(['B9',10,65,110,'caja.png','Cierre\nCaja','a_CPAN:caja_dia','Caja Diaria'])
         btn.append(['B10',130,65,110,'page.png','Resumen\nSituacion','a_CPAN:resumen_m',''])
-        btn.append(['B12',250,120,110,'plus.png','Copia\nSeguridad','a_copia_seg','Hacer Copia Seguridad'])
+        # btn.append(['B12',250,120,110,'plus.png','Copia\nSeguridad','a_copia_seg','Hacer Copia Seguridad'])
         btn.append(['B8',370,120,110,'cobros.png','Cobros','a_CPAN:cobros','Cobros'])
         #btn.append(['B5',325,10,100,'config.png','Config','a_CPAN:parametros','Parametros de Configuraci�n'])
-        btn.append(['B10',130,120,110,'tools.png','Borra\n2010','a_borra_2010',''])
+        # btn.append(['B10',130,120,110,'tools.png','Borra\n2010','a_borra_2010',''])
         #
         btn.append(['BTSALIR',200,185,100,'exit.png','Salir','a_SALIR','Salir del programa'])
         #
@@ -98,13 +98,11 @@ class Inicio(OC.Ventana):
             from global_var import DIR_DATA
             ruta_datos = DIR_DATA +'/alb-venta.db'
             f = bsddb.btopen(ruta_datos)
-            #print f.keys()[:100]
             #
             x=0
             for idx in resul:
                 x+=1
                 dlp.Update (x, str(x) + '/' + str(ttt) )
-                #wx.Sleep(0.25)
                 f[idx]=''
                 del f[idx]
             dlp.Close()

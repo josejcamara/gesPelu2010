@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf8 -*-
 
 import wx
 from Funciones import *
@@ -7,16 +7,16 @@ from Funciones import *
 class List():
 
     def __init__(self,pb,padre,nombre,posic,size=(-1,-1),cols=[],anchos=[],onclick="",ondclick=""):
-        """ Creaci�n de la lista:
+        """ Creación de la lista:
           pb -> Padre Base. Ventana que contiene el codigo de las acciones
           padre -> Ventana/Panel padre del objeto
           nombre -> Nombre del campo
-          posic -> Posici�n de la lista dentro del padre (posx,posy) o wx.Point
-          size -> (tamx,tamy). Pareja de enteros indicando tama�o
+          posic -> Posición de la lista dentro del padre (posx,posy) o wx.Point
+          size -> (tamx,tamy). Pareja de enteros indicando tamaño
           cols -> Lista de columnas de la lista ([[col1,fmt1],[col2,fmt2],...]
           anchos -> Anchos de las columnas, en caso de asignar fijos
-          onclick -> Acci�n a Ejecutar al seleccionar una fila
-          ondclick -> Acci�n a Ejecutar al doble-click sobre fila
+          onclick -> Acción a Ejecutar al seleccionar una fila
+          ondclick -> Acción a Ejecutar al doble-click sobre fila
         """
         lis = wx.ListCtrl(name=nombre, parent=padre, pos=posic, style=wx.LC_REPORT)
 
@@ -25,8 +25,7 @@ class List():
         i=0
         for col in cols:
             ncol,fmt = col
-            #- A�adimos la columna
-            ncol = ncol.decode('latin-1')
+            #- Añadimos la columna
             lis.InsertColumn(i,ncol)
             fmtlis.append(str(fmt))
             ##- Definimos el ancho de la columna
@@ -57,7 +56,7 @@ class List():
         self.__fmtlis = fmtlis       # Formato de cada una de las columnas
         self.__data = []            # Datos de la lista
         self._onclick = onclick     # Accion al hacer click sobre un elemento
-        self._ondclick = ondclick   # Acci�n al doble click sobre un elemento
+        self._ondclick = ondclick   # Acción al doble click sobre un elemento
 
     def GetListCtrl(self):
         """ Devuelve el control wx.ListCtrl que forma el objeto """
@@ -116,7 +115,7 @@ class List():
                     except:
                         valor = '0.0'
                 else:
-                    valor =str(valor)   # No deber�a llegar, pero por si...
+                    valor =str(valor)   # No debería llegar, pero por si...
                 #
                 valor = valor.decode('latin-1')
                 lis.SetItem(nfila,ncol,valor)
@@ -182,7 +181,7 @@ class List():
 
     #-------
     def onClick(self,event):
-        """ Acci�n al Seleccionar un elemento de la lista """
+        """ Acción al Seleccionar un elemento de la lista """
         pb = self._pb
         if pb==None:
             value = self.GetValue()
@@ -191,7 +190,7 @@ class List():
         event.Skip()
 
     def onDclick(self,event):
-        """ Ejecutar la acci�n al hacer doble click sobre la lista """
+        """ Ejecutar la acción al hacer doble click sobre la lista """
         pb = self._pb
         if pb==None:
             value = self.GetValue()
@@ -211,15 +210,15 @@ class Combo():
 
 
 if __name__ == "__main__":
-    app = wx.PySimpleApp()
-    frame = wx.Frame(None,title="Prueba de la Clase List")
-    frame.SetSize((800,600))
+    app = wx.App(False)
+    frame = wx.Frame(None,title="Prueba Ñ de la Clase List")
+    frame.SetSize((400,300))
     frame.CentreOnScreen()
     #
     p1 = wx.Panel(name='P1', parent=frame)
     #
-    cols = [['Codigo','l'],['Fecha','d'],['Entero','i'],['Decimal2','2']]
-    l1 = List(None,p1,'L1',(100,100),(300,200),cols=cols)
+    cols = [['Código','l'],['Fecha','d'],['Entero','i'],['Decimal2','2']]
+    l1 = List(None,p1,'L1',(10,10),(300,200),cols=cols)
     value=[]
     value.append(['00000',Fecha(),10,23])
     value.append(['00000',Sm_Fecha(Fecha(),1),5,13.23333])

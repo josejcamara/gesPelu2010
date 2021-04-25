@@ -22,9 +22,9 @@ DIR_DATA = os.path.join(DIR_BASE,"data")
 DIR_IMG = os.path.join(DIR_BASE,"img")
 
 
-print DIR_APL
-print DIR_BASE
-print DIR_IMG
+print('DIR_APL',DIR_APL)
+print('DIR_BAS',DIR_BASE)
+print('DIR_IMG',DIR_IMG)
 
 if not DIR_APL in sys.path: sys.path.insert(0,DIR_APL)
 

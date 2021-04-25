@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf8 -*-
 
 import wx
 import bsddb
@@ -16,16 +16,21 @@ from Funciones import copia_rg
 import Funciones
 import os
 
-
-from global_var import DIR_BASE
-from global_var import DIR_DATA
-from global_var import DIR_APL
-from global_var import DIR_IMG
+try:
+    from global_var import DIR_BASE
+    from global_var import DIR_DATA
+    from global_var import DIR_APL
+    from global_var import DIR_IMG
+except:
+    DIR_BASE = '../../'
+    DIR_DATA = os.path.join(DIR_BASE,"data")
+    DIR_IMG = os.path.join(DIR_BASE,"img")
+    DIR_APL = '../'
 
 
 class Ventana(wx.Frame):
     """Clase Ventana. Es un wx.Frame modificado para que acepte una lista
-    con los campos a introducir en él:
+    con los campos a introducir en Ã©l:
         #-    INSERTAR PANELES:
             ['PANEL',nombre, xini, yini, tamanox, tamanoy,color, CAMPOS_HIJOS]
         #- INSERTAR ENTRADAS:
@@ -35,9 +40,9 @@ class Ventana(wx.Frame):
     """
 
     def __init__(self, parent, titulo='', campos=[] , tam=(800,600), show=True):
-        """ Creación de la ventana (Frame) """
+        """ CreaciÃ³n de la ventana (Frame) """
 
-        #self._pb=None        # Ventana Padre, será siempre la actual
+        #self._pb=None        # Ventana Padre, serï¿½ siempre la actual
         self._ct = {}        # Lista de objetos incrustados en la ventana
         self._cta = None     # Objeto Actual que tiene el foco
         self._ctord =[]      # Nombres de los campos editables por orden de foco
@@ -47,13 +52,12 @@ class Ventana(wx.Frame):
         self._idx = ''       # Campo que contiene el codigo del archivo
         self._filedb = ''    # Nombre Archivo relacionado en base de datos
         self._filept = None  # Puntero al fichero de la base de datos, abierto si corresponde
-        self._accini=''      # Acción al cargar la ventana
-        self._accleer = ''   # Acción despues de leer registro
+        self._accini=''      # AcciÃ³n al cargar la ventana
+        self._accleer = ''   # AcciÃ³n despues de leer registro
         self._btfin = ''     # Nombre del boton a ejecutar cuando pulse boton FIN
         self.__hash = 0      # Hash del registro leido
 
-        tam = (tam[0],tam[1]+23)    # Añadimos el alto de la barra Estado
-        titulo = titulo.decode('latin-1')
+        tam = (tam[0],tam[1]+23)    # AÃ±adimos el alto de la barra Estado
         
         class_name = self.__class__.__name__
         wx.Frame.__init__(self, parent, name=class_name, title=titulo, size = tam)
@@ -106,7 +110,7 @@ class Ventana(wx.Frame):
         for lnc in campos:
             tipo = lnc[0]
 
-            #- INSERTAR PESTAÑAS
+            #- INSERTAR PESTAÃ‘AS
             if tipo=='TABBOX':
                 self.__Pon_NoteBook(padre,lnc)
 
@@ -170,7 +174,7 @@ class Ventana(wx.Frame):
 
         if accion=='a_SALIR':
             if self.Modifica==1:
-                dlg=Men('Ha realizado cambios en la ficha\n¿Desea Continuar sin grabar?','sn','q')
+                dlg=Men('Ha realizado cambios en la ficha\nÂ¿Desea Continuar sin grabar?','sn','q')
                 if dlg=='n': return (1,'')  # Accion Ejecutada
             #-
             self.Close()
@@ -182,7 +186,7 @@ class Ventana(wx.Frame):
 
             ventana = arg[0]
             win = wx.FindWindowByName(ventana)
-            print win
+            # print('Ventana','a_CPAN',ventana,win)
             if win:
                 win.Hide()
                 win.Show()
@@ -206,10 +210,10 @@ class Ventana(wx.Frame):
         if file<>'' and self._filept==None:
             self._filept = bsddb.btopen(ruta_datos)
 
-        res = None   # Si es igual a None, no se ejecutó accion
+        res = None   # Si es igual a None, no se ejecutÃ³ accion
         if accion=='a_LEE_RG':
             if self.Modifica==1 and cta._vant<>'':
-                dlg=Men('Ha realizado cambios en la ficha\n¿Desea Continuar sin grabar?','sn','q')
+                dlg=Men('Ha realizado cambios en la ficha\nÂ¿Desea Continuar sin grabar?','sn','q')
                 if dlg=='n': return (1,'')  # Accion Ejecutada
             #-
             self.Modifica = 0
@@ -252,21 +256,21 @@ class Ventana(wx.Frame):
                 return (-1,'')
             #
             if self.Modifica==0:
-                msj = 'No ha realizado cambios.\12¿Desea guardar el registro?'
+                msj = 'No ha realizado cambios.\12Â¿Desea guardar el registro?'
                 dlg = Men(msj,'sN','q')
                 if dlg=='n': return (1,'')
 
             rg_new = self.Pan_aReg()
             if rg_new==None: return(0,'No se pudo leer datos de pantalla.')
 
-            #- Está definida la tabla en los diccionarios de aplicacion??
+            #- Estï¿½ definida la tabla en los diccionarios de aplicacion??
             dicc = bsddb.btopen(os.path.join(DIR_APL,'dicc'))
             if not file in dicc:
                 Men('No existe la tabla '+file+'\nNo se puede guardar.')
                 return (-1,'')
             midicc = pickle.loads(dicc[file])   # Propiedades del Diccionario
-            accion = midicc[4]  # Acción al grabar
-            ndig = midicc[1]    # Nº de digitos de la clave del dicc
+            accion = midicc[4]  # AcciÃ³n al grabar
+            ndig = midicc[1]    # NÂº de digitos de la clave del dicc
             dicc.close()
 
             f = self._filept   
@@ -274,7 +278,7 @@ class Ventana(wx.Frame):
             # Se ha anticipado alguien?
             if idx in fkeys:
                 if self.__hash <> f[idx].__hash__():
-                    Men('No es posible grabar. Alguien se anticipó')
+                    Men('No es posible grabar. Alguien se anticipÃ³')
                     return (-1,'')
 
             # Busqueda del ultimo codigo libre
@@ -323,7 +327,7 @@ class Ventana(wx.Frame):
 
         elif accion=='a_NEXT':
             if self.Modifica==1:
-                dlg =Men('Ha realizado cambios en la ficha\n¿Desea Continuar sin grabar?','sn','q')
+                dlg =Men('Ha realizado cambios en la ficha\nÂ¿Desea Continuar sin grabar?','sn','q')
                 if dlg=='n': return (1,'')
 
             f = self._filept   
@@ -347,7 +351,7 @@ class Ventana(wx.Frame):
 
         elif accion=='a_PREV':
             if self.Modifica==1:
-                dlg =Men('Ha realizado cambios en la ficha\n¿Desea Continuar sin grabar?','sn','q')
+                dlg =Men('Ha realizado cambios en la ficha\nÂ¿Desea Continuar sin grabar?','sn','q')
                 if dlg=='n': return (1,'')
 
             f = self._filept   
@@ -371,7 +375,7 @@ class Ventana(wx.Frame):
 
         elif accion=='a_NUEVO':
             if self.Modifica==1:
-                dlg =Men('Ha realizado cambios en la ficha\n¿Desea Continuar sin grabar?','sn','q')
+                dlg =Men('Ha realizado cambios en la ficha\nÂ¿Desea Continuar sin grabar?','sn','q')
                 if dlg=='n': return (1,'')
             self.Limpia_Pantalla(otros=arg)
             self._ct[self._ctord[0]].SetFocus()
@@ -382,7 +386,7 @@ class Ventana(wx.Frame):
             tipo = self._ct[self._idx]._fmt
             cod = self._ct[self._idx].GetValue()
             if cod=='' or cod=='.':
-                Men('No ha indicado el código de registro a borrar')
+                Men('No ha indicado el cÃ³digo de registro a borrar')
                 return (-1,'')
             if tipo=='d': cod = Num_aFecha(cod)
             else: cod = str(cod)
@@ -394,7 +398,7 @@ class Ventana(wx.Frame):
                     if ok==-1:
                         return (-1,'')   # Operacion cancelada
             #
-            dlg = Men('¿Está seguro de borrar el registro '+cod+'?','sn','q')
+            dlg = Men('Â¿EstÃ¡ seguro de borrar el registro '+cod+'?','sn','q')
             if dlg=='n': return (1,'')
             #- Propiedades de la tabla a trabajar
             dicc = bsddb.btopen(os.path.join(DIR_APL,'dicc'))
@@ -404,7 +408,7 @@ class Ventana(wx.Frame):
             midicc = pickle.loads(dicc[file])
             dicc.close()
 
-            # Acción para grabar (desactualizar)
+            # AcciÃ³n para grabar (desactualizar)
             f = self._filept   
             accion = midicc[4]
             if accion<>'':
@@ -425,8 +429,8 @@ class Ventana(wx.Frame):
             valor = cta.GetValue()
             opciones = arg[0].split('+')
             if not valor in opciones:
-                Men('Valor '+str(valor)+' no válido. Solo admite '+','.join(opciones))
-                res = (-1 ,'')  # Se ejecutó pero mal.
+                Men('Valor '+str(valor)+' no vÃ¡lido. Solo admite '+','.join(opciones))
+                res = (-1 ,'')  # Se ejecutÃ³ pero mal.
             else:
                 res=(1,'')
 
@@ -458,19 +462,19 @@ class Ventana(wx.Frame):
             res=(1,'')
 
         if res==None:
-            res=(0,'')  # NO SE EJECUTÓ NINGUNA ACCION
+            res=(0,'')  # NO SE EJECUTÃ“ NINGUNA ACCION
         else:
-            res=(1,res) # SE EJECUTÓ LA ACCION, CON ESTE RESULTADO
+            res=(1,res) # SE EJECUTÃ“ LA ACCION, CON ESTE RESULTADO
 
         return res
 
     #
-    #-- Pintar un Panel para Pestañas en la Ventana
+    #-- Pintar un Panel para PestaÃ±as en la Ventana
     #
     def __Pon_NoteBook(self,padre,datos):
-        """ Pinta en la Ventana un Panel para poner Pestaña (Tabbox)
+        """ Pinta en la Ventana un Panel para poner PestaÃ±a (Tabbox)
         ['TABBOX',Id, xini, yini, tamanox,tamanoy, style, borde
-        Titulo(Si pestaña)/Accion al cambio(Si Tabbox), CAMPOS_HIJOS]
+        Titulo(Si pestaÃ±a)/Accion al cambio(Si Tabbox), CAMPOS_HIJOS]
         """
         tipo = datos[0]
         if tipo<>'TABBOX':
@@ -488,7 +492,7 @@ class Ventana(wx.Frame):
         if tamx==-1: tamx = padre.GetSize()[0]
         if tamy==-1:
             tamy = padre.GetSize()[1] - self._statusbar.GetSize()[1]
-            if padre==self: tamy = tamy - 30    # Quitamos el tamaño del titulo
+            if padre==self: tamy = tamy - 30    # Quitamos el tamaÃ±o del titulo
 
         tam = wx.Size(tamx,tamy)
         #
@@ -497,7 +501,7 @@ class Ventana(wx.Frame):
         if hijos<>[]:
             for hijo in hijos:
                 p = self.__Pon_Panel(elem, hijo)
-                elem.AddPage(p,hijo[8].decode('latin-1'))
+                elem.AddPage(p,hijo[8])
 
         #- Ponemos en el diccionario de campos
         if not nombre in self._ct:
@@ -514,7 +518,7 @@ class Ventana(wx.Frame):
         """ Pinta en la Ventana el Panel indicado
         #- datos = datos_panel:
         ['PANEL',Id, xini, yini, tamanox, tamanoy, style, borde,
-        Titulo(Si Pestaña)/AccionCambio(Si tabbox), CAMPOS_HIJOS]
+        Titulo(Si PestaÃ±a)/AccionCambio(Si tabbox), CAMPOS_HIJOS]
         """
         tipo = datos[0]
         if tipo<>'PANEL' and tipo<>'TABBOX':
@@ -532,7 +536,7 @@ class Ventana(wx.Frame):
         if tamx==-1: tamx = padre.GetSize()[0]
         if tamy==-1:
             tamy = padre.GetSize()[1] - self._statusbar.GetSize()[1]
-            if padre==self: tamy = tamy - 30    # Quitamos el tamaño del titulo
+            if padre==self: tamy = tamy - 30    # Quitamos el tamaÃ±o del titulo
 
         tam = wx.Size(tamx, tamy)
         #-
@@ -569,7 +573,7 @@ class Ventana(wx.Frame):
         return elem
 
     #
-    #-- Añadir una/varias entradas a la ventana/panel padre
+    #-- Aï¿½adir una/varias entradas a la ventana/panel padre
     #
     def __Pon_Entradas(self,padre,datos):
         """ Inserta una/varias entradas en la ventana o panel padre.
@@ -697,10 +701,10 @@ class Ventana(wx.Frame):
                 Men('El control '+nombre+' se encuentra repetido.')
 
     #
-    #-- Añadir una lista a la ventana/panel padre
+    #-- AÃ±adir una lista a la ventana/panel padre
     #
     def __Pon_Lista(self,padre,datos):
-        """ Añade una lista a la ventana/panel padre
+        """ AÃ±ade una lista a la ventana/panel padre
              ['LISTA',id, xini, yini, tamanox, tamanoy, cols,
                 anchos_fijos_cols, style, multisel?, borrar?
                 acc_click, acc_dclick, acc_borra]
@@ -728,7 +732,7 @@ class Ventana(wx.Frame):
     #-- Poner un Grid en la ventana/panel padre
     #
     def __Pon_Grid(self,padre,datos):
-        """ Añade un grid en la ventana/panel padre
+        """ AÃ±ade un grid en la ventana/panel padre
             ['GRID',id,titulo,posx,posy,ancho,alto_fila,nfilas,columnas
               ancho_titulo_fila, lista_titus_fila,prop_generales ]
 
@@ -760,7 +764,7 @@ class Ventana(wx.Frame):
     #-- Poner uno/varios Botones en la ventana/panel padre
     #
     def __Pon_Botones(self,padre,datos):
-        """ Añade uno/varios botones en la ventna/panel padre
+        """ AÃ±ade uno/varios botones en la ventna/panel padre
         pb,padre,nombre,posic,tamano,imagen,texto,accion,tip)
 
         """
@@ -773,8 +777,6 @@ class Ventana(wx.Frame):
             nombre,posx,posy,ancho,imagen,texto,accion,tip = lnb[:8]
             ancho = int(ancho)
             posic = (int(posx),int(posy))
-            #texto = texto.decode('latin-1')
-            #tip = tip.decode('latin-1')
             btn = Button.Button(self,padre,nombre,posic,(ancho,alto),imagen,texto,accion,tip)
             if style<>'': btn.SetStyleText(style)
             #if stylebutton<>'': btn.SetStyleButton(stylebutton)
@@ -783,7 +785,7 @@ class Ventana(wx.Frame):
     #-- Poner un CheckBox en la ventana/panel padre
     #
     def __Pon_Checks(self,padre,datos):
-        """ Añade un check en la ventana/panel padre
+        """ AÃ±ade un check en la ventana/panel padre
         """
         tipo,id,posx,posy,alto,ancho,texto,valor,accion,tip,style = datos
         if tipo<>'CHECK':
@@ -808,7 +810,6 @@ class Ventana(wx.Frame):
     #
     def SetStatusText(self,text):
         """ Escribe el texto indicado en la barra de estado """
-        text = text.decode('latin-1')
         self._statusbar.SetStatusText(text)
 
     #
@@ -931,7 +932,7 @@ if __name__ == "__main__":
     #
     p1 = ['PANEL','P1',0,0,-1,-1,'B-236:44:26/RF','','',[]]
     hijosp1=[]
-    hijosp1.append(['E1','Código',10,15,6,'%',7,'','','','c_CAMPOS:E2 E3','ar_ls','codigo del cliente','clientes',''])
+    hijosp1.append(['E1','CÃ³digo',10,15,6,'%',7,'','','','c_CAMPOS:E2 E3','ar_ls','codigo del cliente','clientes',''])
     hijosp1.append(['E2','Nombre',150,15,30,'l',10,'n','1','','','','','',''])
     hijosp1.append(['E3','Otro',-1,15,6,'l',10,'','2','','','','','',''])
     p1[-1].append(['ENTRYS','EX',22,50,'','',hijosp1])
@@ -940,7 +941,7 @@ if __name__ == "__main__":
     # PANELES: ['PANEL',nombre, xini, yini, tamanox, tamanoy,color,lista_hijos]
     ls_campos.append(p1)
 
-    app = wx.PySimpleApp()
+    app = wx.App(False)
     ventana = Ventana(None)
     ventana.init_ctrls(ls_campos)
     ventana.Show()

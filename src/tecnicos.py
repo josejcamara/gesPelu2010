@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf8 -*-
 
 import wx
 import OC
@@ -7,28 +7,28 @@ import pickle
 from OC.Funciones import *
 
 class tecnicos(OC.Ventana):
-    """ Ficha para manejar las ventanas de la aplicaci�n """
+    """ Ficha para manejar las ventanas de la aplicación """
 
     def __init__(self,padre=None):
-        OC.Ventana.__init__(self, padre,'T�cnicos',tam=(800,600))
+        OC.Ventana.__init__(self, padre,'Técnicos',tam=(800,600))
         #
         ls_campos = []
 
         # TABBOX
         tb = ['TABBOX','TBG',0,0,600,400,'','','a_cambia_tab',[]]
 
-        # PN1 - Pesta�a General
+        # PN1 - Pestaña General
         pn1 = ['PANEL','PN1',0,0,-1,-1,'','','General',[]]
-        #cols=[['Ventana','l'],['Descripci�n','l']]
+        #cols=[['Ventana','l'],['Descripción','l']]
         #ls = ['LIST','L1',0,0,-1,-1,cols,'','','','','a_sele_win','','']
         #p0[-1].append(ls)
         eng = ['ENTRYS','ENG','25','50','','',[]]
         #eng[-1].append(['ID','Etiq','X','Y','Ancho','Fmt','lmax','edi','FCal','Sobre','ADE','Dlg','Tip','CPAN','Style'])
         eng[-1].append(['IDX','Codigo','5','20','6','%','3','','','','a_LEE_RG','','','',''])
-        eng[-1].append(['TN_DENO','Nombre T�cnico','-1','','50','l','100','','','','','','','',''])
-        eng[-1].append(['TN_DOM','Direcci�n','-1','','57','l','100','','','','','','','',''])
+        eng[-1].append(['TN_DENO','Nombre Técnico','-1','','50','l','100','','','','','','','',''])
+        eng[-1].append(['TN_DOM','Dirección','-1','','57','l','100','','','','','','','',''])
         eng[-1].append(['TN_CP','CPostal','-1','','7','l','5','','','','','','','',''])
-        eng[-1].append(['TN_POB','Poblaci�n','-1','','30','l','100','','','','','','','',''])
+        eng[-1].append(['TN_POB','Población','-1','','30','l','100','','','','','','','',''])
         eng[-1].append(['TN_PROV','Provincia','-1','','13','l','100','','','','','','','',''])
         eng[-1].append(['TN_TFN','Telefonos','-1','','20','l','30','','','','','','','',''])
         eng[-1].append(['TN_FNAC','F. Nacimiento','-1','','10','d','10','','','','','','','',''])
@@ -54,7 +54,7 @@ class tecnicos(OC.Ventana):
         ls_campos.append(tb)
         ls_campos.append(p3)
 
-        #P4 - Lista de Selecci�n
+        #P4 - Lista de Selección
         p4 = ['PANEL','P4',0,400,600,170,'','','',[]]
         cols = [['Codigo','l'],['Nombre','l'],['Telefono','l']]
         ls = ['LIST','LS',0,0,-1,-1,cols,'','','','','','a_carga_rg','']
@@ -66,8 +66,8 @@ class tecnicos(OC.Ventana):
         #
         self._idx = 'IDX'
         self._filedb = 'tecnicos'
-        self._accini=''      # Acci�n al cargar la ventana
-        self._accleer = ''   # Acci�n despues de leer registro
+        self._accini=''      # Acción al cargar la ventana
+        self._accleer = ''   # Acción despues de leer registro
         self._btfin = ''     # Nombre del boton a ejecutar cuando pulse boton FIN
 
 
@@ -82,7 +82,7 @@ class tecnicos(OC.Ventana):
         ok,val = std
 
         # Comprobar el valor devuelto por si hay que hacer algo
-        # Ya se ejecut� la accion. No continuar con la accion normal
+        # Ya se ejecutó la accion. No continuar con la accion normal
         if ok>0:
             return val
 

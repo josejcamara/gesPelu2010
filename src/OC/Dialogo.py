@@ -124,7 +124,6 @@ class Dialogo(wx.Dialog):
             else:
                 debug("Tipo " + str(tipo) + " no definido.")
 
-        #print "Controles inicializados."
         self.Refresh()
 
     #

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf8 -*-
 
 import wx
 import OC
@@ -10,13 +10,13 @@ from global_var import DIR_DATA
 from global_var import DIR_APL
 
 #
-# DIALOGO DE SELECCI�N PARA INFORMES. NO SE VE EL RESULTADO SE VE INFORME.
+# DIALOGO DE SELECCIÓN PARA INFORMES. NO SE VE EL RESULTADO SE VE INFORME.
 #
 class dl_select(OC.Dialogo):
-    """ Dialogo de selecci�n de registros, pone en lista destino """
+    """ Dialogo de selección de registros, pone en lista destino """
     #def __init__(self,padre,inf):
     def __init__(self,padre,fichero,campos,preguntas):
-        OC.Dialogo.__init__(self, padre,'Selecci�n de Registros',tam=(580,520),btn=False)
+        OC.Dialogo.__init__(self, padre,'Selección de Registros',tam=(580,520),btn=False)
         #
         preg=[]
         lsfmt=[]
@@ -42,7 +42,7 @@ class dl_select(OC.Dialogo):
         cols.append(['Valor',13,'l',0,'','','','','','','','','',''])
         cols.append(['Campo',5,'l',0,'i','','','','','','','','',''])
         #
-        p1[-1].append(['GRID','G1','Busqueda Selectiva',10,10,370,22,7,cols,1,[],''])
+        p1[-1].append(['GRID','G1','Búsqueda Selectiva',10,10,370,22,7,cols,1,[],''])
 
 
         #P1 - Botones de la Ventana
@@ -116,7 +116,7 @@ class dl_sel_inf(OC.Dialogo):
         # P1 -
         p1 = ['PANEL','P1',0,0,-1,300,'','','',[]]
         #---
-        cols = [['Informe','l'],['Descripcion','l']]
+        cols = [['Informe','l'],['Descripción','l']]
         ls = ['LIST','LS',5,5,390,290,cols,'','','','','','','']
         p1[-1].append(ls)
         #
@@ -150,7 +150,7 @@ class dl_sel_inf(OC.Dialogo):
 #
 #############################################
 if __name__ == "__main__":
-    app = wx.PySimpleApp()
+    app = wx.App(False)
     #frame = wx.Frame(None,title="Prueba de la Clase Grid")
     #frame.SetSize((800,600))
     #frame.CentreOnScreen()

@@ -5,7 +5,6 @@ import pickle
 import datetime
 import sys
 import wx
-#import shelve
 
 try:
     from global_var import DIR_DATA
@@ -19,9 +18,7 @@ except:
 #-- Funcion para mostrar mensajes de depuracion
 #
 def debug(*arg):
-    import wx
-
-    txt = str(arg).decode('latin-1')
+    txt = str(arg)
     dlg = wx.MessageDialog(None,txt,u'Debug',wx.OK)
     wx.Bell()
     dlg.ShowModal()
@@ -31,7 +28,6 @@ def debug(*arg):
 #
 #
 def Men(texto,tipo='ok',img='x',titu='Mensaje'):
-    import wx
     #- Botones
     opt = wx.OK
     if tipo=='sn' or tipo =='Sn': opt = wx.YES_NO
@@ -45,8 +41,6 @@ def Men(texto,tipo='ok',img='x',titu='Mensaje'):
     elif img=='w': img =wx.ICON_WARNING
 
     opt =opt | img
-    titu = titu.decode('latin-1')
-    texto = texto.decode('latin-1')
     dlg = wx.MessageDialog(None,texto,titu,opt)
     retCode = dlg.ShowModal()
     #- Respuesta
@@ -60,22 +54,19 @@ def Men(texto,tipo='ok',img='x',titu='Mensaje'):
     return respu
 
 #
-#-- Crea un dialogo para petici�n de datos
+#-- Crea un dialogo para petición de datos
 #
 def Entra_dlg(padre=None,titu='',text='Introduce Dato',value=''):
-    import wx
     dlg = wx.TextEntryDialog(padre,text,titu,value, style =wx.OK|wx.CANCEL)
     respu = None
     if dlg.ShowModal()==wx.ID_OK:
         respu = dlg.GetValue()
-        respu = respu.decode('latin-1')
     dlg.Destroy()
     return respu
 #
 #
 #
 def List_dlg(padre=None,titu='',text='Seleccione',choices=[],size=(200,200)):
-    import wx
 
     dlg = wx.SingleChoiceDialog(padre,text,titu,choices)
     respu = None
@@ -88,7 +79,6 @@ def List_dlg(padre=None,titu='',text='Seleccione',choices=[],size=(200,200)):
 #
 #
 def Progress_dlg(titu='',text='Esperando...',max=100):
-    import wx
 
     dlg = wx.ProgressDialog(titu,text,max)
     dlg.Update(0)   # Actualiza el valor de progreso
@@ -99,7 +89,6 @@ def Progress_dlg(titu='',text='Esperando...',max=100):
 #
 #
 def File_dlg(padre=None,titu='Elegir Fichero',tipos=['*']):
-    import wx
     import os
 
     wildcard=''
@@ -137,14 +126,14 @@ def copia_rg(obj):
 #
 def Fecha(fmt=''):
     """ Devuelve la Fecha Actual en el formato indicado
-        fmt =''     --> Formato N�mero (Defecto)
+        fmt =''     --> Formato Número (Defecto)
         fmt ='str'  --> Formato Cadena dd/mm/aaaa
-        fmt = 'y'   --> A�o Actual en N�mero
+        fmt = 'y'   --> Año Actual en Número
         fmt = 'm'   --> Mes Actual en Numero (1 a 12)
-        fmt = 'd'   --> D�a Actual en Numero
+        fmt = 'd'   --> Día Actual en Numero
         fmt = 'hm'  --> Hora Actual
     """
-    fini = datetime.date(2000,01,01)    # Fecha inicial = 01 - Enero - 2000
+    fini = datetime.date(2000,1,1)    # Fecha inicial = 01 - Enero - 2000
     hoy = datetime.datetime.now()
     resul = None
     #
@@ -154,7 +143,7 @@ def Fecha(fmt=''):
         resul = dif.days
     elif fmt=='str':   # Fecha actual en cadena
         resul = hoy.strftime('%d/%m/%Y')
-    elif fmt=='y':      # A�o en Numeor
+    elif fmt=='y':      # Año en Numero
         resul = hoy.year
     elif fmt=='m':      # Mes actual (1 a 12)
         resul = hoy.month
@@ -170,14 +159,14 @@ def Fecha(fmt=''):
 #-- Pasa una fecha con formato numero a una fecha con formato texto
 #
 def Num_aFecha(fecha,fmt=''):
-    """ Combierte una fecha en formato n�mero a formato Texto (fmt='')
-    o devuelve como enteros dia, mes o a�o de la fecha indicada
+    """ Combierte una fecha en formato número a formato Texto (fmt='')
+    o devuelve como enteros dia, mes o año de la fecha indicada
     (fmt='d','m' o 'y')"""
 
     if fecha==None or fecha=='':
         return ''
 
-    fini = datetime.date(2000,01,01)
+    fini = datetime.date(2000,1,1)
     try:
         fecha = fini + datetime.timedelta(days=fecha)
     except:
@@ -186,7 +175,7 @@ def Num_aFecha(fecha,fmt=''):
 
     if fmt=='': # Fecha Actual
         resul = fecha.strftime('%d/%m/%Y')
-    elif fmt=='y':      # A�o en Numero
+    elif fmt=='y':      # Año en Numero
         resul = fecha.year
     elif fmt=='m':      # Mes actual (1 a 12)
         resul = fecha.month
@@ -199,8 +188,8 @@ def Num_aFecha(fecha,fmt=''):
 #-- Pasa una fecha con formato texto a una fecha con formato numero
 #
 def Fecha_aNum(strfecha):
-    """ Combierte una fecha con formato texto a formato n�mero """
-    fini = datetime.date(2000,01,01)    # Fecha inicial = 01 - Enero - 2000
+    """ Combierte una fecha con formato texto a formato número """
+    fini = datetime.date(2000,1,1)    # Fecha inicial = 01 - Enero - 2000
     sep='/'
     if strfecha.find('-')>0: sep='-'
     fec = strfecha.split(sep)
@@ -221,7 +210,7 @@ def Sm_Fecha(fecha,num,fmt='d'): # fmt: d = dias ; w = semanas
         fmt = 'd' --> Sumar Dias
         fmt = 'w' --> Sumar Semanas
     """
-    fini = datetime.date(2000,01,01)
+    fini = datetime.date(2000,1,1)
     fecha = fini + datetime.timedelta(days=fecha)
     fsuma = None
     if fmt=='d':
@@ -241,7 +230,7 @@ def Sm_Fecha(fecha,num,fmt='d'): # fmt: d = dias ; w = semanas
 #
 def Df_Fechas(fmin,fmax):
     """ Devuelve los dias de diferencia entre dos fechas """
-    fini = datetime.date(2000,01,01)
+    fini = datetime.date(2000,1,1)
     fmin = fini + datetime.timedelta(days=fmin)
     fmax = fini + datetime.timedelta(days=fmax)
     dif = fmax - fmin
@@ -249,10 +238,10 @@ def Df_Fechas(fmin,fmax):
     return dif.days
 
 #
-#-- Comprueba que la tecla sea v�lida para el formato indicado
+#-- Comprueba que la tecla sea válida para el formato indicado
 #
 def IsValid(key,fmt,cadena=''):
-    """ Comprueba que la tecla pulsada sea v�lida para el formato
+    """ Comprueba que la tecla pulsada sea válida para el formato
     indicado, llevando ya escrita la cadena 'cadena' """
 
     valido = True
@@ -263,7 +252,7 @@ def IsValid(key,fmt,cadena=''):
         elif key>57 and key<324: valido=False
         elif key>333: valido=False      # 324 a 333 = 1 a 0 teclas numpad
 
-        # Para n�meros permitimos (-), pero solo en la primera posicion
+        # Para números permitimos (-), pero solo en la primera posicion
         if fmt in ('i','0','1','2','3','4','5','6','7','8','9'):
             if key==45 and cadena=='':
                 valido=True
@@ -274,7 +263,7 @@ def IsValid(key,fmt,cadena=''):
             pospunto = cadena.find('.')
             if pospunto>=0:
                 if key==46: #wx.WXK_DECIMAL or key==wx.WXK_NUMPAD_DECIMAL:
-                    valido=False    # Ya hab�a un punto
+                    valido=False    # Ya había un punto
                 else:
                     if len(cadena)-pospunto > int(fmt):
                         valido=False

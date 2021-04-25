@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf8 -*-
 
 import sys
 import wx
@@ -42,17 +42,15 @@ class Grid():
             attr.SetEditor(OC_CellEditor(self,pb,parent,fmt,lmax,dlsel,edit,fcal,sobre,ade,cpan))
             grid.SetColAttr(c,attr)
 
-            titc = titc.decode('latin-1')
             grid.SetColLabelValue(c,titc)
             grid.SetColSize(c,wcol*10)
             #
             gancho += wcol*10.4
 
-        #- Ajustamos el tama�o del grid si es menor
+        #- Ajustamos el tamaño del grid si es menor
         gancho = int(gancho)
-        hclabel = grid.GetColLabelSize()    # Alto de la fila de t�tulos
+        hclabel = grid.GetColLabelSize()    # Alto de la fila de títulos
         size = (ancho,nrows*(hrow) + hclabel+5)
-        #if gancho<size[0]: size = (gancho,size[1])
         grid.SetDefaultRowSize(hrow)
         #
         grid.SetSize(size)
@@ -67,7 +65,6 @@ class Grid():
 
         #- TITULO
         if titu<>'':
-            titu = titu.decode('latin-1')
             titux=pos[0]+gancho/2
             tituy=pos[1]-15
             titu = wx.StaticText(parent,-1,titu,(titux,tituy))
@@ -193,10 +190,10 @@ class Grid():
 
 
     #
-    #-- Asigna los t�tulos por fila al grid
+    #-- Asigna los títulos por fila al grid
     #
     def SetTituxRows(self,titulos,ancho):
-        """ Asigna los t�tulos por fila al grid"""
+        """ Asigna los títulos por fila al grid"""
         pass
     #
     #
@@ -262,7 +259,7 @@ class Grid():
                         if formula[0]=='<' and formula[-1]=='>':  # Valor Columna Anterior
                             valor = lnv[int(xxx[1])]
                         else:
-                            if formula[:6]=='cache(':   # Valor de Cach�
+                            if formula[:6]=='cache(':   # Valor de Caché
                                 xxx = formula.split(',')
                                 xxx[1] = lnv[int(xxx[1])]
                                 formula = ','.join(xxx)
@@ -303,7 +300,7 @@ class Grid():
                     else: value = float(value)
                 lnv.append(value)
 
-            #- Si no hay filas fijas, pasamos las filas con 1�colum vacia
+            #- Si no hay filas fijas, pasamos las filas con 1º colum vacia
             fmt1 = self.__fmts[0]
             if self.__rlabels in ([],''):
                 if lnv[0]=='' and fmt1 in ('l','%'): continue
@@ -390,7 +387,7 @@ class Grid():
 
     #
     #-- IMPORTANTE !!!
-    # Aqu� solo entra si la celda no est� editada, es decir, s�lo
+    # Aquí solo entra si la celda no está editada, es decir, sólo
     #  cuando no se ha pulsado una letra/numero para escribir
     #
     def onKeyDown(self,event):
@@ -547,7 +544,7 @@ class OC_CellEditor(wx_grid.PyGridCellEditor):
         return OC_CellEditor()
 
     def StartingKey(self,evt):
-        #self._tc.GetTextCtrl().SetInsertionPointEnd() -> Hace que a�ada al final
+        #self._tc.GetTextCtrl().SetInsertionPointEnd() -> Hace que añada al final
         self.OnChar(evt)
         if evt.GetSkipped():
             self._tc.GetTextCtrl().EmulateKeyPress(evt)
@@ -583,20 +580,20 @@ class OC_CellEditor(wx_grid.PyGridCellEditor):
 if __name__ == "__main__":
     import Ventana
 
-    app = wx.PySimpleApp()
+    app = wx.App(False)
 
 
     p1 = ['PANEL','P1',0,0,-1,-1,'','','',[]]
 
     #- ENTRADAS ANTES
     antes=[]
-    antes.append(['E1','C�digo',10,15,6,'%',7,'','','','','ar_ls','codigo del cliente','clientes',''])
+    antes.append(['E1','Código',10,15,6,'%',7,'','','','','ar_ls','codigo del cliente','clientes',''])
     antes.append(['E2','Nombre',-1,15,16,'l',10,'','','','','','','',''])
     p1[-1].append(['ENTRYS','EX',22,50,'','',antes])
 
     #- GRID
     cols=[]
-    cols.append(['Art�culo',6,'%',6,'','','','','','','','','',''])
+    cols.append(['Artículo',6,'%',6,'','','','','','','','','',''])
     cols.append(['Nombre',30,'l',20,'n','n','','','','','','','',''])
     cols.append(['Fecha',7,'d',10,'','','','','','','','','',''])
     g1=['GRID','G1','Titulo',10,80,640,22,6,cols,0,'','']
@@ -606,7 +603,7 @@ if __name__ == "__main__":
 
     #- ENTRADAS DESPUES
     desp=[]
-    desp.append(['E3','Numero',10,290,6,'2',7,'','','','','ar_ls','codigo del cliente','clientes',''])
+    desp.append(['E3','Número',10,290,6,'2',7,'','','','','ar_ls','codigo del cliente','clientes',''])
     desp.append(['E4','Texto',-1,290,6,'l',10,'','','','','','','',''])
     desp.append(['E5','Fecha',-1,290,10,'d',10,'','','','','','','',''])
     p1[-1].append(['ENTRYS','EX',22,50,'F-25:25:0','B-0:0:0/F-255:255:255',desp])

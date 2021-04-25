@@ -4,7 +4,7 @@
 import wx
 import wx.lib.buttons as buttons
 from Funciones import *
-from Ventana import *
+# from Ventana import *
 import string
 import os
 
@@ -93,14 +93,12 @@ class Entry():
         if etiq[:1]==':' or etiq[:1]=='[':   # Poner etiqueta a la izquierda del texto
             etiq=etiq[1:]
             label = wx.StaticText(padre,label=etiq)
-            #label.SetPosition(posic)
-            #text.SetPosition((posic.x + label.GetClientSizeTuple()[0],posic.y))
             text.SetPosition(posic)
-            # label.SetPosition((posic.x - label.GetClientSizeTuple()[0],posic.y+2))
+            label.SetPosition((posic.x - label.GetSize()[0],posic.y+2))
         elif etiq[:1]==']':     # Poner la etiqueta a la derecha del texto
             etiq=etiq[1:]
             label = wx.StaticText(padre,label=etiq)
-            # label.SetPosition((posic.x + text.GetClientSizeTuple()[0]+10,posic.y+5))
+            label.SetPosition((posic.x + text.GetSize()[0]+10,posic.y+5))
         else:   # Poner la etiqueta encima del texto
             label = wx.StaticText(padre,label=etiq)
             label.SetPosition((posic.x,posic.y-15))
@@ -118,10 +116,6 @@ class Entry():
         #if button<>None: button.Bind(wx.EVT_BUTTON, self.Al_Pulsar_Boton)
         #text.Bind(wx.EVT_TEXT_ENTER,self.Prueba)
         #text.Bind(wx.EVT_TOOL_ENTER,self.Prueba)
-
-    def Prueba(self,event):
-        #key = event.GetKeyCode()
-        print '---'
 
     #
     #
@@ -256,7 +250,7 @@ class Entry():
         elif fmt =='d':
             value = Fecha_aNum(value)
         else:
-            value = str(value)
+            value = value.encode('latin-1')
 
         return value
 
@@ -281,7 +275,9 @@ class Entry():
         vant = self.GetValue()
         if vant<>value: self._pb.Modifica=1
         #
+        if type(value) <> unicode: value = value.decode('latin-1')
         self.__cttext.SetValue(value)
+        #
         #
         if acc<>'n' and self._ade<>'':
             ls_ade = self._ade.split('|')
@@ -499,7 +495,7 @@ class Entry():
                     valores = valores[:-2]
             valores = valores.split('|')
             dlg = dlg_sele(self,valores,respu)
-            dlg.MakeModal()
+            # dlg.MakeModal()
             dlg.Show()
         else:
             import dl_sele
@@ -556,7 +552,7 @@ class dlg_sele(wx.MiniFrame):
         pospa = padre.GetPosition()
         ancho = entry.GetTextCtrl().GetSize()[0]
         alto = entry.GetTextCtrl().GetSize()[1]
-        posic = (posme[0]+pospa[0]+ancho, posme[1]+pospa[0]+alto)
+        posic = (posme[0]+pospa[0]+ancho, posme[1]+pospa[1]+alto+100)
 
         wx.MiniFrame.__init__(self,padre,-1,'Seleccione',size=(100,150),pos=posic,
             style=wx.DEFAULT_FRAME_STYLE | wx.STAY_ON_TOP)
@@ -566,8 +562,8 @@ class dlg_sele(wx.MiniFrame):
         ncol=0
         lb.InsertColumn(ncol,'')
         for valor in valores:
-            nfila = lb.InsertStringItem(2,'??')
-            lb.SetStringItem(nfila,ncol,valor)
+            nfila = lb.InsertItem(2,'??')
+            lb.SetItem(nfila,ncol,valor)
         #
         lb.SetFocus()
         lb.Select(0,True)
@@ -593,15 +589,13 @@ class dlg_sele(wx.MiniFrame):
             self.entry.SetValue(sele)
 
         self.entry._pb.Next_Ctrl(self.entry)
-        self.MakeModal(False)
         self.entry.SetFocus()
         self.Destroy()
 
     def Pulsar(self,event):
-        print event.GetKeyCode()
+        print('Entry','Pulsar',event.GetKeyCode())
 
     def OnCloseWindow(self, event):
-        self.MakeModal(False)
         self.Destroy()
 
 ##
@@ -623,7 +617,8 @@ if __name__ == "__main__":
     #
     campos.append(['ENTRYS','ENT',25,50,'','',lse])
 
-    ventana = Ventana(None)
+    import Ventana
+    ventana = Ventana.Ventana(None)
     ventana.init_ctrls(campos)
     ventana.Show()
 
