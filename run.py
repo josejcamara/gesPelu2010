@@ -1,6 +1,0 @@
-# Checking config...
-
-# Checking db....
-# - Ask path ?
-
-#
