@@ -1,22 +1,23 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf8 -*-
 
 import wx
 import wx.lib.buttons as buttons
 import os
 
-from global_var import DIR_IMG
+try:
+    from global_var import DIR_IMG
+except:
+    DIR_IMG = '../../img'
 
 class Button():
 
     def __init__(self,pb,padre,nombre,posic,tamano,imagen,texto,accion,tip):
-        #- Tipo de bot髇 segun el tipo
+        #- Tipo de bot贸n segun el tipo
         boton = None
         img = None
-        texto = texto.decode('latin-1')
-        tip = tip.decode('latin-1')
 
-        #- Intentamos cargar la imagen para el bot髇
+        #- Intentamos cargar la imagen para el bot贸n
         if imagen<>'':
             if imagen in os.listdir(DIR_IMG+'/32/'):
                 imagen = DIR_IMG+'/32/'+imagen
@@ -34,7 +35,7 @@ class Button():
             boton = buttons.GenButton(padre,-1,texto)
 
         #- Asignamos Propiedades
-        boton.SetToolTipString(tip)
+        boton.SetToolTip(tip)
         boton.SetSize(tamano)
         boton.SetPosition(posic)
         boton.SetBezelWidth(2)
@@ -66,10 +67,10 @@ class Button():
         self.__boton.Show(bool)
 
     #
-    #-- Asigna una nueva acci髇 al boton
+    #-- Asigna una nueva acci贸n al boton
     #
     def SetAccion(self,accion):
-        """ Cambia la acci髇 a ejecutar del boton """
+        """ Cambia la acci贸n a ejecutar del boton """
         self.__accion = accion
 
     #
@@ -87,7 +88,7 @@ class Button():
         pass
 
     def SetStyleButton(self,style):
-        """ Cambia el estilo del bot髇 """
+        """ Cambia el estilo del bot贸n """
         pass
 
     def GetButton(self):
@@ -112,14 +113,14 @@ class Button():
                     if ok[0]==-1: return
 
     #
-    #-- Pinta el bot髇 al entrar el rat髇 en su cuadro
+    #-- Pinta el bot贸n al entrar el rat贸n en su cuadro
     #
     def onMouseOn(self,event):
         self.__boton.SetBezelWidth(1)
         self.__boton.Refresh()
 
     #
-    #-- Pinta el boton al salir el rat髇 en su cuadro
+    #-- Pinta el boton al salir el rat贸n en su cuadro
     #
     def onMouseOut(self,event):
         self.__boton.SetBezelWidth(2)
@@ -133,7 +134,6 @@ class Button():
 class CheckButton():
 
     def __init__(self,pb,padre,id,posic,tamano,texto,accion=''):
-        texto = texto.decode('latin-1')
         tamano = (tamano[0]*10, tamano[1]*10)
 
         check = wx.CheckBox(padre,-1,texto,posic,tamano)
@@ -169,10 +169,9 @@ class CheckButton():
         self.__button.Show(status)
 
     def SetToolTip(self,texto):
-        texto = texto.decode('latin-1')
-        #self.__button.SetToolTip(texto)
+        self.__button.SetToolTip(texto)
         
-    def SetFocus():
+    def SetFocus(self):
         pass
 
     def OnChange(self,event):
@@ -197,8 +196,6 @@ class CheckButton():
 class RadioButton():
 
     def __init__(self,pb,padre,id,titulo,posic,tamano,valores,ncols=1,accion=''):
-        titulo = titulo.decode('latin-1')
-        valores = valores.decode('latin-1')
         #
         valores = valores.split('|')
         tamano = (tamano[0]*10, tamano[1]*10)
@@ -222,7 +219,7 @@ class RadioButton():
         event.Skip()
 
     def Enable(self,status):
-        self.__button.Enable(opc)
+        self.__button.Enable(status)
 
     def SetValue(self,opc):
         self.__button.SetSelection(opc)
@@ -248,20 +245,21 @@ class RadioButton():
 
 if __name__ == "__main__":
 
-    app = wx.PySimpleApp()
-    frame = wx.Frame(None,title="Prueba de la Clase Boton")
-    frame.SetSize((800,600))
+    app = wx.App(False)
+    frame = wx.Frame(None,title="Prueba de la Clase Bot贸n")
+    frame.SetSize((640,280))
     frame.CentreOnScreen()
     #
     p1 = wx.Panel(name='P1', parent=frame)
     #
     btn1 = Button(None,p1,'B1',(100,100),(60,40),'','Abrir','abrir','Abrir Archivo')
     btn2 = Button(None,p1,'B2',(200,100),(60,40),'','Cerrar','cerrar','Cerrar Archivo')
+    btn3 = Button(None,p1,'B3',(300,100),(60,40),'calendar.png','驴谩?','a帽o','T贸贸l Tip')
     btn2.GetButton().SetDefault()
     #
-    radio = RadioButton(None,p1,"R1","Prueba",(100,300),(10,8),"Opcion1|Opcion2",1,"a_cambia")
+    radio = RadioButton(None,p1,"R1","Prueba",(10,10),(10,8),"Opcion1|Opcion2",1,"a_cambia")
     #
-    check = CheckButton(None,p1,"C1",(400,300),(10,8),"MiCheck",'a_activa')
+    check = CheckButton(None,p1,"C1",(400,30),(10,8),"MiCheck",'a_activa')
     #
     frame.Show()
     app.MainLoop()

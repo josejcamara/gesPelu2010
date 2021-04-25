@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf8 -*-
 
 import wx
 from Funciones import *
@@ -7,16 +7,16 @@ from Funciones import *
 class List():
 
     def __init__(self,pb,padre,nombre,posic,size=(-1,-1),cols=[],anchos=[],onclick="",ondclick=""):
-        """ Creaci髇 de la lista:
+        """ Creaci贸n de la lista:
           pb -> Padre Base. Ventana que contiene el codigo de las acciones
           padre -> Ventana/Panel padre del objeto
           nombre -> Nombre del campo
-          posic -> Posici髇 de la lista dentro del padre (posx,posy) o wx.Point
-          size -> (tamx,tamy). Pareja de enteros indicando tama駉
+          posic -> Posici贸n de la lista dentro del padre (posx,posy) o wx.Point
+          size -> (tamx,tamy). Pareja de enteros indicando tama帽o
           cols -> Lista de columnas de la lista ([[col1,fmt1],[col2,fmt2],...]
           anchos -> Anchos de las columnas, en caso de asignar fijos
-          onclick -> Acci髇 a Ejecutar al seleccionar una fila
-          ondclick -> Acci髇 a Ejecutar al doble-click sobre fila
+          onclick -> Acci贸n a Ejecutar al seleccionar una fila
+          ondclick -> Acci贸n a Ejecutar al doble-click sobre fila
         """
         lis = wx.ListCtrl(name=nombre, parent=padre, pos=posic, style=wx.LC_REPORT)
 
@@ -25,8 +25,7 @@ class List():
         i=0
         for col in cols:
             ncol,fmt = col
-            #- A馻dimos la columna
-            ncol = ncol.decode('latin-1')
+            #- A帽adimos la columna
             lis.InsertColumn(i,ncol)
             fmtlis.append(str(fmt))
             ##- Definimos el ancho de la columna
@@ -57,7 +56,7 @@ class List():
         self.__fmtlis = fmtlis       # Formato de cada una de las columnas
         self.__data = []            # Datos de la lista
         self._onclick = onclick     # Accion al hacer click sobre un elemento
-        self._ondclick = ondclick   # Acci髇 al doble click sobre un elemento
+        self._ondclick = ondclick   # Acci贸n al doble click sobre un elemento
 
     def GetListCtrl(self):
         """ Devuelve el control wx.ListCtrl que forma el objeto """
@@ -98,7 +97,7 @@ class List():
 
         for lnd in data:
             if isinstance(lnd,str): lnd=[lnd]
-            nfila = lis.InsertStringItem(sys.maxint,lnd[0])
+            nfila = lis.InsertItem(sys.maxint,lnd[0])
             ncol=0
             for fmt in fmtlis:
                 try:
@@ -116,10 +115,10 @@ class List():
                     except:
                         valor = '0.0'
                 else:
-                    valor =str(valor)   # No deber韆 llegar, pero por si...
+                    valor =str(valor)   # No deber铆a llegar, pero por si...
                 #
                 valor = valor.decode('latin-1')
-                lis.SetStringItem(nfila,ncol,valor)
+                lis.SetItem(nfila,ncol,valor)
                 #
                 ncol += 1
         #-
@@ -182,7 +181,7 @@ class List():
 
     #-------
     def onClick(self,event):
-        """ Acci髇 al Seleccionar un elemento de la lista """
+        """ Acci贸n al Seleccionar un elemento de la lista """
         pb = self._pb
         if pb==None:
             value = self.GetValue()
@@ -191,7 +190,7 @@ class List():
         event.Skip()
 
     def onDclick(self,event):
-        """ Ejecutar la acci髇 al hacer doble click sobre la lista """
+        """ Ejecutar la acci贸n al hacer doble click sobre la lista """
         pb = self._pb
         if pb==None:
             value = self.GetValue()
@@ -211,15 +210,15 @@ class Combo():
 
 
 if __name__ == "__main__":
-    app = wx.PySimpleApp()
-    frame = wx.Frame(None,title="Prueba de la Clase List")
-    frame.SetSize((800,600))
+    app = wx.App(False)
+    frame = wx.Frame(None,title="Prueba 脩 de la Clase List")
+    frame.SetSize((400,300))
     frame.CentreOnScreen()
     #
     p1 = wx.Panel(name='P1', parent=frame)
     #
-    cols = [['Codigo','l'],['Fecha','d'],['Entero','i'],['Decimal2','2']]
-    l1 = List(None,p1,'L1',(100,100),(300,200),cols=cols)
+    cols = [['C贸digo','l'],['Fecha','d'],['Entero','i'],['Decimal2','2']]
+    l1 = List(None,p1,'L1',(10,10),(300,200),cols=cols)
     value=[]
     value.append(['00000',Fecha(),10,23])
     value.append(['00000',Sm_Fecha(Fecha(),1),5,13.23333])

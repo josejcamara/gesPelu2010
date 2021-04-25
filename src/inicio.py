@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 
 import OC
 from OC.Funciones import *
@@ -8,13 +8,6 @@ import shutil
 import os
 import os.path
 import datetime
-
-##
-##  Esta versión está optimizada para 
-##  Python 2.5.2        (python --version)
-##  wxPython 2.8.7.1    (wx.VERSION)
-##  (Ubuntu 8.04)
-##
 
 class Inicio(OC.Ventana):
     """ Ficha para manejar los archivos de la base de dato """
@@ -31,18 +24,18 @@ class Inicio(OC.Ventana):
         btn=[]
         btn.append(['B1',10,10,110,'people.png','Clientes','a_CPAN:clientes','Ficha de Clientes'])
         btn.append(['B2',130,10,110,'proveedor.png','Proveedor','a_CPAN:proveedores','Proveedores'])
-        btn.append(['B3',250,10,110,'articulos.png','Artículos','a_CPAN:articulos','Artículos'])
-        btn.append(['B4',370,10,110,'persons.png','Técnicos','a_CPAN:tecnicos','Tecnicos'])
-        btn.append(['B5',10,65,110,'calendar.png','Agenda','a_CPAN:agenda','Agenda'])
+        btn.append(['B3',250,10,110,'articulos.png','Articulos','a_CPAN:articulos','ArtÃ­culos'])
+        btn.append(['B4',370,10,110,'persons.png','Tecnicos','a_CPAN:tecnicos','Tecnicos'])
+        # btn.append(['B5',10,65,110,'calendar.png','Agenda','a_CPAN:agenda','Agenda'])
         #btn.append(['B6',130,120,110,'book.png','Diario','a_CPAN:diario','Diario de Ingresos y Gastos'])
         btn.append(['B7',250,65,110,'tpv.png','TPV','a_CPAN:tpv','TPV Ventas'])
         btn.append(['B8',370,65,110,'gastos.png','Gastos','a_CPAN:gastos','Gastos'])
-        btn.append(['B9',10,120,110,'caja.png','Cierre\nCaja','a_CPAN:caja_dia','Caja Diaria'])
-        btn.append(['B10',130,65,110,'page.png','Resumen\nSituación','a_CPAN:resumen_m',''])
-        btn.append(['B12',250,120,110,'plus.png','Copia\nSeguridad','a_copia_seg','Hacer Copia Seguridad'])
+        btn.append(['B9',10,65,110,'caja.png','Cierre\nCaja','a_CPAN:caja_dia','Caja Diaria'])
+        btn.append(['B10',130,65,110,'page.png','Resumen\nSituacion','a_CPAN:resumen_m',''])
+        # btn.append(['B12',250,120,110,'plus.png','Copia\nSeguridad','a_copia_seg','Hacer Copia Seguridad'])
         btn.append(['B8',370,120,110,'cobros.png','Cobros','a_CPAN:cobros','Cobros'])
-        #btn.append(['B5',325,10,100,'config.png','Config','a_CPAN:parametros','Parametros de Configuración'])
-        btn.append(['B10',130,120,110,'tools.png','Borra\n2010','a_borra_2010',''])
+        #btn.append(['B5',325,10,100,'config.png','Config','a_CPAN:parametros','Parametros de Configuraciï¿½n'])
+        # btn.append(['B10',130,120,110,'tools.png','Borra\n2010','a_borra_2010',''])
         #
         btn.append(['BTSALIR',200,185,100,'exit.png','Salir','a_SALIR','Salir del programa'])
         #
@@ -65,7 +58,7 @@ class Inicio(OC.Ventana):
         ok,val = std
 
         # Comprobar el valor devuelto por si hay que hacer algo
-        # Ya se ejecutó la accion. No continuar con la accion normal
+        # Ya se ejecutÃ³ la accion. No continuar con la accion normal
         if ok>0:
             return val
 
@@ -89,7 +82,7 @@ class Inicio(OC.Ventana):
             Men('Copia de datos realizada en '+destino)
             
         elif accion=='a_borra_2010':
-            dlg = Men('¿Está seguro de borrar registros?','sn','q')
+            dlg = Men('Â¿EstÃ¡ seguro de borrar registros?','sn','q')
             if dlg=='n': return 
             #
             dlp = wx.ProgressDialog ('Buscando', 'Buscando', maximum = 2 )
@@ -105,13 +98,11 @@ class Inicio(OC.Ventana):
             from global_var import DIR_DATA
             ruta_datos = DIR_DATA +'/alb-venta.db'
             f = bsddb.btopen(ruta_datos)
-            #print f.keys()[:100]
             #
             x=0
             for idx in resul:
                 x+=1
                 dlp.Update (x, str(x) + '/' + str(ttt) )
-                #wx.Sleep(0.25)
                 f[idx]=''
                 del f[idx]
             dlp.Close()
@@ -139,7 +130,7 @@ if __name__ == "__main__":
     import wx
     import global_var
 
-    app = wx.PySimpleApp()
+    app = wx.App(False)
 
     ventana = Inicio()
     app.MainLoop()

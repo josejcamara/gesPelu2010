@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf8 -*-
 
 import wx
-import wx.calendar
+import wx.adv
+import wx.lib.calendar
 import OC
 
 from OC.Funciones import *
@@ -46,15 +47,19 @@ class caja_dia(OC.Ventana):
         #
         self._idx = 'IDX'
         self._filedb = 'caja_dia'
-        self._accini='a_ini_var'      # Acción al cargar la ventana
-        self._accleer = ''   # Acción despues de leer registro
+        self._accini='a_ini_var'      # AcciÃ³n al cargar la ventana
+        self._accleer = ''   # AcciÃ³n despues de leer registro
         self._btfin = ''     # Nombre del boton a ejecutar cuando pulse boton FIN
         #
         self.init_ctrls(ls_campos)
         #
-        self.cal = wx.calendar.CalendarCtrl(date=wx.DateTime.Now(),
-            parent=self._ct['P1'],pos=wx.Point(5,5),style=wx.calendar.CAL_SHOW_HOLIDAYS|wx.calendar.CAL_MONDAY_FIRST)
-        self.cal.Bind(wx.calendar.EVT_CALENDAR_SEL_CHANGED,self.OnCalSelected)
+        self.cal = wx.adv.CalendarCtrl(
+            date=wx.DateTime.Now(),
+            parent=self._ct['P1'],
+            pos=wx.Point(5,5),
+            style=wx.adv.CAL_MONDAY_FIRST
+            )
+        self.cal.Bind(wx.adv.EVT_CALENDAR_SEL_CHANGED,self.OnCalSelected)
 
         self.Ejecuta_Accion(self._accini)
 
@@ -63,7 +68,7 @@ class caja_dia(OC.Ventana):
     #
     def OnCalSelected(self, evt):
         if self.Modifica==1:
-            dlg=Men('Ha realizado cambios en la ficha\n¿Desea Continuar sin grabar?','sn','q')
+            dlg=Men('Ha realizado cambios en la ficha\nÂ¿Desea Continuar sin grabar?','sn','q')
             if dlg=='n': return 0
 
         sele = evt.Date
@@ -87,7 +92,7 @@ class caja_dia(OC.Ventana):
         ok,val = std
 
         # Comprobar el valor devuelto por si hay que hacer algo
-        # Ya se ejecutó la accion. No continuar con la accion normal
+        # Ya se ejecutÃ³ la accion. No continuar con la accion normal
         if ok>0:
             return val
 
@@ -132,7 +137,7 @@ class caja_dia(OC.Ventana):
             #
             Men('Datos Actualizados')
 
-        return 0 # No se ejecutó ninguna accion !!!!
+        return 0 # No se ejecutÃ³ ninguna accion !!!!
 
 
 
@@ -143,7 +148,26 @@ class caja_dia(OC.Ventana):
 #
 ##############################################################
 if __name__ == "__main__":
-    app = wx.PySimpleApp()
+    app = wx.App(False)
     ventana = caja_dia()
     ventana.Show()
     app.MainLoop()
+
+# import wx
+# import wx.adv
+# class MyCalendar(wx.Frame):
+
+#     def __init__(self, *args, **kargs):
+#         wx.Frame.__init__(self, *args, **kargs)
+#         self.cal = wx.adv.CalendarCtrl(self, 10, wx.DateTime.Now())
+#         self.cal.Bind(wx.adv.EVT_CALENDAR, self.OnDate)
+
+#     def OnDate(self,event):
+#         print(self.cal.GetDate())
+
+
+# if __name__ == '__main__':
+#     app = wx.App()
+#     frame = MyCalendar(None)
+#     frame.Show()
+#     app.MainLoop()

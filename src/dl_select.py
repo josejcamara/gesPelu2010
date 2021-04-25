@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf8 -*-
 
 import wx
 import OC
@@ -10,13 +10,13 @@ from global_var import DIR_DATA
 from global_var import DIR_APL
 
 #
-# DIALOGO DE SELECCI覰 PARA INFORMES. NO SE VE EL RESULTADO SE VE INFORME.
+# DIALOGO DE SELECCI脫N PARA INFORMES. NO SE VE EL RESULTADO SE VE INFORME.
 #
 class dl_select(OC.Dialogo):
-    """ Dialogo de selecci髇 de registros, pone en lista destino """
+    """ Dialogo de selecci贸n de registros, pone en lista destino """
     #def __init__(self,padre,inf):
     def __init__(self,padre,fichero,campos,preguntas):
-        OC.Dialogo.__init__(self, padre,'Selecci髇 de Registros',tam=(400,350),btn=False)
+        OC.Dialogo.__init__(self, padre,'Selecci贸n de Registros',tam=(580,520),btn=False)
         #
         preg=[]
         lsfmt=[]
@@ -30,6 +30,8 @@ class dl_select(OC.Dialogo):
         self._fichero = fichero
         self._preguntas = preg
         self._campos = campos
+        self._res = None
+        self._prg = []
 
         # P1 - Preguntas
         p1 = ['PANEL','P1',0,0,-1,-1,'','','',[]]
@@ -40,7 +42,7 @@ class dl_select(OC.Dialogo):
         cols.append(['Valor',13,'l',0,'','','','','','','','','',''])
         cols.append(['Campo',5,'l',0,'i','','','','','','','','',''])
         #
-        p1[-1].append(['GRID','G1','Busqueda Selectiva',10,10,370,22,7,cols,1,[],''])
+        p1[-1].append(['GRID','G1','B煤squeda Selectiva',10,10,370,22,7,cols,1,[],''])
 
 
         #P1 - Botones de la Ventana
@@ -106,15 +108,15 @@ class dl_select(OC.Dialogo):
 
 
 class dl_sel_inf(OC.Dialogo):
-    """ Dialogo de selecci髇 de informes """
+    """ Dialogo de selecci贸n de informes """
     def __init__(self,padre,fichero):
-        OC.Dialogo.__init__(self, padre,'Selecci髇 de Informes',tam=(400,350))
+        OC.Dialogo.__init__(self, padre,'Seleccion de Informes',tam=(550,600))
         #
 
         # P1 -
         p1 = ['PANEL','P1',0,0,-1,300,'','','',[]]
         #---
-        cols = [['Informe','l'],['Descripcion','l']]
+        cols = [['Informe','l'],['Descripci贸n','l']]
         ls = ['LIST','LS',5,5,390,290,cols,'','','','','','','']
         p1[-1].append(ls)
         #
@@ -148,7 +150,7 @@ class dl_sel_inf(OC.Dialogo):
 #
 #############################################
 if __name__ == "__main__":
-    app = wx.PySimpleApp()
+    app = wx.App(False)
     #frame = wx.Frame(None,title="Prueba de la Clase Grid")
     #frame.SetSize((800,600))
     #frame.CentreOnScreen()

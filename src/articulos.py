@@ -1,14 +1,13 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf8 -*-
 
 import wx
 import OC
-import bsddb
 import pickle
 from OC.Funciones import *
 
 class articulos(OC.Ventana):
-    """ Ficha para manejar las ventanas de la aplicación """
+    """ Ficha para manejar las ventanas de la aplicaciÃ³n """
 
     def __init__(self,padre=None):
         OC.Ventana.__init__(self, padre,'Articulos',tam=(800,600))
@@ -18,16 +17,16 @@ class articulos(OC.Ventana):
         # TABBOX
         tb = ['TABBOX','TBG',0,0,600,400,'','','a_cambia_tab',[]]
 
-        # PN1 - Pestaña General
+        # PN1 - PestaÃ±a General
         pn1 = ['PANEL','PN1',0,0,-1,-1,'','','General',[]]
-        #cols=[['Ventana','l'],['Descripción','l']]
+        #cols=[['Ventana','l'],['DescripciÃ³n','l']]
         #ls = ['LIST','L1',0,0,-1,-1,cols,'','','','','a_sele_win','','']
         #p0[-1].append(ls)
         eng = ['ENTRYS','ENG','25','50','','',[]]
         #eng[-1].append(['ID','Etiq','X','Y','Ancho','Fmt','lmax','edi','FCal','Sobre','ADE','Dlg','Tip','CPAN','Style'])
         eng[-1].append(['IDX','Codigo','5','20','6','%','6','','','','a_LEE_RG','','','',''])
-        eng[-1].append(['AR_DENO','Nombre Artículo','-1','','50','l','100','','','','','','','',''])
-        eng[-1].append(['AR_CBAR','Código Barras','-1','','15','l','100','','','','','','','',''])
+        eng[-1].append(['AR_DENO','Nombre ArtÃ­culo','-1','','50','l','100','','','','','','','',''])
+        eng[-1].append(['AR_CBAR','CÃ³digo Barras','-1','','15','l','100','','','','','','','',''])
         eng[-1].append(['AR_TIPO','Tipo','-1','','5','l','5','','','','','LISTA:A-Articulo|S-Servicio]1','','',''])
         eng[-1].append(['AR_PVP','PVP','-1','','6','2','10','','','','','','','',''])
         eng[-1].append(['AR_STK','Stock','-1','','6','0','10','','','','','','','',''])
@@ -50,7 +49,7 @@ class articulos(OC.Ventana):
         btn.append(['B3',5,70,95,'new.png','Nuevo','a_NUEVO','Nuevo Registro',''])
         btn.append(['B4',105,70,95,'save.png','Grabar','a_GRABA','Grabar Datos',''])
         btn.append(['B5',5,140,95,'delete.png','Borrar','a_BORRA','Borrar Cliente',''])
-        btn.append(['B6',105,140,95,'','Listado','a_INFO:articulos','',''])
+        btn.append(['B6',105,140,95,'report.png','Listado','a_INFO:articulos','',''])
         btn.append(['B7',5,210,95,'select.png','Buscar','a_INFO:articulos,ar_ls,LS','',''])
         btn.append(['B8',105,210,95,'exit.png','Salir','a_SALIR','',''])
 
@@ -59,7 +58,7 @@ class articulos(OC.Ventana):
         ls_campos.append(tb)
         ls_campos.append(p3)
 
-        #P4 - Lista de Selección
+        #P4 - Lista de SelecciÃ³n
         p4 = ['PANEL','P4',0,400,600,170,'','','',[]]
         cols = [['Codigo','l'],['Nombre','l'],['Tipo','l'],['PVP','2'],['Stock','0']]
         ls = ['LIST','LS',0,0,-1,-1,cols,'','','','','','a_carga_rg','']
@@ -71,8 +70,8 @@ class articulos(OC.Ventana):
         #
         self._idx = 'IDX'
         self._filedb = 'articulos'
-        self._accini=''      # Acción al cargar la ventana
-        self._accleer = ''   # Acción despues de leer registro
+        self._accini=''      # AcciÃ³n al cargar la ventana
+        self._accleer = ''   # AcciÃ³n despues de leer registro
         self._btfin = ''     # Nombre del boton a ejecutar cuando pulse boton FIN
 
 
@@ -86,7 +85,7 @@ class articulos(OC.Ventana):
         ok,val = std
 
         # Comprobar el valor devuelto por si hay que hacer algo
-        # Ya se ejecutó la accion. No continuar con la accion normal
+        # Ya se ejecutÃ³ la accion. No continuar con la accion normal
         if ok>0:
             return val
 
@@ -104,7 +103,7 @@ class articulos(OC.Ventana):
 #
 ##############################################################
 if __name__ == "__main__":
-    app = wx.PySimpleApp()
+    app = wx.App(False)
     ventana = articulos()
     ventana.Show()
     app.MainLoop()
