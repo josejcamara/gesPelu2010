@@ -69,7 +69,16 @@ class Dicc():
         return queryResult[0]
 
     def getDiccRows(self, tabla_nombre):
-        pass
+        Session = sessionmaker(bind = self._engine)
+        session = Session()
+
+        queryResult = []
+        for h, r in session.query(Dicc_Header, Dicc_Rows).filter(Dicc_Header.tabla_nombre == tabla_nombre).all():
+            queryResult.append(r)
+
+        session.close()
+
+        return queryResult
 
     def createDicc(self, tabla_nombre):
         pass
@@ -94,3 +103,8 @@ if __name__ == "__main__":
     data = diccEngine.getDiccHeader('clientes')
     print('----- One Dicc:')
     print(data.tabla_nombre,data.descripcion)
+
+    data = diccEngine.getDiccRows('clientes')
+    print('----- One Dicc Rows:')
+    for r in data:
+        print(r.campo, r.descripcion)
