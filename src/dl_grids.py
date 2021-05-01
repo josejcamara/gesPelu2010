@@ -54,7 +54,7 @@ class Detalle_Grids(OC.Dialogo.Dialogo):
     def Ejecuta_Accion(self,accion):
         if accion=='a_salir':
             if self.Modifica==1:
-                dlg = Men('Hay cambios en la ventana y no ha guardado.\n¿Desea Continuar?','sn',img='q')
+                dlg = Men('Hay cambios en la ventana y no ha guardado.\nÂ¿Desea Continuar?','sn',img='q')
                 if dlg=='n': return
             self.Modifica = 0
             self.Close()

@@ -56,8 +56,8 @@ class agenda(OC.Ventana):
         #
         self._idx = 'IDX'
         self._filedb = 'agenda'
-        self._accini='a_ini_var'      # Acción al cargar la ventana
-        self._accleer = ''   # Acción despues de leer registro
+        self._accini='a_ini_var'      # Acciï¿½n al cargar la ventana
+        self._accleer = ''   # Acciï¿½n despues de leer registro
         self._btfin = ''     # Nombre del boton a ejecutar cuando pulse boton FIN
         #
         self.init_ctrls(ls_campos)
@@ -73,7 +73,7 @@ class agenda(OC.Ventana):
     #
     def OnCalSelected(self, evt):
         if self.Modifica==1:
-            dlg=Men('Ha realizado cambios en la ficha\n¿Desea Continuar sin grabar?','sn','q')
+            dlg=Men('Ha realizado cambios en la ficha\nÂ¿Desea Continuar sin grabar?','sn','q')
             if dlg=='n': return 0
 
         sele = evt.Date
@@ -97,7 +97,7 @@ class agenda(OC.Ventana):
         ok,val = std
 
         # Comprobar el valor devuelto por si hay que hacer algo
-        # Ya se ejecutó la accion. No continuar con la accion normal
+        # Ya se ejecutï¿½ la accion. No continuar con la accion normal
         if ok>0:
             return val
 
@@ -106,7 +106,7 @@ class agenda(OC.Ventana):
             self.Modifica=0
 
 
-        return 0 # No se ejecutó ninguna accion !!!!
+        return 0 # No se ejecutï¿½ ninguna accion !!!!
 
 
 

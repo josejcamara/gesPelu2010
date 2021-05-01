@@ -5,7 +5,7 @@ import OC
 from OC.Funciones import *
 
 import shutil
-import os
+import wx,os
 import os.path
 import datetime
 
@@ -127,7 +127,6 @@ def runTest(frame, nb, log):
 #
 ##############################################################
 if __name__ == "__main__":
-    import wx
     import global_var
 
     app = wx.App(False)
