@@ -1,16 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 
-import wx
+import wx,os
 import OC
 import bsddb
 import pickle
 from OC.Funciones import *
 
 class Manage_Win(OC.Ventana):
-    """ Ficha para manejar las ventanas de la aplicaci�n """
+    """ Ficha para manejar las ventanas de la aplicación """
     
-    def __init__(self):
+    def __init__(self,filePath):
+        #
+        self.filePath = filePath
+        self.fileName = os.path.join(filePath,'wins')
+        #
         OC.Ventana.__init__(self, None,'Ventanas de la Aplicacion',tam=(800,600))
         #
         self.NOMBRE_ROOT = 'Propiedades Generales'
@@ -18,7 +22,7 @@ class Manage_Win(OC.Ventana):
         
         # P0 - Lista de ventanas disponible
         p0 = ['PANEL','P0',0,0,200,150,'','','',[]]
-        cols=[['Ventana','l'],['Descripci�n','l']]
+        cols=[['Ventana','l'],['Descripción','l']]
         ls = ['LIST','L1',0,0,-1,-1,cols,'','','','','a_sele_win','','']
         p0[-1].append(ls)
         
@@ -77,7 +81,7 @@ class Manage_Win(OC.Ventana):
         
         #- POPUP MENU PARA EL ARBOL
         popup = wx.Menu()
-        opciones = ['A�adir Elemento','Eliminar Elemento']
+        opciones = ['Añadir Elemento','Eliminar Elemento']
         for opc in opciones:
             item = popup.Append(-1,opc)
             self.Bind(wx.EVT_MENU,self.onPopupSele,item)
@@ -100,11 +104,11 @@ class Manage_Win(OC.Ventana):
         raiz = self.arbol.RootItem
         #
         titus=[]
-        sele_cell = {}  # Dialogo de selecci�n por celda
+        sele_cell = {}  # Dialogo de selección por celda
         if item==raiz:
             datos = self.data[self.NOMBRE_ROOT]
-            titus = ['Descripci�n','Ventana Padre','Icono','T�tulo Ventana']
-            titus.extend(['Tama�o X','Tama�o Y','PosX','PosY'])
+            titus = ['Descripción','Ventana Padre','Icono','Título Ventana']
+            titus.extend(['Tamaño X','Tamaño Y','PosX','PosY'])
             titus.extend(['Tabla Asociada','Campo IDX'])
             titus.extend(['Accion Al Cargar','Accion Despues Leer','Boton al FIN'])
         else:
@@ -130,12 +134,12 @@ class Manage_Win(OC.Ventana):
                 titus = ['Tipo','ID','X inicio','Y inicio','Ancho','Alto']
                 titus.extend(['Columnas','Anchos Fijos Columnas'])
                 titus.extend(['Estilo','Seleccion Multiple?','Borrado?'])
-                titus.extend(['Acci�n al Seleccionar','Accion Doble Click'])
-                titus.extend(['Acci�n al Borrar'])
+                titus.extend(['Acción al Seleccionar','Accion Doble Click'])
+                titus.extend(['Acción al Borrar'])
                 ## COLUMNAS: [['Titulo','Formato']]
             elif tipo=='GRID':
                 titus = ['Tipo','ID','Titulo','X inicio','Y inicio']
-                titus.extend(['Ancho','Alto Fila','N� Filas','Columnas'])
+                titus.extend(['Ancho','Alto Fila','Nº Filas','Columnas'])
                 titus.extend(['Ancho Titulo Fila','Titulos Filas'])
                 titus.extend(['Propiedades Generales'])
                 ## COLUMNAS:
@@ -157,8 +161,8 @@ class Manage_Win(OC.Ventana):
                 titus.extend(['Color+Font','Borde','Accion al Cambio'])
             elif tipo=='TEXT':
                 titus = ['Tipo','ID','X inicio','Y inicio','Ancho','Alto']
-                titus.extend(['Color+Font','Color+Font con Rat�n','Borde'])
-                titus.extend(['Alineamiento','Acci�n al Click'])
+                titus.extend(['Color+Font','Color+Font con Ratón','Borde'])
+                titus.extend(['Alineamiento','Acción al Click'])
         #
         i=0
         g1=[]
@@ -185,7 +189,7 @@ class Manage_Win(OC.Ventana):
     #-- Seleccionar Elemento del menu Popup del arbol
     #
     def onPopupSele(self,evt):
-        id = evt.GetId()    # Id del men� popup
+        id = evt.GetId()    # Id del menú popup
         #item = self.popup.FindItemById(id)
         #text = item.GetText()
         #ventana = self.wsele
@@ -197,11 +201,11 @@ class Manage_Win(OC.Ventana):
         raiz = arbol.RootItem
         
                
-        if id==100: # A�adir Elemento
+        if id==100: # Añadir Elemento
             if nodo<>raiz:
                 tipo = data[txtnodo][0]
                 if tipo in ('LIST','GRID'):
-                    Men('No puede a�adir hijos a este elemento')
+                    Men('No puede añadir hijos a este elemento')
                     return
             
             ops=['Panel','Texto','Entrada','Lista','Grid','Botones']
@@ -235,7 +239,7 @@ class Manage_Win(OC.Ventana):
             elif sele=='Botones':
                 data[idnodo]=['BUTTONS',idnodo,'40','','',[]]
             else:
-                Men('Ha elegido un elemento no v�lido.')
+                Men('Ha elegido un elemento no válido.')
                 return
             #
             arbol.AppendItem(nodo,idnodo)
@@ -245,12 +249,12 @@ class Manage_Win(OC.Ventana):
             if nodo==raiz:
                 Men('No puede borrar el elemento raiz')
                 return
-            dlg = Men('�Est� seguro de borrar el elemento?','sn',img='q')
+            dlg = Men('¿Está seguro de borrar el elemento?','sn',img='q')
             if dlg=='n': return
             del data[txtnodo]   # No borra los hijos,pero no es necesario
             arbol.Delete(nodo)
         else:
-            Men('No se encontr� accion para opcion seleccionada.')
+            Men('No se encontró accion para opcion seleccionada.')
         
         self.arbol.Expand(self.arbol.RootItem)
     
@@ -340,7 +344,7 @@ class Manage_Win(OC.Ventana):
                 
             """ Leer la lista de ventanas actuales """
             lis=[]
-            wins = bsddb.btopen('wins')
+            wins = bsddb.btopen(self.fileName)
             for nm in wins.keys(): 
                 datos = pickle.loads(wins[nm])
                 lis.append([nm,datos[0]]) # Ventana, Descripcion
@@ -363,7 +367,7 @@ class Manage_Win(OC.Ventana):
                 Men('No hay seleccionada ventana')
                 return -1
             #
-            wins = bsddb.btopen('wins')
+            wins = bsddb.btopen(self.fileName)
             datos = pickle.loads(wins[sele])
             wins.close()
             #
@@ -384,24 +388,24 @@ class Manage_Win(OC.Ventana):
             if nombre==-1: return
             
             propgen = []    # Propiedades Generales de la ventana
-            propgen.append('Ventana '+nombre)  # Descripci�n
+            propgen.append('Ventana '+nombre)  # Descripción
             propgen.append('')                 # Nombre Ventana Padre
             propgen.append('')                 # Icono Ventana
             propgen.append('')                 # Titulo de la ventana
-            propgen.append('800')              # Tama�o X
-            propgen.append('600')              # Tama�o Y
+            propgen.append('800')              # Tamaño X
+            propgen.append('600')              # Tamaño Y
             propgen.append('c')                # Pos X inicial (c=Centro)
             propgen.append('c')                # Pos Y inicial (c=Centro)
             propgen.append('')                 # Nombre de la tabla Asociada
             propgen.append('')                 # Campo que contiene Clave Tabla
-            propgen.append('')                 # Acci�n Cargar Ventana
-            propgen.append('')                 # Acci�n Despues de Leer
+            propgen.append('')                 # Acción Cargar Ventana
+            propgen.append('')                 # Acción Despues de Leer
             propgen.append('')                 # Boton a Ejecutar con FIN
             data={}
             data[self.NOMBRE_ROOT] = propgen   
             self.arbol.AddRoot(self.NOMBRE_ROOT)         
             #
-            dicc = bsddb.btopen('wins')
+            dicc = bsddb.btopen(self.fileName)
             datoswin = copia_rg(propgen)
             datoswin.append([]) # Ningun elemento Hijo al empezar
             dicc[nombre] = pickle.dumps(datoswin)
@@ -417,9 +421,9 @@ class Manage_Win(OC.Ventana):
             if sele==None:
                 Men('Debe seleccionar la ventana a borrar')
                 return -1
-            dlg = Men('�Est� seguro de borrar la ventana '+sele+'?','sn',img='q')
+            dlg = Men('¿Está seguro de borrar la ventana '+sele+'?','sn',img='q')
             if dlg=='n': return -1
-            dicc = bsddb.btopen('wins')
+            dicc = bsddb.btopen(self.fileName)
             del dicc[sele]
             dicc.close()
             Men('Ventana Borrada')
@@ -445,7 +449,7 @@ class Manage_Win(OC.Ventana):
                 return -1
             datos = self.Arbol_a_Datos()
             #
-            dicc = bsddb.btopen('wins')
+            dicc = bsddb.btopen(self.fileName)
             dicc[win]=pickle.dumps(datos)
             dicc.close()
             #
@@ -457,7 +461,7 @@ class Manage_Win(OC.Ventana):
             if sele==None:
                 Men('Debe seleccionar la ventana a ejecutar')
                 return -1
-            wins = bsddb.btopen('wins')
+            wins = bsddb.btopen(self.fileName)
             datos = pickle.loads(wins[sele])
             wins.close()
 
@@ -501,7 +505,7 @@ class Manage_Win(OC.Ventana):
 #
 ##############################################################
 if __name__ == "__main__":
-    app = wx.PySimpleApp()
+    app = wx.App(False)
     ventana = Manage_Win()
     ventana.Show()
     app.MainLoop()

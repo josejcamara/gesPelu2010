@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 
-import wx
+import wx,os
 import OC
 
 from OC.Funciones import *
@@ -12,6 +12,7 @@ class Manage_Form(OC.Ventana):
     def __init__(self,filePath):
         #
         self.filePath = filePath
+        self.fileName = os.path.join(filePath,'forms')
         #
         OC.Ventana.__init__(self, None,'Edición de Informes',tam=(800,600))
         #
@@ -107,7 +108,7 @@ class Manage_Form(OC.Ventana):
             return val
 
         if accion=='a_ini_var':
-            tablas = bsddb.btopen('dicc')
+            tablas = bsddb.btopen(os.path.join(self.filePath,'dicc'))
             lista_files = tablas.keys()
             tablas.close()
             lista_files.insert(0,'')
@@ -124,7 +125,7 @@ class Manage_Form(OC.Ventana):
             sele = self._FILE.GetSelection()
             tabla = items[sele].encode('latin-1')
             #
-            datos_inf = lee_dicc(self.filePath,tabla)
+            datos_inf = lee_dicc(self.fileName,tabla)
             if datos_inf==None: datos_inf={}
             #
             ls_inf = datos_inf.keys()
@@ -147,7 +148,7 @@ class Manage_Form(OC.Ventana):
             tabla = items[sele].encode('latin-1')
             inf = self._ct['LINF'].GetValue()
             #
-            ls_inf = lee_dicc(self.filePath,tabla)
+            ls_inf = lee_dicc(self.fileName,tabla)
             #
             if not inf in ls_inf.keys():
                 # Le ha dado a informe nuevo y se ha seleccionado
@@ -210,7 +211,7 @@ class Manage_Form(OC.Ventana):
             #
             datos = [deno,antes,accion,despues,gridc,gridp]
             #
-            ls_inf = lee_dicc(self.filePath,tabla)
+            ls_inf = lee_dicc(self.fileName,tabla)
             if ls_inf==None: ls_inf={}
             #
             if info in ls_inf.keys():
@@ -218,7 +219,7 @@ class Manage_Form(OC.Ventana):
                 if dl=='n': return -1
             ls_inf[info]=datos
             #
-            ok = graba_dicc(self.filePath,tabla,ls_inf)
+            ok = graba_dicc(self.fileName,tabla,ls_inf)
             if ok<>None:
                 Men('Listado Guardado',img='i')
                 self.Ejecuta_Accion('a_carga_dicc')
@@ -239,13 +240,13 @@ class Manage_Form(OC.Ventana):
             dl = Men('¿Está seguro de borrar el listado '+info+'?','sN')
             if dl=='n': return -1
             #
-            ls_inf = lee_dicc(self.filePath,tabla)
+            ls_inf = lee_dicc(self.fileName,tabla)
             if ls_inf==None: ls_inf={}
             #
             if info in ls_inf.keys():
                 del ls_inf[info]
             #
-            ok = graba_dicc(self.filePath,tabla,ls_inf)
+            ok = graba_dicc(self.fileName,tabla,ls_inf)
             Men('Listado Borrado',img='i')
             self.Ejecuta_Accion('a_lista_inf')
 

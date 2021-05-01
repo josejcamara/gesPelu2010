@@ -2,12 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import OC
+import manage
 from OC.Funciones import *
 
 import wx, shutil
 import os
 import os.path
 import datetime
+
+MANAGE_FOLDER = 'manage'
 
 class AdminApp(OC.Ventana):
     """ Administracion de la aplication """
@@ -53,14 +56,11 @@ class AdminApp(OC.Ventana):
             return val
 
         if accion == 'a_abre_EdiWin':
-            import EdiWin
-            win = EdiWin.Manage_Win()
+            win = manage.EdiWin.Manage_Win(MANAGE_FOLDER)
         elif accion == 'a_abre_EdiDicc':
-            import EdiDicc
-            win = EdiDicc.Manage_Dicc('dicc')
+            win = manage.EdiDicc.Manage_Dicc(MANAGE_FOLDER)
         elif accion == 'a_abre_EdiForm':
-            import EdiForm
-            win = EdiForm.Manage_Form('forms')
+            win = manage.EdiForm.Manage_Form(MANAGE_FOLDER)
 
 
 

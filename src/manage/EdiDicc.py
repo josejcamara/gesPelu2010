@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 
-import wx
+import wx, os
 import OC
 import bsddb
 import pickle
@@ -13,6 +13,7 @@ class Manage_Dicc(OC.Ventana):
     def __init__(self,filePath):
         #
         self.filePath = filePath
+        self.fileName = os.path.join(filePath,'dicc')
         #
         OC.Ventana.__init__(self, None,'Tablas de la Aplicación',tam=(800,600))
         #
@@ -89,7 +90,7 @@ class Manage_Dicc(OC.Ventana):
         elif accion=='a_carga_dicc':
             """ Leer la lista de tablas actuales """
             lis=[]
-            dicc = bsddb.btopen(self.filePath)
+            dicc = bsddb.btopen(self.fileName)
             for dc in dicc.keys():
                 datos = pickle.loads(dicc[dc])
                 lis.append([dc,datos[0]]) # Archivo, Descripcion
@@ -101,7 +102,7 @@ class Manage_Dicc(OC.Ventana):
                 dlg = Men('Ha modificado los datos.¿Desea Continuar sin grabar?','sn',img='q')
                 if dlg=='n': return -1
             tabla = self._ct['L1'].GetValue()
-            dicc = bsddb.btopen(self.filePath)
+            dicc = bsddb.btopen(self.fileName)
             datos = pickle.loads(dicc[tabla])
             dicc.close()
             self._ct['DENO'].SetValue(tabla)
@@ -121,7 +122,7 @@ class Manage_Dicc(OC.Ventana):
                 return -1
             dlg = Men('¿Está seguro de borrar la tabla '+sele+'?','sn',img='q')
             if dlg=='n': return -1
-            dicc = bsddb.btopen(self.filePath)
+            dicc = bsddb.btopen(self.fileName)
             del dicc[sele]
             dicc.close()
             Men('Tabla Borrada')
@@ -153,7 +154,7 @@ class Manage_Dicc(OC.Ventana):
             datos = [desc,lcod,rels,indx,accg,campos]
 
             #
-            dicc = bsddb.btopen(self.filePath)
+            dicc = bsddb.btopen(self.fileName)
             dicc[tabla]=pickle.dumps(datos)
             dicc.close()
             #
