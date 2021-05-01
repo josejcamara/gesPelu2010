@@ -1,18 +1,19 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf8 -*-
 
 import wx
-import wx.calendar
 import OC
 
 from OC.Funciones import *
 
-class EdiForm(OC.Ventana):
+class Manage_Form(OC.Ventana):
     """ Edicion de Informes """
 
-    def __init__(self,padre=None):
-
-        OC.Ventana.__init__(self, padre,'Edición de Informes',tam=(800,600))
+    def __init__(self,filePath):
+        #
+        self.filePath = filePath
+        #
+        OC.Ventana.__init__(self, None,'EdiciÃ³n de Informes',tam=(800,600))
         #
         ls_campos = []
 
@@ -75,8 +76,8 @@ class EdiForm(OC.Ventana):
         #
         self._idx = ''
         self._filedb = ''
-        self._accini='a_ini_var'      # Acción al cargar la ventana
-        self._accleer = ''   # Acción despues de leer registro
+        self._accini='a_ini_var'      # AcciÃ³n al cargar la ventana
+        self._accleer = ''   # AcciÃ³n despues de leer registro
         self._btfin = ''     # Nombre del boton a ejecutar cuando pulse boton FIN
         #
         self.init_ctrls(ls_campos)
@@ -84,7 +85,7 @@ class EdiForm(OC.Ventana):
         self.Ejecuta_Accion(self._accini)
 
     #
-    #- Acción al cambiar seleccionado de la lista de archivos
+    #- Acciï¿½n al cambiar seleccionado de la lista de archivos
     #
     def onChangeFile(self,event):
         self.Ejecuta_Accion('a_lista_inf')
@@ -101,7 +102,7 @@ class EdiForm(OC.Ventana):
         ok,val = std
 
         # Comprobar el valor devuelto por si hay que hacer algo
-        # Ya se ejecutó la accion. No continuar con la accion normal
+        # Ya se ejecutÃ³ la accion. No continuar con la accion normal
         if ok>0:
             return val
 
@@ -123,7 +124,7 @@ class EdiForm(OC.Ventana):
             sele = self._FILE.GetSelection()
             tabla = items[sele].encode('latin-1')
             #
-            datos_inf = lee_dicc('forms',tabla)
+            datos_inf = lee_dicc(self.filePath,tabla)
             if datos_inf==None: datos_inf={}
             #
             ls_inf = datos_inf.keys()
@@ -146,7 +147,7 @@ class EdiForm(OC.Ventana):
             tabla = items[sele].encode('latin-1')
             inf = self._ct['LINF'].GetValue()
             #
-            ls_inf = lee_dicc('forms',tabla)
+            ls_inf = lee_dicc(self.filePath,tabla)
             #
             if not inf in ls_inf.keys():
                 # Le ha dado a informe nuevo y se ha seleccionado
@@ -179,7 +180,7 @@ class EdiForm(OC.Ventana):
                 return 1
             lsinf.append([id])
             self._ct['LINF'].SetValue(lsinf)
-            self._ct['LINF'].Sel_Item(len(lsinf)-1) # Último
+            self._ct['LINF'].Sel_Item(len(lsinf)-1) # Ãºltimo
             self._ct['DESCRIP'].SetValue('')
             self._ct['ANTES'].SetValue('')
             self._ct['ACCION'].SetValue('')
@@ -197,7 +198,7 @@ class EdiForm(OC.Ventana):
             info = self._ct['LINF'].GetValue()
             #
             if tabla=='' or info==None:
-                Men('No tiene seleccionado ningún informe.')
+                Men('No tiene seleccionado ningÃºn informe.')
                 return -1
             #
             deno = self._ct['DESCRIP'].GetValue()
@@ -209,15 +210,15 @@ class EdiForm(OC.Ventana):
             #
             datos = [deno,antes,accion,despues,gridc,gridp]
             #
-            ls_inf = lee_dicc('forms',tabla)
+            ls_inf = lee_dicc(self.filePath,tabla)
             if ls_inf==None: ls_inf={}
             #
             if info in ls_inf.keys():
-                dl = Men('Ya existe el informe '+info+'.\n¿Desea Sobreescribir?','sn')
+                dl = Men('Ya existe el informe '+info+'.\nÂ¿Desea Sobreescribir?','sn')
                 if dl=='n': return -1
             ls_inf[info]=datos
             #
-            ok = graba_dicc('forms',tabla,ls_inf)
+            ok = graba_dicc(self.filePath,tabla,ls_inf)
             if ok<>None:
                 Men('Listado Guardado',img='i')
                 self.Ejecuta_Accion('a_carga_dicc')
@@ -232,23 +233,23 @@ class EdiForm(OC.Ventana):
             info = self._ct['LINF'].GetValue()
             #
             if tabla=='' or info==None:
-                Men('No tiene seleccionado ningún informe para borrar')
+                Men('No tiene seleccionado ningÃºn informe para borrar')
                 return -1
             #
-            dl = Men('¿Está seguro de borrar el listado '+info+'?','sN')
+            dl = Men('Â¿EstÃ¡ seguro de borrar el listado '+info+'?','sN')
             if dl=='n': return -1
             #
-            ls_inf = lee_dicc('forms',tabla)
+            ls_inf = lee_dicc(self.filePath,tabla)
             if ls_inf==None: ls_inf={}
             #
             if info in ls_inf.keys():
                 del ls_inf[info]
             #
-            ok = graba_dicc('forms',tabla,ls_inf)
+            ok = graba_dicc(self.filePath,tabla,ls_inf)
             Men('Listado Borrado',img='i')
             self.Ejecuta_Accion('a_lista_inf')
 
-        return 0 # No se ejecutó ninguna accion !!!!
+        return 0 # No se ejecutÃ³ ninguna accion !!!!
 
 
 
@@ -259,7 +260,7 @@ class EdiForm(OC.Ventana):
 #
 ##############################################################
 if __name__ == "__main__":
-    app = wx.PySimpleApp()
-    ventana = EdiForm()
+    app = wx.App(False)
+    ventana = Manage_Form()
     ventana.Show()
     app.MainLoop()

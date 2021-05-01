@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf8 -*-
 
 import wx
 import OC
@@ -10,15 +10,18 @@ from OC.Funciones import *
 class Manage_Dicc(OC.Ventana):
     """ Ficha para manejar los archivos de la base de datos """
 
-    def __init__(self):
-        OC.Ventana.__init__(self, None,'Tablas de la Aplicacion',tam=(800,600))
+    def __init__(self,filePath):
+        #
+        self.filePath = filePath
+        #
+        OC.Ventana.__init__(self, None,'Tablas de la AplicaciÃ³n',tam=(800,600))
         #
         ls_campos = []
         #
         p1 = ['PANEL','P1',0,150,200,420,'','','',[]]
         #---
         hp1=[]  # hijos de P1
-        cols=[['Nombre','l'],['Descripción','l']]
+        cols=[['Nombre','l'],['DescripciÃ³n','l']]
         ls1 = ['LIST','L1',0,0,-1,-1,cols,'','','','','a_pon_dic','a_sele_dicc','']
         hp1.append(ls1)
         p1[-1]=hp1
@@ -29,11 +32,11 @@ class Manage_Dicc(OC.Ventana):
         hp2=[]
         lse = []    # Entradas
         lse.append(['DENO','Nombre Tabla',10,20,10,'l',0,'','','','','','','',''])
-        lse.append(['DESC','Descripción',-1,0,40,'l',0,'','','','','','','',''])
+        lse.append(['DESC','DescripciÃ³n',-1,0,40,'l',0,'','','','','','','',''])
         lse.append(['LCOD','Long. Fija',-1,0,5,'i',0,'','','','','','','',''])
         lse.append(['RELS','Tablas Relacionadas',10,-1,30,'l',0,'','','','','','Nombre de las tablas relacionadas, separadas por comas','',''])
-        lse.append(['INDICES','Indices Secundarios',-1,0,26,'l',0,'','','','','','Código Postal','',''])
-        lse.append(['ACCGRAB','Acción al Grabar',10,-1,25,'l',0,'','','','','','','',''])
+        lse.append(['INDICES','Indices Secundarios',-1,0,26,'l',0,'','','','','','CÃ³digo Postal','',''])
+        lse.append(['ACCGRAB','AcciÃ³n al Grabar',10,-1,25,'l',0,'','','','','','','',''])
         hp2.append(['ENTRYS','EX',25,50,'','',lse])
         #
         btn=[]
@@ -52,7 +55,7 @@ class Manage_Dicc(OC.Ventana):
         #---
         cols = []
         cols.append(['Campo',7,'l',0,'','','','','','','','','',''])
-        cols.append(['Descripción',22,'l',0,'','','','','','','','','',''])
+        cols.append(['DescripciÃ³n',22,'l',0,'','','','','','','','','',''])
         cols.append(['Formatos',10,'l',0,'','','','','','','','','',''])
         cols.append(['Relaciones',15,'l',0,'','','','','','','','','',''])
         cols.append(['F.Calculo',20,'l',0,'','','','','','','','','',''])
@@ -86,7 +89,7 @@ class Manage_Dicc(OC.Ventana):
         elif accion=='a_carga_dicc':
             """ Leer la lista de tablas actuales """
             lis=[]
-            dicc = bsddb.btopen('dicc')
+            dicc = bsddb.btopen(self.filePath)
             for dc in dicc.keys():
                 datos = pickle.loads(dicc[dc])
                 lis.append([dc,datos[0]]) # Archivo, Descripcion
@@ -95,10 +98,10 @@ class Manage_Dicc(OC.Ventana):
         elif accion=='a_pon_dic':
             """ Pone los datos del diccionario selecionado"""
             if self.Modifica==1:
-                dlg = Men('Ha modificado los datos.¿Desea Continuar sin grabar?','sn',img='q')
+                dlg = Men('Ha modificado los datos.Â¿Desea Continuar sin grabar?','sn',img='q')
                 if dlg=='n': return -1
             tabla = self._ct['L1'].GetValue()
-            dicc = bsddb.btopen('dicc')
+            dicc = bsddb.btopen(self.filePath)
             datos = pickle.loads(dicc[tabla])
             dicc.close()
             self._ct['DENO'].SetValue(tabla)
@@ -116,9 +119,9 @@ class Manage_Dicc(OC.Ventana):
             if sele=='':
                 Men('Debe seleccionar el fichero a borrar')
                 return -1
-            dlg = Men('¿Está seguro de borrar la tabla '+sele+'?','sn',img='q')
+            dlg = Men('Â¿EstÃ¡ seguro de borrar la tabla '+sele+'?','sn',img='q')
             if dlg=='n': return -1
-            dicc = bsddb.btopen('dicc')
+            dicc = bsddb.btopen(self.filePath)
             del dicc[sele]
             dicc.close()
             Men('Tabla Borrada')
@@ -141,16 +144,16 @@ class Manage_Dicc(OC.Ventana):
                 Men('No ha indicado los campos del diccionario')
                 return -1
             # datos del fichero => "dicc". dicc[tabla] = ...
-            # 0 - Descripción de la tabla
+            # 0 - DescripciÃ³n de la tabla
             # 1 - Longitud del codigo (Si fija)
             # 2 - Tablas Relacionadas
             # 3 - Indices Secundarios
-            # 4 - Accion de grabación
+            # 4 - Accion de grabaciÃ³n
             # 5 - Lista de Campos
             datos = [desc,lcod,rels,indx,accg,campos]
 
             #
-            dicc = bsddb.btopen('dicc')
+            dicc = bsddb.btopen(self.filePath)
             dicc[tabla]=pickle.dumps(datos)
             dicc.close()
             #
@@ -166,7 +169,7 @@ class Manage_Dicc(OC.Ventana):
 #
 ##############################################################
 if __name__ == "__main__":
-    app = wx.PySimpleApp()
+    app = wx.App(False)
     ventana = Manage_Dicc()
     #ventana._init_ctrls(ls_campos)
     ventana.Show()
