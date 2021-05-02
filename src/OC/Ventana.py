@@ -198,17 +198,19 @@ class Ventana(wx.Frame):
             exec(code)
             return (1,'')
 
-        file = self._filedb
-        ruta_datos = DIR_DATA +'/'+ file + '.db'
-        try:
-            idx = self._ct[self._idx].GetValue()
-            idx = str(idx)
-            if idx=='': idx='.'
-        except:
-            idx=''
-        #
-        if file<>'' and self._filept==None:
-            self._filept = bsddb.btopen(ruta_datos)
+        else:
+            # Abrir el fichero de datos y asociar a la ventana
+            file = self._filedb
+            ruta_datos = DIR_DATA +'/'+ file + '.db'
+            try:
+                idx = self._ct[self._idx].GetValue()
+                idx = str(idx)
+                if idx=='': idx='.'
+            except:
+                idx=''
+            #
+            if file<>'' and self._filept==None:
+                self._filept = bsddb.btopen(ruta_datos)
 
         res = None   # Si es igual a None, no se ejecutó accion
         if accion=='a_LEE_RG':
@@ -263,8 +265,8 @@ class Ventana(wx.Frame):
             rg_new = self.Pan_aReg()
             if rg_new==None: return(0,'No se pudo leer datos de pantalla.')
 
-            #- Est� definida la tabla en los diccionarios de aplicacion??
-            dicc = bsddb.btopen(os.path.join(DIR_APL,'dicc'))
+            #- Está definida la tabla en los diccionarios de aplicacion??
+            dicc = bsddb.btopen(os.path.join(DIR_APL,'manage','dicc'))
             if not file in dicc:
                 Men('No existe la tabla '+file+'\nNo se puede guardar.')
                 return (-1,'')
@@ -401,7 +403,7 @@ class Ventana(wx.Frame):
             dlg = Men('¿Está seguro de borrar el registro '+cod+'?','sn','q')
             if dlg=='n': return (1,'')
             #- Propiedades de la tabla a trabajar
-            dicc = bsddb.btopen(os.path.join(DIR_APL,'dicc'))
+            dicc = bsddb.btopen(os.path.join(DIR_APL,'manage','dicc'))
             if not file in dicc:
                 Men('No se ha definido la tabla '+file+'\nNo se puede guardar.')
                 return (-1,'')
@@ -822,8 +824,8 @@ class Ventana(wx.Frame):
         lsord = self._ctord
         filedb = self._filedb
 
-        #- Obtenemoslos campos de la definicion del diccionario
-        dicc = bsddb.btopen(os.path.join(DIR_APL,'dicc'))
+        #- Obtenemos los campos de la definicion del diccionario
+        dicc = bsddb.btopen(os.path.join(DIR_APL,'manage','dicc'))
         if not filedb in dicc:
             Men('No se ha definido la tabla '+filedb+'\nNo se puede guardar.')
             return None
@@ -893,12 +895,12 @@ class Ventana(wx.Frame):
         return valor
 
     #
-    #-- Limpiar todos los campois dela pantalla
+    #-- Limpiar todos los campos de la pantalla
     #
     def Limpia_Pantalla(self,borra_idx='s',otros=[]):
         filedb = self._filedb
         campos = self._ct.keys()
-        dicc = bsddb.btopen(os.path.join(DIR_APL,'dicc'))
+        dicc = bsddb.btopen(os.path.join(DIR_APL,'manage','dicc'))
         if filedb in dicc:
             campos = []
             for campo in pickle.loads(dicc[filedb])[-1]: # Ultima posicion tiene la lista de campos

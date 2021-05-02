@@ -124,7 +124,7 @@ class dl_sel_inf(OC.Dialogo):
         #
         self.init_ctrls(ls_campos)
         #
-        ls_inf = lee_dicc('forms',fichero)
+        ls_inf = lee_dicc('forms',fichero,os.path.join(DIR_APL,'manage'))
         lis=[]
 
         for key in ls_inf.keys():

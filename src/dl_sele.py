@@ -10,7 +10,7 @@ from global_var import DIR_DATA
 from global_var import DIR_APL
 
 #
-# DIALOGO DE SELECCI�N PARA CAMPOS. SE VE EL RESULTADO, SE DEVUELVE CODIGO
+# DIALOGO DE SELECCIÓN PARA CAMPOS. SE VE EL RESULTADO, SE DEVUELVE CODIGO
 #
 class dl_sele(OC.Dialogo):
 
@@ -44,8 +44,8 @@ class dl_sele(OC.Dialogo):
         #
         self.init_ctrls(ls_campos)
 
-        #- Traemos informaci�n del informe ----------
-        ls_inf = lee_dicc('forms',fichero)
+        #- Traemos información del informe ----------
+        ls_inf = lee_dicc('forms',fichero,os.path.join(DIR_APL,'manage'))
         if not informe in ls_inf.keys(): return -1
         #
         deno,acc_antes,accion,acc_despues,gridc,gridp = ls_inf[informe]

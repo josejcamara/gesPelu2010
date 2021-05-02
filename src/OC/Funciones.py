@@ -3,7 +3,7 @@
 import bsddb
 import pickle
 import datetime
-import sys
+import sys, os
 import wx
 
 try:
@@ -598,7 +598,7 @@ def Crea_Info(padre,fichero,informe,destino=''):
     import  wx.lib.printout as  printout
     import dl_select
 
-    ls_inf = lee_dicc('forms',fichero)
+    ls_inf = lee_dicc('forms',fichero, os.path.join(DIR_APL,'manage'))
     if not informe in ls_inf.keys(): return -1
     #
     deno,acc_antes,accion,acc_despues,gridc,gridp = ls_inf[informe]
