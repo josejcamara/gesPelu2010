@@ -65,11 +65,16 @@ class Dicc():
         queryResult = session.query(Dicc_Header).all()
         diccList = []
         for row in queryResult:
-            diccList.append(row.tabla_nombre)
+            diccList.append([row.tabla_nombre, row.descripcion])
 
         session.close()
 
         return diccList
+
+    def getDicc(self, tabla_nombre):
+        datos = self.getDiccHeader(tabla_nombre)
+        datos.append(self.getDiccRows(tabla_nombre))
+        return datos
 
     def getDiccHeader(self,tabla_nombre):
         Session = sessionmaker(bind = self._engine)
@@ -84,19 +89,29 @@ class Dicc():
             self.alert("Nombre de tabla %s no válido o no existe" % tabla_nombre)
             return []
 
-        return queryResult[0]
+        header = queryResult[0]
+        data = []
+        data.append(header.tabla_nombre)
+        data.append(header.descripcion)
+        data.append(header.idx_longitud)
+        data.append(header.tabla_relaciones)
+        data.append(header.indices_secundarios)
+        data.append(header.accion_grabar)
+
+        return data
 
     def getDiccRows(self, tabla_nombre):
         Session = sessionmaker(bind = self._engine)
         session = Session()
 
-        queryResult = []
+        data = []
         for h, r in session.query(Dicc_Header, Dicc_Rows).filter(Dicc_Header.tabla_nombre == tabla_nombre).all():
-            queryResult.append(r)
+            if (r.dicc_id != h.id): continue
+            data.append([r.campo, r.descripcion, r.formato, r.tabla_relacion, r.formula_calculo])
 
         session.close()
 
-        return queryResult
+        return data
 
     def createDicc(self, tabla_nombre):
         Session = sessionmaker(bind = self._engine)
@@ -107,7 +122,7 @@ class Dicc():
             self.alert("No se puede crear '%s', ya existe" % tabla_nombre)
             return -1
         else:
-            c1 = Dicc_Header(tabla_nombre = tabla_nombre)
+            c1 = Dicc_Header(tabla_nombre = tabla_nombre, descripcion = '')
             session.add(c1)
             session.commit()
         session.close()
@@ -125,8 +140,41 @@ class Dicc():
 
         return (0 if queryResult == 1 else -1)
 
-    def updateDicc(self, tabla_nombre, diccHeader, diccRows):
-        pass
+    def updateDicc(self, tabla_nombre, diccHeaderData, diccRowsData):
+        Session = sessionmaker(bind = self._engine)
+        session = Session()
+
+        diccHeader = session.query(Dicc_Header).filter(Dicc_Header.tabla_nombre == tabla_nombre).first()
+        if diccHeader == None:
+            # self.alert("No se puede actualizar '%s', no existe" % tabla_nombre)
+            # return -1
+            self.createDicc(tabla_nombre)
+            diccHeader = session.query(Dicc_Header).filter(Dicc_Header.tabla_nombre == tabla_nombre).first()
+
+        dicc_id = diccHeader.id
+        session.query(Dicc_Rows).filter(Dicc_Rows.dicc_id == dicc_id).delete(synchronize_session=False)
+
+        diccHeader.descripcion = diccHeaderData[1]
+        diccHeader.idx_longitud = diccHeaderData[2]
+        diccHeader.tabla_relaciones = diccHeaderData[3]
+        diccHeader.indices_secundarios = diccHeaderData[4]
+        diccHeader.accion_grabar = diccHeaderData[5]
+
+        for lnRow in diccRowsData:
+            row = Dicc_Rows()
+            row.dicc_id = dicc_id
+            row.campo = lnRow[0]
+            row.descripcion = lnRow[1]
+            row.formato = lnRow[2]
+            row.tabla_relacion = lnRow[3]
+            row.formula_calculo = lnRow[4]
+            session.add(row)
+
+        
+        session.commit()
+        session.close()
+
+        return 0
 
 #############################################################
 #

@@ -3,8 +3,7 @@
 
 import wx, os
 import OC
-import bsddb
-import pickle
+import model_dicc_bsddb
 from OC.Funciones import *
 
 class Manage_Dicc(OC.Ventana):
@@ -13,7 +12,7 @@ class Manage_Dicc(OC.Ventana):
     def __init__(self,filePath):
         #
         self.filePath = filePath
-        self.fileName = os.path.join(filePath,'dicc')
+        self._engine = model_dicc_bsddb.Dicc(filePath)
         #
         OC.Ventana.__init__(self, None,'Tablas de la Aplicación',tam=(800,600))
         #
@@ -79,6 +78,7 @@ class Manage_Dicc(OC.Ventana):
         if accion=='a_salir':
             self.Close()
             self.Destroy()
+
         elif accion=='a_nuevo':
             self._ct['DENO'].SetValue('')
             self._ct['DESC'].SetValue('')
@@ -87,24 +87,20 @@ class Manage_Dicc(OC.Ventana):
             self._ct['INDICES'].SetValue('')
             self._ct['ACCGRAB'].SetValue('')
             self._ct['G1'].SetValue([])
+
         elif accion=='a_carga_dicc':
             """ Leer la lista de tablas actuales """
-            lis=[]
-            dicc = bsddb.btopen(self.fileName)
-            for dc in dicc.keys():
-                datos = pickle.loads(dicc[dc])
-                lis.append([dc,datos[0]]) # Archivo, Descripcion
-            dicc.close()
+            lis = self._engine.getDiccList()
             self._ct['L1'].SetValue(lis)
+
         elif accion=='a_pon_dic':
             """ Pone los datos del diccionario selecionado"""
             if self.Modifica==1:
                 dlg = Men('Ha modificado los datos.¿Desea Continuar sin grabar?','sn',img='q')
                 if dlg=='n': return -1
             tabla = self._ct['L1'].GetValue()
-            dicc = bsddb.btopen(self.fileName)
-            datos = pickle.loads(dicc[tabla])
-            dicc.close()
+            datos = self._engine.getDicc(tabla)
+            #
             self._ct['DENO'].SetValue(tabla)
             self._ct['DESC'].SetValue(datos[0])
             self._ct['LCOD'].SetValue(datos[1])
@@ -122,9 +118,8 @@ class Manage_Dicc(OC.Ventana):
                 return -1
             dlg = Men('¿Está seguro de borrar la tabla '+sele+'?','sn',img='q')
             if dlg=='n': return -1
-            dicc = bsddb.btopen(self.fileName)
-            del dicc[sele]
-            dicc.close()
+
+            self._engine.deleteDicc(sele)
             Men('Tabla Borrada')
             self.Ejecuta_Accion('a_carga_dicc')
 
@@ -153,18 +148,13 @@ class Manage_Dicc(OC.Ventana):
             # 5 - Lista de Campos
             datos = [desc,lcod,rels,indx,accg,campos]
 
-            #
-            dicc = bsddb.btopen(self.fileName)
-            dicc[tabla]=pickle.dumps(datos)
-            dicc.close()
+            self._engine.updateDicc(tabla, datos[:-1], datos[-1])
             #
             Men('Registro Guardado',img='i')
             self.Ejecuta_Accion('a_carga_dicc')
 
 
-
 #############################################################
-#
 #
 #
 #
@@ -172,6 +162,5 @@ class Manage_Dicc(OC.Ventana):
 if __name__ == "__main__":
     app = wx.App(False)
     ventana = Manage_Dicc()
-    #ventana._init_ctrls(ls_campos)
     ventana.Show()
     app.MainLoop()
