@@ -3,7 +3,7 @@
 
 """ Export forms and dicc data from berkeleyDB to SQLite """
 
-import model_dicc_bsddb
+import model_dicc_berkeley
 import model_dicc
 import os,sys
 
@@ -22,7 +22,7 @@ def exportForms():
     print('Exportando forms...')
 
     # lis=[]
-    # forms = bsddb.btopen('forms')
+    # forms = bsd_db.btopen('forms')
     # for dc in forms.keys():
     #     datos = pickle.loads(forms[dc])
     #     # dc: Diccionario al que está asociado este informe/listado
@@ -44,7 +44,7 @@ def exportDicc():
     #
     print('Exportando dicc...')
     #
-    diccBSD = model_dicc_bsddb.Dicc('.')
+    diccBSD = model_dicc_berkeley.Dicc('.')
     diccSQL = model_dicc.Dicc('.')
     #
     diccList = diccBSD.getDiccList()

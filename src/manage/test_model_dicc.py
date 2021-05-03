@@ -200,7 +200,7 @@ if __name__ == '__main__':
 
     testBSD = confirm('Quieres ejecutar antiguos?')
     if (testBSD):
-        import model_dicc_bsddb as model_dicc
+        import model_dicc_berkeley as model_dicc
         print('=== Testing DSDDB ===')
     else:
         import model_dicc
