@@ -115,9 +115,9 @@ class List():
                     except:
                         valor = '0.0'
                 else:
-                    valor =str(valor)   # No debería llegar, pero por si...
-                #
-                valor = valor.decode('latin-1')
+                    if not isinstance(valor, unicode):
+                        valor =str(valor).decode('latin-1')
+
                 lis.SetItem(nfila,ncol,valor)
                 #
                 ncol += 1

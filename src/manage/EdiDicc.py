@@ -3,7 +3,7 @@
 
 import wx, os
 import OC
-import model_dicc_bsddb
+import model_dicc as dicc_model
 from OC.Funciones import *
 
 class Manage_Dicc(OC.Ventana):
@@ -12,7 +12,7 @@ class Manage_Dicc(OC.Ventana):
     def __init__(self,filePath):
         #
         self.filePath = filePath
-        self._engine = model_dicc_bsddb.Dicc(filePath)
+        self._engine = dicc_model.Dicc(filePath)
         #
         OC.Ventana.__init__(self, None,'Tablas de la Aplicación',tam=(800,600))
         #

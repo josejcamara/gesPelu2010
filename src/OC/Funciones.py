@@ -299,7 +299,10 @@ def Str_a_Fmt(cadena,fmt):
 #
 def Fmt_a_Str(valor,fmt):
     """ Convierte el valor 'valor' (en formato 'fmt') a una cadena de texto """
-    resul = str(valor)
+    if not isinstance(valor, unicode):
+        resul = str(valor)
+    else:
+        resul = valor
 
     if fmt=='d':
         resul = Num_aFecha(valor)
@@ -313,7 +316,8 @@ def Fmt_a_Str(valor,fmt):
             dec = dec + '0'
         valor = ent+'.'+dec
     else:
-        resul = resul.decode('latin-1')
+        if not isinstance(resul, unicode):
+            resul = resul.decode('latin-1')
 
     return resul
 
@@ -603,7 +607,8 @@ def Crea_Info(padre,fichero,informe,destino=''):
     #
     deno,acc_antes,accion,acc_despues,gridc,gridp = ls_inf[informe]
     #
-    deno = deno.decode('latin-1').encode('utf8')
+    if isinstance(deno, unicode):
+        deno = deno.decode('latin-1').encode('utf8')
 
     #- Contruimos preguntas
     preguntas = []
