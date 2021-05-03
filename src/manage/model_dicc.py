@@ -8,7 +8,20 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.orm import sessionmaker
 
+from sqlalchemy.types import TypeDecorator, Unicode
+
 from sqlalchemy.ext.declarative import declarative_base
+
+class CoerceUTF8(TypeDecorator):
+    """Safely coerce Python bytestrings to Unicode
+    before passing off to the database."""
+
+    impl = Unicode
+
+    def process_bind_param(self, value, dialect):
+        if isinstance(value, str):
+            value = value.decode('latin-1')
+        return value
 
 Base = declarative_base()
 
@@ -16,7 +29,7 @@ class Dicc_Header(Base):
     __tablename__ = "dicc"
     id = Column(Integer, primary_key=True)
     tabla_nombre = Column(String)
-    descripcion = Column(String)
+    descripcion = Column(CoerceUTF8)
     idx_longitud = Column(Integer)
     tabla_relaciones = Column(String)
     indices_secundarios = Column(String)
@@ -30,7 +43,7 @@ class Dicc_Rows(Base):
     id = Column(Integer, primary_key=True)
     dicc_id = Column(Integer, ForeignKey('dicc.id'))
     campo = Column(String)
-    descripcion = Column(String)
+    descripcion = Column(CoerceUTF8)
     formato = Column(String)
     tabla_relacion = Column(String)
     formula_calculo = Column(String)
@@ -91,7 +104,7 @@ class Dicc():
 
         header = queryResult[0]
         data = []
-        data.append(header.tabla_nombre)
+        # data.append(header.tabla_nombre)
         data.append(header.descripcion)
         data.append(header.idx_longitud)
         data.append(header.tabla_relaciones)
@@ -154,11 +167,11 @@ class Dicc():
         dicc_id = diccHeader.id
         session.query(Dicc_Rows).filter(Dicc_Rows.dicc_id == dicc_id).delete(synchronize_session=False)
 
-        diccHeader.descripcion = diccHeaderData[1]
-        diccHeader.idx_longitud = diccHeaderData[2]
-        diccHeader.tabla_relaciones = diccHeaderData[3]
-        diccHeader.indices_secundarios = diccHeaderData[4]
-        diccHeader.accion_grabar = diccHeaderData[5]
+        diccHeader.descripcion = diccHeaderData[0]
+        diccHeader.idx_longitud = diccHeaderData[1]
+        diccHeader.tabla_relaciones = diccHeaderData[2]
+        diccHeader.indices_secundarios = diccHeaderData[3]
+        diccHeader.accion_grabar = diccHeaderData[4]
 
         for lnRow in diccRowsData:
             row = Dicc_Rows()

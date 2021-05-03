@@ -67,7 +67,7 @@ class TestModelDicc(unittest.TestCase):
     def test_getDicc(self):
         """ It covers 'createDicc', 'updateDicc', 'getDiccHeader' and 'getDiccRows' """
         NEW_DICC_NAME = 'newDicc5'
-        NEW_DICC_HEADER = [NEW_DICC_NAME,'tabla prueba',10,'rel','index','accion']
+        NEW_DICC_HEADER = ['tabla prueba',10,'rel','index','accion']
         NEW_DICC_ROWS = []
 
         statusCreated = self._engine.createDicc(NEW_DICC_NAME)
@@ -80,19 +80,18 @@ class TestModelDicc(unittest.TestCase):
         self._engine.updateDicc(NEW_DICC_NAME, NEW_DICC_HEADER, NEW_DICC_ROWS)
         #
         data = self._engine.getDicc(NEW_DICC_NAME)
-        self.assertEquals(data[0],NEW_DICC_NAME)
-        self.assertEquals(data[1],'tabla prueba')
-        self.assertEquals(data[2],10)
-        self.assertEquals(data[3],'rel')
-        self.assertEquals(data[4],'index')
-        self.assertEquals(data[5],'accion')
-        self.assertEquals(data[6],NEW_DICC_ROWS)
+        self.assertEquals(data[0],'tabla prueba')
+        self.assertEquals(data[1],10)
+        self.assertEquals(data[2],'rel')
+        self.assertEquals(data[3],'index')
+        self.assertEquals(data[4],'accion')
+        self.assertEquals(data[5],NEW_DICC_ROWS)
 
 
     def test_getDiccHeader_whenDiccExists(self):
         """ It covers 'createDicc', 'updateDicc', 'getDiccHeader' """
         NEW_DICC_NAME = 'newDicc6'
-        NEW_DICC_HEADER = [NEW_DICC_NAME,'tabla prueba',10,'rel','index','accion']
+        NEW_DICC_HEADER = ['tabla prueba',10,'rel','index','accion']
         NEW_DICC_ROWS = []
 
         statusCreated = self._engine.createDicc(NEW_DICC_NAME)
@@ -106,12 +105,11 @@ class TestModelDicc(unittest.TestCase):
         #
         headerDicc = self._engine.getDiccHeader(NEW_DICC_NAME)
         #
-        self.assertEquals(headerDicc[0],NEW_DICC_NAME)
-        self.assertEquals(headerDicc[1],'tabla prueba')
-        self.assertEquals(headerDicc[2],10)
-        self.assertEquals(headerDicc[3],'rel')
-        self.assertEquals(headerDicc[4],'index')
-        self.assertEquals(headerDicc[5],'accion')
+        self.assertEquals(headerDicc[0],'tabla prueba')
+        self.assertEquals(headerDicc[1],10)
+        self.assertEquals(headerDicc[2],'rel')
+        self.assertEquals(headerDicc[3],'index')
+        self.assertEquals(headerDicc[4],'accion')
 
     def test_getDiccHeader_whenDiccDoesNotExists(self):
         """ It covers getDiccHeader """
@@ -150,7 +148,7 @@ class TestModelDicc(unittest.TestCase):
     def test_updateDicc_whenDiccExists_shouldUpdate(self):
         """ It covers 'updateDicc' and 'getDicc' """
         NEW_DICC_NAME = 'newDicc10'
-        NEW_DICC_HEADER = [NEW_DICC_NAME,'tabla prueba',10,'rel','index','accion']
+        NEW_DICC_HEADER = ['tabla prueba',10,'rel','index','accion']
         NEW_DICC_ROWS = [ ['campo10','desc','fmt','rel','fcal'] ]
         #
         statusCreated = self._engine.createDicc(NEW_DICC_NAME)
@@ -162,31 +160,29 @@ class TestModelDicc(unittest.TestCase):
         statusUpdate = self._engine.updateDicc(NEW_DICC_NAME, NEW_DICC_HEADER, NEW_DICC_ROWS)
         data = self._engine.getDicc(NEW_DICC_NAME)
         self.assertEquals(statusUpdate,0)
-        self.assertEquals(data[0],NEW_DICC_NAME)
-        self.assertEquals(data[1],'tabla prueba')
-        self.assertEquals(data[2],10)
-        self.assertEquals(data[3],'rel')
-        self.assertEquals(data[4],'index')
-        self.assertEquals(data[5],'accion')
-        self.assertEquals(data[6],NEW_DICC_ROWS)
+        self.assertEquals(data[0],'tabla prueba')
+        self.assertEquals(data[1],10)
+        self.assertEquals(data[2],'rel')
+        self.assertEquals(data[3],'index')
+        self.assertEquals(data[4],'accion')
+        self.assertEquals(data[5],NEW_DICC_ROWS)
 
     def test_updateDicc_whenDiccDoesNotExists_shouldCreate(self):
         """ It covers 'updateDicc' and 'getDicc' """
         NEW_DICC_NAME = 'newDicc11'
-        NEW_DICC_HEADER = [NEW_DICC_NAME,'tabla prueba',10,'rel','index','accion']
+        NEW_DICC_HEADER = ['tabla prueba',10,'rel','index','accion']
         NEW_DICC_ROWS = [ ['campo11','desc','fmt','rel','fcal'] ]
 
         statusUpdate = self._engine.updateDicc(NEW_DICC_NAME, NEW_DICC_HEADER, NEW_DICC_ROWS)
         #
         data = self._engine.getDicc(NEW_DICC_NAME)
         self.assertEquals(statusUpdate,0)
-        self.assertEquals(data[0],NEW_DICC_NAME)
-        self.assertEquals(data[1],'tabla prueba')
-        self.assertEquals(data[2],10)
-        self.assertEquals(data[3],'rel')
-        self.assertEquals(data[4],'index')
-        self.assertEquals(data[5],'accion')
-        self.assertEquals(data[6],NEW_DICC_ROWS)
+        self.assertEquals(data[0],'tabla prueba')
+        self.assertEquals(data[1],10)
+        self.assertEquals(data[2],'rel')
+        self.assertEquals(data[3],'index')
+        self.assertEquals(data[4],'accion')
+        self.assertEquals(data[5],NEW_DICC_ROWS)
 
 
 def confirm(message):

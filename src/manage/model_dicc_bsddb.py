@@ -52,7 +52,13 @@ class Dicc():
             return []
         datos = pickle.loads(dicc[tabla_nombre])
         dicc.close()
-        return datos[-1]
+
+        res = []
+        for ln in datos[-1]:
+            if ln[0]=='': continue
+            res.append(ln)
+
+        return res
 
     def createDicc(self, tabla_nombre):
         dicc = bsddb.btopen(self._fileName)
