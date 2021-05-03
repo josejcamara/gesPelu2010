@@ -195,7 +195,7 @@ class Dicc():
 ##############################################################
 if __name__ == "__main__":
 
-    diccEngine = Dicc('.')
+    diccEngine = Dicc('.','dicc.test.db')
     #
     diccEngine.createDicc('prueba')
 

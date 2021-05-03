@@ -3,8 +3,8 @@
 
 import wx,os
 import OC
-
 from OC.Funciones import *
+import manage.model_form as model
 
 class Manage_Form(OC.Ventana):
     """ Edicion de Informes """
@@ -13,6 +13,7 @@ class Manage_Form(OC.Ventana):
         #
         self.filePath = filePath
         self.fileName = os.path.join(filePath,'forms')
+        self._formManager = model.FormsManager(self.filePath,'forms.test.db')
         #
         OC.Ventana.__init__(self, None,'Edición de Informes',tam=(800,600))
         #
@@ -108,9 +109,11 @@ class Manage_Form(OC.Ventana):
             return val
 
         if accion=='a_ini_var':
-            tablas = bsddb.btopen(os.path.join(self.filePath,'dicc'))
-            lista_files = tablas.keys()
-            tablas.close()
+            # tablas = bsddb.btopen(os.path.join(self.filePath,'dicc'))
+            # lista_files = tablas.keys()
+            # tablas.close()
+            
+            lista_files = self._formManager.getTablesWithForm()
             lista_files.insert(0,'')
             wx.StaticText(self._ct['P1'],-1,"Archivo:",(10,5))
             sele = wx.Choice(self._ct['P1'],-1,(10,20),(150,25),choices=lista_files)
@@ -125,10 +128,13 @@ class Manage_Form(OC.Ventana):
             sele = self._FILE.GetSelection()
             tabla = items[sele].encode('latin-1')
             #
-            datos_inf = lee_dicc(self.fileName,tabla)
-            if datos_inf==None: datos_inf={}
+            # datos_inf = lee_dicc(self.fileName,tabla)
+            # if datos_inf==None: datos_inf={}
+            # ls_inf = datos_inf.keys()
+            ls_inf = []
+            if (tabla != ''):
+                ls_inf = self._formManager.getFormsForTable(tabla)
             #
-            ls_inf = datos_inf.keys()
             linf=[]
             for inf in ls_inf:
                 linf.append([inf])
@@ -148,7 +154,11 @@ class Manage_Form(OC.Ventana):
             tabla = items[sele].encode('latin-1')
             inf = self._ct['LINF'].GetValue()
             #
-            ls_inf = lee_dicc(self.fileName,tabla)
+            # ls_inf = lee_dicc(self.fileName,tabla)
+            ls_inf = {}
+            if (tabla != ''):
+                ls_inf = self._formManager.getFormsForTable(tabla)
+            #
             #
             if not inf in ls_inf.keys():
                 # Le ha dado a informe nuevo y se ha seleccionado

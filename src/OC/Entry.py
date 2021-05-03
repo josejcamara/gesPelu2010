@@ -262,7 +262,9 @@ class Entry():
         fmt = self._fmt
         lmax = self._lmax
         #
-        if fmt=='d':
+        if value == None:
+            value = ''
+        elif fmt=='d':
             value = Num_aFecha(value)
         elif fmt in ('0','1','2','3','4','5','6','7','8','9'):
             if value=='': value=0.0

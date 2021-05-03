@@ -299,7 +299,9 @@ def Str_a_Fmt(cadena,fmt):
 #
 def Fmt_a_Str(valor,fmt):
     """ Convierte el valor 'valor' (en formato 'fmt') a una cadena de texto """
-    if not isinstance(valor, unicode):
+    if valor == None:
+        resul = ''
+    elif not isinstance(valor, unicode):
         resul = str(valor)
     else:
         resul = valor
